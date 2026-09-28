@@ -41,13 +41,14 @@ all:
 	@make $(TARGET)
 
 $(TARGET): $(MAIN_FILE) bibliografia.bib
-	latexmk -pdf -synctex=1 -interaction=nonstopmode -file-line-error $(MAIN_FILE)
+	mkdir -p $(BUILD_DIR)
+	latexmk -pdf -outdir=$(BUILD_DIR) -synctex=1 -interaction=nonstopmode -file-line-error $(MAIN_FILE)
+	cp $(BUILD_DIR)/$(PDF_FILE) $(TARGET)
 
 clean:
-	latexmk -c $(MAIN_FILE)
 	rm -rf $(BUILD_DIR)
 	rm -f *~ *.backup
-	rm -f $(TARGET) tcc.bbl tcc.idx tcc.ind tcc.lof tcc.lot tcc.out tcc.toc tcc.blg tcc.brf tcc.ilg
+	rm -f $(TARGET) tcc.pdf tcc.bbl tcc.idx tcc.ind tcc.lof tcc.lot tcc.out tcc.toc tcc.blg tcc.brf tcc.ilg tcc.fdb_latexmk tcc.fls tcc.synctex.gz tcc.log tcc.aux
 
 dist: clean
 	tar vczf tcc-fga-latex-$(VERSION).tar.gz *

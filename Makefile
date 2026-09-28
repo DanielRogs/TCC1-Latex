@@ -1,4 +1,4 @@
-TARGET = TCC_FGA.pdf
+TARGET = TCC1_DanielDavi.pdf
 
 BIBTEX = bibtex
 LATEX = latex
@@ -35,26 +35,19 @@ JUNK_EXTS = *.log *.bbl *.blg *.brf *.toc *.lof *.lot *.idx *.ilg *.ind *.out *.
 
 SOURCES = $(FIXOS_FILES) $(EDITAVEIS_FILES)
 
-.PHONY: all clean dist-clean
-
+.PHONY: all clean dist-clean watch
+	
 all:
 	@make $(TARGET)
 
-$(TARGET): $(MAIN_FILE) $(SOURCES) bibliografia.bib
-	$(LATEX) $(MAIN_FILE) $(SOURCES)
-	$(BIBTEX) $(AUX_FILE)
-	$(LATEX) $(MAIN_FILE) $(SOURCES)
-	$(LATEX) $(MAIN_FILE) $(SOURCES)
-	$(DVIPS) $(DVI_FILE)
-	$(PS2PDF) $(PS_FILE)
-	@cp $(PDF_FILE) $(TARGET)
-	@mkdir -p $(BUILD_DIR)
-	@mv -f $(AUX_FILE) $(DVI_FILE) $(PS_FILE) $(PDF_FILE) $(BUILD_DIR)/ 2>/dev/null || true
-	@mv -f $(JUNK_EXTS) $(BUILD_DIR)/ 2>/dev/null || true
+$(TARGET): $(MAIN_FILE) bibliografia.bib
+	latexmk -pdf -synctex=1 -interaction=nonstopmode -file-line-error $(MAIN_FILE)
 
 clean:
+	latexmk -c $(MAIN_FILE)
 	rm -rf $(BUILD_DIR)
 	rm -f *~ *.backup
+	rm -f $(TARGET) tcc.bbl tcc.idx tcc.ind tcc.lof tcc.lot tcc.out tcc.toc tcc.blg tcc.brf tcc.ilg
 
 dist: clean
 	tar vczf tcc-fga-latex-$(VERSION).tar.gz *

@@ -1,21 +1,10 @@
 #linux backup files
 *~
 *.swp
-*.dvi
-*.ps
 *.backup
-*.aux
 
-#logs
-*.log
+#build artifacts
+build/
 
 #PDFs
 *.pdf
-
-*.lof
-*.lot
-*.bbl
-*.blg
-*.brf
-*.toc
-*.idx

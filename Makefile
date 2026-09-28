@@ -30,13 +30,16 @@ AUX_FILE  = $(addsuffix .aux, $(basename $(MAIN_FILE)))
 PS_FILE   = $(addsuffix .ps, $(basename $(MAIN_FILE)))
 PDF_FILE  = $(addsuffix .pdf, $(basename $(MAIN_FILE)))
 
+BUILD_DIR = build
+JUNK_EXTS = *.log *.bbl *.blg *.brf *.toc *.lof *.lot *.idx *.ilg *.ind *.out *.out.ps
+
 SOURCES = $(FIXOS_FILES) $(EDITAVEIS_FILES)
 
 .PHONY: all clean dist-clean
 
-all: 
+all:
 	@make $(TARGET)
-     
+
 $(TARGET): $(MAIN_FILE) $(SOURCES) bibliografia.bib
 	$(LATEX) $(MAIN_FILE) $(SOURCES)
 	$(BIBTEX) $(AUX_FILE)
@@ -45,14 +48,16 @@ $(TARGET): $(MAIN_FILE) $(SOURCES) bibliografia.bib
 	$(DVIPS) $(DVI_FILE)
 	$(PS2PDF) $(PS_FILE)
 	@cp $(PDF_FILE) $(TARGET)
+	@mkdir -p $(BUILD_DIR)
+	@mv -f $(AUX_FILE) $(DVI_FILE) $(PS_FILE) $(PDF_FILE) $(BUILD_DIR)/ 2>/dev/null || true
+	@mv -f $(JUNK_EXTS) $(BUILD_DIR)/ 2>/dev/null || true
 
 clean:
-	rm -f *~ *.dvi *.ps *.backup *.aux *.log
-	rm -f *.lof *.lot *.bbl *.blg *.brf *.toc *.idx
-	rm -f *.pdf
-	
+	rm -rf $(BUILD_DIR)
+	rm -f *~ *.backup
+
 dist: clean
 	tar vczf tcc-fga-latex-$(VERSION).tar.gz *
 
 dist-clean: clean
-	rm -f $(PDF_FILE) $(TARGET)
+	rm -f $(TARGET)

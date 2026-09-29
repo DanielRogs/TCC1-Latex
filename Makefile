@@ -40,7 +40,9 @@ SOURCES = $(FIXOS_FILES) $(EDITAVEIS_FILES)
 all:
 	@make $(TARGET)
 
-$(TARGET): $(MAIN_FILE) bibliografia.bib
+TEX_FILES = $(shell find . -name '*.tex')
+
+$(TARGET): $(TEX_FILES) bibliografia.bib
 	mkdir -p $(BUILD_DIR)
 	latexmk -pdf -outdir=$(BUILD_DIR) -synctex=1 -interaction=nonstopmode -file-line-error $(MAIN_FILE)
 	cp $(BUILD_DIR)/$(PDF_FILE) $(TARGET)

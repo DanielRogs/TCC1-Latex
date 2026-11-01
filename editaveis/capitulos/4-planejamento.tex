@@ -1,3 +1,337 @@
 % !TEX root = ../../tcc.tex
 
-\chapter{Planejamento do Learning Analytics}
+\chapter{Proposta do Cognita}
+
+% Macros locais deste capítulo --------------------------------------------
+% Espaço reservado para figuras ainda não produzidas. Para inserir a figura
+% final, troque \espacofigura{...} por \includegraphics[width=\textwidth]{figuras/arquivo}.
+\newcommand{\espacofigura}[2][6cm]{%
+  \fbox{\parbox[c][#1][c]{0.94\textwidth}{\centering\textit{#2}}}}
+
+% Texto ainda a ser escrito (aparece destacado no PDF para não passar despercebido).
+\newcommand{\espacotexto}[1]{\par\noindent\textit{#1}\par}
+% ---------------------------------------------------------------------------
+
+Este capítulo documenta o planejamento do Cognita, módulo de previsão de
+conhecimento a ser incorporado ao Ecossistema CEDIS. A
+Seção~\ref{sec:visao-produto} apresenta a visão do produto e os resultados
+da \textit{Lean Inception}; a Seção~\ref{sec:requisitos} reúne os requisitos
+funcionais e não funcionais, organizados em temas e épicos; a
+Seção~\ref{sec:arquitetura} documenta a arquitetura atual do ecossistema e a
+arquitetura proposta para o módulo; a Seção~\ref{sec:modelagem-dados}
+descreve as entidades e os atributos do ecossistema que alimentarão o
+Cognita; a Seção~\ref{sec:prototipacao} apresenta a prototipação das
+telas; e a Seção~\ref{sec:cronograma} apresenta o cronograma de
+desenvolvimento por ondas.
+
+
+\section{Visão do Produto}
+\label{sec:visao-produto}
+
+Esta seção sintetiza os artefatos da \textit{Lean Inception} que sustentam
+o restante do planejamento. Os detalhes dos \textit{workshops} não são
+reproduzidos aqui; registram-se apenas os resultados que orientam a
+definição dos requisitos.
+
+\subsection{Visão e Escopo}
+\label{subsec:visao-escopo}
+
+\espacotexto{Futuramente será apresentada a declaração de visão do produto e o quadro ``É / Não é / Faz / Não faz'' produzidos na \textit{Lean Inception}.}
+
+\subsection{Personas}
+\label{subsec:personas}
+
+\espacotexto{Futuramente serão apresentadas as personas definidas na \textit{Lean Inception}, com perfil, necessidades e dores, às quais as histórias de usuário da Seção~\ref{sec:requisitos} farão referência.}
+
+\subsection{MVP Canvas}
+\label{subsec:mvp-canvas}
+
+A Figura~\ref{fig:mvp-canvas} consolida o MVP Canvas do Cognita.
+
+\begin{figure}[H]
+\caption{MVP Canvas do Cognita}
+\label{fig:mvp-canvas}
+\centering
+\espacofigura[7cm]{Futuramente será inserido o MVP Canvas produzido na \textit{Lean Inception}}
+\legend{Fonte: Dos autores.}
+\end{figure}
+
+
+\section{Requisitos}
+\label{sec:requisitos}
+
+Os requisitos do Cognita foram levantados a partir da \textit{Lean
+Inception} e organizados em uma hierarquia de três níveis: \textbf{temas},
+que agrupam grandes áreas de valor do produto; \textbf{épicos}, que
+decompõem cada tema em objetivos funcionais coesos; e \textbf{requisitos},
+que detalham o comportamento ou a qualidade esperada. Cada requisito possui
+um código único (\textbf{RF} para requisitos funcionais e \textbf{RNF} para
+requisitos não funcionais), um título e uma história de usuário no formato
+\textit{``Como <persona>, quero <ação>, para que <benefício>''}.
+
+\subsection{Temas e Épicos}
+\label{subsec:temas-epicos}
+
+A Tabela~\ref{tab:temas} apresenta os temas do Cognita e a
+Tabela~\ref{tab:epicos} apresenta os épicos, cada um associado ao tema ao
+qual pertence.
+
+% Futuramente: temas definidos na Lean Inception.
+\begin{table}[H]
+\caption{Temas do Cognita}
+\label{tab:temas}
+\centering
+\begin{tabularx}{\textwidth}{l>{\raggedright\arraybackslash}X}
+\hline
+\textbf{Código} & \textbf{Descrição} \\
+\hline
+-- & -- \\
+\hline
+-- & -- \\
+\hline
+-- & -- \\
+\hline
+\end{tabularx}
+\legend{Fonte: Dos autores.}
+\end{table}
+
+% Futuramente: épicos definidos na Lean Inception.
+\begin{table}[H]
+\caption{Épicos do Cognita}
+\label{tab:epicos}
+\centering
+\begin{tabularx}{\textwidth}{ll>{\raggedright\arraybackslash}X}
+\hline
+\textbf{Código} & \textbf{Tema associado} & \textbf{Descrição} \\
+\hline
+-- & -- & -- \\
+\hline
+-- & -- & -- \\
+\hline
+-- & -- & -- \\
+\hline
+\end{tabularx}
+\legend{Fonte: Dos autores.}
+\end{table}
+
+\subsection{Requisitos Funcionais}
+\label{subsec:requisitos-funcionais}
+
+A Tabela~\ref{tab:requisitos-funcionais} apresenta os requisitos funcionais
+do Cognita, cada um associado ao épico ao qual pertence.
+
+% Futuramente: backlog priorizado da Lean Inception.
+{\small
+\begin{longtable}{>{\raggedright\arraybackslash}p{1.4cm}>{\raggedright\arraybackslash}p{2.0cm}>{\raggedright\arraybackslash}p{3.4cm}>{\raggedright\arraybackslash}p{7.0cm}}
+\caption{Requisitos funcionais do Cognita}
+\label{tab:requisitos-funcionais} \\
+\hline
+\textbf{Código} & \textbf{Épico associado} & \textbf{Requisito} & \textbf{História de usuário} \\
+\hline
+\endfirsthead
+\caption[]{Requisitos funcionais do Cognita (continuação)} \\
+\hline
+\textbf{Código} & \textbf{Épico associado} & \textbf{Requisito} & \textbf{História de usuário} \\
+\hline
+\endhead
+\hline
+\multicolumn{4}{r}{\textit{Continua na próxima página}} \\
+\endfoot
+\hline
+\multicolumn{4}{l}{Fonte: Dos autores.} \\
+\endlastfoot
+-- & -- & -- & -- \\
+\hline
+-- & -- & -- & -- \\
+\hline
+-- & -- & -- & -- \\
+\hline
+\end{longtable}
+}
+
+\subsection{Requisitos Não Funcionais}
+\label{subsec:requisitos-nao-funcionais}
+
+A Tabela~\ref{tab:requisitos-nao-funcionais} apresenta os requisitos não
+funcionais do Cognita, organizados da mesma forma.
+
+% Futuramente: backlog priorizado da Lean Inception.
+{\small
+\begin{longtable}{>{\raggedright\arraybackslash}p{1.4cm}>{\raggedright\arraybackslash}p{2.0cm}>{\raggedright\arraybackslash}p{3.4cm}>{\raggedright\arraybackslash}p{7.0cm}}
+\caption{Requisitos não funcionais do Cognita}
+\label{tab:requisitos-nao-funcionais} \\
+\hline
+\textbf{Código} & \textbf{Épico associado} & \textbf{Requisito} & \textbf{História de usuário} \\
+\hline
+\endfirsthead
+\caption[]{Requisitos não funcionais do Cognita (continuação)} \\
+\hline
+\textbf{Código} & \textbf{Épico associado} & \textbf{Requisito} & \textbf{História de usuário} \\
+\hline
+\endhead
+\hline
+\multicolumn{4}{r}{\textit{Continua na próxima página}} \\
+\endfoot
+\hline
+\multicolumn{4}{l}{Fonte: Dos autores.} \\
+\endlastfoot
+-- & -- & -- & -- \\
+\hline
+-- & -- & -- & -- \\
+\hline
+-- & -- & -- & -- \\
+\hline
+\end{longtable}
+}
+
+
+\section{Arquitetura}
+\label{sec:arquitetura}
+
+Esta seção documenta o estado atual da arquitetura do Ecossistema CEDIS e a
+forma como o Cognita se integrará a ela. A caracterização dos produtos e da
+arquitetura de dados foi apresentada na Seção~\ref{sec:dados-coletados}
+e é aqui retomada sob a ótica de integração.
+
+\subsection{Arquitetura Atual do Ecossistema}
+\label{subsec:arquitetura-atual}
+
+A Figura~\ref{fig:arquitetura-atual} representa o estado da arte do
+ecossistema: os produtos e os serviços que o compõem, seus fluxos de dados
+e os pontos em que o Cognita poderá obter informação.
+
+% Futuramente: diagrama (ex.: C4 nível 1/2) com Navegador, Deck Manager, CEDIS Slides (slides-api),
+% LA Ingest, Identity Suite (Learning Passport), Atlas / Concept Studio, Learning Analytics e cedis-core.
+\begin{figure}[H]
+\caption{Arquitetura atual do Ecossistema CEDIS}
+\label{fig:arquitetura-atual}
+\centering
+\espacofigura[8cm]{Futuramente será inserido o diagrama da arquitetura atual do ecossistema}
+\legend{Fonte: Dos autores.}
+\end{figure}
+
+\subsection{APIs do Ecossistema}
+\label{subsec:apis-ecossistema}
+
+A Tabela~\ref{tab:apis-ecossistema} lista as APIs e os serviços do
+ecossistema relevantes para o Cognita, com a responsabilidade de cada um e
+os dados que podem ser consumidos. A integração utiliza os protocolos de
+autenticação e assinatura já adotados no ecossistema (OAuth2, OIDC e HMAC).
+
+% Futuramente: APIs e serviços relevantes e seus endpoints/contratos.
+\begin{table}[H]
+\caption{APIs e serviços do ecossistema relevantes para o Cognita}
+\label{tab:apis-ecossistema}
+\centering
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{2.8cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{2.4cm}}
+\hline
+\textbf{API / Serviço} & \textbf{Responsabilidade} & \textbf{Dados relevantes ao Cognita} & \textbf{Endpoints / contrato} \\
+\hline
+-- & -- & -- & -- \\
+\hline
+-- & -- & -- & -- \\
+\hline
+-- & -- & -- & -- \\
+\hline
+\end{tabularx}
+\legend{Fonte: Elaborado pelos autores a partir do levantamento técnico apresentado na Seção~\ref{sec:dados-coletados}.}
+\end{table}
+
+\subsection{Arquitetura Proposta para o Cognita}
+\label{subsec:arquitetura-proposta}
+
+A Figura~\ref{fig:arquitetura-cognita} apresenta a integração proposta do
+Cognita ao ecossistema: as fontes de dados consumidas, o \textit{pipeline}
+de engenharia de atributos, o componente de estimativa de domínio e as
+interfaces de entrega de \textit{feedback} a alunos e docentes.
+
+% Futuramente: diagrama destacando o Cognita (ingestão, feature engineering,
+% modelo de Knowledge Tracing, armazenamento do estado de domínio, API de consulta).
+\begin{figure}[H]
+\caption{Arquitetura proposta do Cognita integrada ao ecossistema}
+\label{fig:arquitetura-cognita}
+\centering
+\espacofigura[8cm]{Futuramente será inserido o diagrama da arquitetura proposta do Cognita}
+\legend{Fonte: Dos autores.}
+\end{figure}
+
+
+\section{Modelagem de Dados}
+\label{sec:modelagem-dados}
+
+Esta seção identifica os dados existentes no ecossistema que alimentarão o
+Cognita e apresenta a modelagem das entidades e dos atributos envolvidos.
+
+\subsection{Entidades e Atributos Utilizados}
+\label{subsec:entidades-utilizadas}
+
+A Tabela~\ref{tab:entidades-cognita} seleciona, dentre as entidades
+descritas na Seção~\ref{subsec:modelo-dados}, aquelas que serão
+consumidas pelo Cognita, indicando o componente de origem, os atributos
+utilizados e a finalidade de cada uma.
+
+% Futuramente: entidades e nomes reais dos campos de cada componente.
+\begin{table}[H]
+\caption{Entidades do ecossistema utilizadas como entrada do Cognita}
+\label{tab:entidades-cognita}
+\centering
+\begin{tabularx}{\textwidth}{l>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}
+\hline
+\textbf{Entidade} & \textbf{Origem} & \textbf{Atributos utilizados} & \textbf{Finalidade no Cognita} \\
+\hline
+-- & -- & -- & -- \\
+\hline
+-- & -- & -- & -- \\
+\hline
+-- & -- & -- & -- \\
+\hline
+\end{tabularx}
+\legend{Fonte: Elaborado pelos autores a partir do levantamento técnico apresentado na Seção~\ref{sec:dados-coletados}.}
+\end{table}
+
+
+\section{Prototipação das Telas}
+\label{sec:prototipacao}
+
+A prototipação tem por objetivo validar, antes da implementação, os fluxos
+de interação do aluno e do docente com o diagnóstico de domínio. A
+Figura~\ref{fig:prototipo-telas} reúne os protótipos simples das telas do
+Cognita, orientados aos requisitos funcionais da
+Seção~\ref{subsec:requisitos-funcionais}.
+
+% Futuramente: protótipos (telas do aluno e do docente), indicando os RF atendidos por cada tela.
+\begin{figure}[H]
+\caption{Protótipo das telas do Cognita}
+\label{fig:prototipo-telas}
+\centering
+\espacofigura[10cm]{Futuramente serão inseridos os protótipos das telas}
+\legend{Fonte: Dos autores.}
+\end{figure}
+
+
+\section{Cronograma de Desenvolvimento}
+\label{sec:cronograma}
+
+O desenvolvimento do Cognita será conduzido em \textit{sprints}, cada uma
+correspondendo a uma onda definida no sequenciador da \textit{Lean
+Inception}. A Tabela~\ref{tab:cronograma-ondas} associa cada onda aos
+requisitos entregues e ao período de execução da respectiva \textit{sprint}.
+
+% Futuramente: ondas, requisitos (códigos) de cada uma e datas de início e término.
+\begin{table}[H]
+\caption{Cronograma de desenvolvimento por ondas (\textit{sprints})}
+\label{tab:cronograma-ondas}
+\centering
+\begin{tabularx}{\textwidth}{c>{\raggedright\arraybackslash}Xcc}
+\hline
+\textbf{Onda} & \textbf{Requisitos (código)} & \textbf{Data de início} & \textbf{Data de término} \\
+\hline
+-- & -- & -- & -- \\
+\hline
+-- & -- & -- & -- \\
+\hline
+-- & -- & -- & -- \\
+\hline
+\end{tabularx}
+\legend{Fonte: Dos autores.}
+\end{table}

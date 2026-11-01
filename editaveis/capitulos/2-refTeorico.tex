@@ -2,24 +2,79 @@
 
 \chapter[Referencial Teórico]{Referencial Teórico}
 
-Este capítulo estabelece as bases teóricas para a compreensão do sistrema proposto. O objetivo é fornecer uma base conceitual para os tópicos abordados, dentre eles a engenharia de software, a engenharia de requisitos, as metodologias de desenvolvimento de software, o design e a arquitetura de software, a aprendizagem de máquina e o \textit{Learning Analytics}.
+Este capítulo estabelece as bases teóricas para a compreensão do sistema proposto. O objetivo é fornecer uma base conceitual sólida para os tópicos abordados ao longo da monografia, contemplando a engenharia de software — em suas dimensões de engenharia de requisitos orientada à \textit{Lean Inception}, metodologias ágeis de desenvolvimento e arquitetura de sistemas intensivos em dados —, o \textit{Learning Analytics} e a aprendizagem de máquina aplicada ao rastreamento de conhecimento (\textit{Knowledge Tracing}).
 
 \section{Engenharia de software}
+\label{sec:engenharia-software}
 
-A
+A Engenharia de Software é uma disciplina da engenharia que compreende todos os aspectos da produção de sistemas de software, desde os estágios iniciais de especificação e concepção até a operação, manutenção e evolução contínua após a implantação \cite{sommerville_engenharia_2019}. Diferentemente da programação isolada de algoritmos, a engenharia de software preocupa-se com a aplicação de abordagens sistemáticas, disciplinadas e quantificáveis ao desenvolvimento, à operação e à manutenção de software, buscando assegurar atributos de qualidade como confiabilidade, manutenibilidade, segurança e eficiência sob restrições reais de prazo, custo e governança \cite{bourque_guide_2014, pressman_engenharia_2021}.
 
+Segundo \citeonline{sommerville_engenharia_2019}, todo processo de engenharia de software — independentemente do domínio de aplicação ou do modelo de ciclo de vida adotado — fundamenta-se em quatro atividades estruturantes:
+\begin{enumerate}
+    \item \textbf{Especificação de software:} definição das funcionalidades do sistema e das restrições operacionais, técnicas e regulatórias às quais ele está submetido;
+    \item \textbf{Projeto (\textit{design}) e implementação de software:} concepção da estrutura arquitetural, dos contratos de dados e das interfaces, seguida da construção dos componentes executáveis que materializam a especificação;
+    \item \textbf{Validação de software:} verificação e validação de que o artefato concebido atende tanto às especificações técnicas quanto às expectativas reais dos usuários e partes interessadas (\textit{stakeholders});
+    \item \textbf{Evolução de software:} adaptação contínua do sistema em resposta a mudanças nas demandas de negócio, no ambiente tecnológico ou nas necessidades analíticas dos usuários.
+\end{enumerate}
+
+No contexto contemporâneo de plataformas educacionais distribuídas e orientadas a dados, como o Ecossistema CEDIS, a Engenharia de Software assume um papel ainda mais crítico ao articular componentes transacionais tradicionais com fluxos analíticos e modelos de aprendizagem de máquina \cite{kleppmann_designing_2017}. A construção de um módulo capaz de estimar o domínio conceitual dos estudantes exige não apenas o domínio de modelos matemáticos de \textit{Knowledge Tracing}, mas também rigor metodológico na elicitação e priorização de requisitos, no alinhamento incremental do produto e no desenho de uma arquitetura desacoplada que preserve a integridade referencial, a reprodutibilidade analítica e a privacidade dos dados.
 
 \subsection{Engenharia de requisitos}
+\label{subsec:engenharia-requisitos}
 
-A
+A Engenharia de Requisitos (ER) consiste no processo sistemático de descobrir, analisar, documentar, validar e gerenciar os serviços que um sistema deve fornecer e as restrições operacionais e de domínio sob as quais ele deve funcionar \cite{sommerville_engenharia_2019, wiegers_software_2013}. Falhas, ambiguidades ou desalinhamentos nessa etapa figuram historicamente entre as principais causas de retrabalho e construção de funcionalidades sem valor real em projetos de software \cite{vazquez_engenharia_2016}. Na literatura clássica, os requisitos de software dividem-se em duas categorias complementares \cite{sommerville_engenharia_2019, pressman_engenharia_2021}:
+
+\begin{itemize}
+    \item \textbf{Requisitos Funcionais (RF):} descrevem explicitamente o que o sistema deve fazer, detalhando os serviços e funcionalidades entregues aos usuários, as entradas processadas e as saídas geradas. No escopo deste trabalho, os requisitos funcionais abrangem a reconciliação entre respostas de atividades e conceitos do domínio, a inferência do estado de domínio conceitual por aluno e a apresentação de diagnósticos acionáveis para discentes e docentes;
+    \item \textbf{Requisitos Não Funcionais (RNF):} especificam restrições e atributos de qualidade emergentes do sistema — como desempenho, interoperabilidade, usabilidade, segurança e privacidade —, os quais condicionam diretamente as decisões arquiteturais do software \cite{bass_software_2021}.
+\end{itemize}
+
+Em plataformas educacionais que coletam registros de interação de estudantes, assumem protagonismo os requisitos não funcionais de proteção de dados e privacidade desde a concepção (\textit{Privacy by Design}). Formulado por \citeonline{cavoukian_privacy_2009}, o paradigma de \textit{Privacy by Design} estabelece que a privacidade deve ser incorporada preventivamente à arquitetura do sistema como configuração padrão (\textit{privacy as the default setting}), e não como ajuste posterior. No contexto brasileiro, esse requisito traduz-se na conformidade estrita com a Lei Geral de Proteção de Dados (LGPD), impondo minimização de coleta, pseudonimização de telemetria e segregação entre dados operacionais anônimos e identidades fornecidas mediante consentimento explícito (\textit{opt-in}).
+
+Em projetos orientados por métodos ágeis e enxutos, a Engenharia de Requisitos afasta-se da produção de extensas especificações estáticas preliminares e adota uma abordagem colaborativa, iterativa e centrada no valor entregue ao usuário \cite{vazquez_engenharia_2016, cohn_user_2004}. Em vez de detalhar exaustivamente todas as funções de antemão, o levantamento e a priorização de requisitos concentram-se na descoberta contínua do produto, combinando técnicas visuais de alinhamento de escopo — como a metodologia \textit{Lean Inception} \cite{caroli_lean_2018} — com a prototipação de alta fidelidade \cite{pressman_engenharia_2021}, que tangibiliza as interfaces analíticas para validação prévia junto aos \textit{stakeholders}.
+
+\subsubsection{Lean Inception}
+\label{subsubsec:lean-inception}
+
+Proposta por \citeonline{caroli_lean_2018}, a \textit{Lean Inception} é uma metodologia colaborativa projetada para alinhar um grupo de pessoas em torno da descoberta, elicitação e priorização dos requisitos essenciais para construir o produto certo, culminando na definição do Produto Mínimo Viável (\textit{Minimum Viable Product} -- MVP). A metodologia nasce da convergência direta entre duas abordagens fundamentais da engenharia de produtos digitais: o \textit{Design Thinking} \cite{brown_design_2010}, que coloca a empatia com as necessidades humanas, a ideação colaborativa e a experimentação visual no centro da resolução de problemas, e o \textit{Lean Startup} \cite{ries_lean_2011}, que preconiza a eliminação de desperdícios e a validação rápida de hipóteses de valor por meio do ciclo construir--medir--aprender (\textit{build--measure--learn}).
+
+Dentro do conceito de \citeonline{ries_lean_2011}, o MVP não corresponde a um produto incompleto ou desprovido de qualidade técnica, mas sim à menor interseção funcional capaz de entregar a proposta de valor central aos usuários, validar premissas críticas do domínio e gerar aprendizado validado com o mínimo esforço de engenharia. Para transformar objetivos abstratos em um conjunto estruturado e priorizado de requisitos do MVP, a \textit{Lean Inception} organiza o processo de engenharia de requisitos em uma sequência lógica de dinâmicas e artefatos \cite{caroli_lean_2018}:
+
+\begin{enumerate}
+    \item \textbf{Visão do Produto:} estabelece de forma concisa e compartilhada o propósito da solução, o público-alvo, a necessidade ou problema endereçado, o nome do produto/módulo e seu diferencial em relação às alternativas existentes;
+    \item \textbf{É -- Não é -- Faz -- Não faz:} delimita explicitamente as fronteiras de escopo do sistema, prevenindo ambiguidades ao explicitar tanto o que o software realiza quanto o que está fora de seu escopo;
+    \item \textbf{Objetivos do Negócio:} alinha as metas estratégicas esperadas pelas partes interessadas (como aprimorar o diagnóstico pedagógico e reduzir a evasão ou defasagem conceitual);
+    \item \textbf{Personas:} modela perfis representativos dos usuários reais do sistema (no contexto deste trabalho, os estudantes e os docentes do Ecossistema CEDIS), descrevendo seus comportamentos, dores e necessidades informacionais;
+    \item \textbf{Jornadas do Usuário:} mapeia o fluxo sequencial de passos que cada persona percorre antes, durante e após interagir com o ecossistema, revelando os pontos de contato onde o sistema deve intervir;
+    \item \textbf{\textit{Brainstorming} de Funcionalidades:} traduz os objetivos de negócio e os pontos de dor das jornadas em requisitos funcionais candidatos (funcionalidades), descrevendo ações ou interações concretas que geram valor para as personas;
+    \item \textbf{Revisão Técnica, de Negócio e de UX:} submete cada funcionalidade candidata a uma avaliação multidimensional de nível de confiança (técnico e arquitetural) e a uma matriz de esforço (\textit{E}), valor de negócio (\$) e valor de experiência do usuário ($\heartsuit$), permitindo a priorização objetiva dos requisitos;
+    \item \textbf{Sequenciador:} organiza as funcionalidades priorizadas em ondas incrementais de entrega, respeitando dependências técnicas e limites máximos de esforço por onda, de modo a demarcar com precisão quais funcionalidades compõem o MVP e quais constituem incrementos subsequentes;
+    \item \textbf{\textit{Canvas} MVP:} consolida, em um único quadro visual de engenharia de requisitos, as personas segmentadas, a proposta de valor, as funcionalidades do MVP, o custo e cronograma previstos, os resultados esperados e as métricas de validação das hipóteses do produto.
+\end{enumerate}
+
+Neste trabalho, a adoção de uma versão adaptada da \textit{Lean Inception} permitiu conduzir a Engenharia de Requisitos de maneira enxuta e rastreável: partindo das restrições reais da arquitetura de dados do Ecossistema CEDIS e das demandas pedagógicas de alunos e professores, as funcionalidades do módulo de identificação de domínio conceitual foram elicitadas, avaliadas quanto à viabilidade técnica e ao valor analítico, e organizadas em um MVP coeso para implementação incremental.
 
 \subsection{Metodologias de desenvolvimento de software}
+\label{subsec:metodologias-desenvolvimento}
 
-B
+As metodologias de desenvolvimento de software estruturam o ciclo de vida de construção do sistema por meio de práticas, papéis, cerimônias e artefatos que orientam a transformação dos requisitos especificados em software operacional \cite{pressman_engenharia_2021}. Em contraste com os modelos tradicionais orientados a planos rígidos — como o modelo em cascata (\textit{Waterfall}), no qual todas as fases são executadas de maneira estritamente sequencial e mudanças têm alto custo —, as metodologias ágeis consolidaram-se para responder a cenários de evolução contínua, complexidade técnica e necessidade de entregas frequentes de valor \cite{sommerville_engenharia_2019}.
+
+Fundamentado nos valores e princípios do Manifesto Ágil \cite{beck_manifesto_2001}, o desenvolvimento ágil prioriza indivíduos e interações, software em funcionamento, colaboração com as partes interessadas e capacidade de resposta a mudanças através de ciclos iterativos e incrementais. Enquanto a \textit{Lean Inception} atua na fase de descoberta e alinhamento inicial para definir o que deve ser construído no MVP, os \textit{frameworks} ágeis de execução — com destaque para o Scrum \cite{schwaber_scrum_2020} — sistematizam como esse produto é construído e evoluído ao longo do tempo.
+
+O Scrum baseia-se no empirismo (transparência, inspeção e adaptação) e organiza o trabalho em ciclos iterativos de duração fixa denominadas \textit{Sprints} \cite{schwaber_scrum_2020}. As funcionalidades e requisitos priorizados no Sequenciador e no \textit{Canvas} MVP da \textit{Lean Inception} alimentam diretamente o \textit{Backlog} do Produto (\textit{Product Backlog}), sendo refinados em itens acionáveis e histórias de usuário \cite{cohn_user_2004, caroli_lean_2018}. No início de cada \textit{Sprint}, realiza-se o planejamento (\textit{Sprint Planning}) para selecionar o subconjunto de itens que comporá o \textit{Backlog} da \textit{Sprint}, estabelecendo uma meta clara de entrega. Ao final de cada ciclo, o incremento funcional produzido passa por revisão (\textit{Sprint Review}) e o processo de trabalho é avaliado em retrospectiva (\textit{Sprint Retrospective}), garantindo previsibilidade no cronograma de desenvolvimento e mitigação contínua de riscos técnicos.
 
 \subsection{Design e arquitetura de software}
+\label{subsec:design-arquitetura}
 
-C
+Enquanto o design de software em nível detalhado ocupa-se da estrutura interna de módulos, classes, funções e interfaces de usuário, a arquitetura de software representa a estrutura de mais alto nível de um sistema, compreendendo os elementos de software, suas propriedades externamente visíveis e os relacionamentos que os conectam \cite{bass_software_2021}. De acordo com \citeonline{richards_fundamentals_2020}, a arquitetura de software é definida pela combinação de quatro dimensões: a estrutura arquitetural adotada (como estilos em camadas, microsserviços ou orientados a eventos), as características arquiteturais (atributos de qualidade como escalabilidade, segurança, auditabilidade e disponibilidade), as decisões arquiteturais (regras e restrições de projeto) e os princípios de design que guiam a implementação.
+
+Em ecossistemas educacionais compostos por múltiplos produtos independentes — como ocorre no Ecossistema CEDIS —, adota-se predominantemente uma arquitetura distribuída orientada a serviços, na qual cada componente possui responsabilidades e domínios de dados estritamente delimitados \cite{richards_fundamentals_2020}. Nesse cenário de desacoplamento, a comunicação intercomponencial realiza-se por meio de Interfaces de Programação de Aplicações (APIs) regidas por contratos explícitos de dados e protocolos de segurança padronizados, tais como OAuth2 e \textit{OpenID Connect} (OIDC) para autenticação e autorização, e códigos de autenticação de mensagem baseados em \textit{hash} (HMAC) para verificação de integridade e autenticidade entre serviços.
+
+Uma consequência arquitetural fundamental de sistemas distribuídos com bancos de dados independentes por serviço é a substituição de chaves estrangeiras físicas por referências lógicas entre domínios \cite{kleppmann_designing_2017}. Diferentemente de arquiteturas monolíticas apoiadas em um único sistema gerenciador de banco de dados relacional, a integridade referencial e a consistência dos dados entre múltiplos serviços dependem de esquemas bem definidos (\textit{schemas}), validação contratual nas bordas de ingestão e mecanismos de reconciliação assíncrona.
+
+Quando o sistema precisa consolidar registros operacionais heterogêneos para alimentar modelos analíticos e de aprendizagem de máquina, a arquitetura deve incorporar padrões específicos de aplicações intensivas em dados (\textit{data-intensive applications}) \cite{kleppmann_designing_2017}. Nesses sistemas, separa-se o processamento transacional online (\textit{Online Transaction Processing} -- OLTP), otimizado para baixa latência no registro de interações e respostas dos usuários, do processamento analítico (\textit{Online Analytical Processing} -- OLAP) e dos \textit{pipelines} de engenharia de dados. Conforme sintetizado na Tabela~\ref{tab:conceitos-engenharia-software}, a articulação entre a engenharia de requisitos guiada pela \textit{Lean Inception}, o desenvolvimento ágil em \textit{Sprints} e a arquitetura de sistemas intensivos em dados fornece o alicerce estrutural para a concepção do módulo de \textit{Knowledge Tracing} proposto neste trabalho.
+
+\input{./tables/conceitosEngSoftware.tex}
 
 
 \section{Learning Analytics}

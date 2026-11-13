@@ -9,15 +9,11 @@ de aula. Esses produtos compartilham uma mesma
 base de identidade, comunicação e princípios de privacidade, formando um
 ecossistema no qual o conteúdo produzido por um docente é reaproveitado,
 enriquecido e observado por diferentes serviços ao longo de toda a jornada
-pedagógica. Este capítulo apresenta, na Seção~\ref{sec:produtos-ecossistema},
-os produtos que compõem o Ecossistema CEDIS e o papel de cada um nessa
-jornada; em seguida, na Seção~\ref{sec:dados-coletados}, descreve com maior
-profundidade a arquitetura de dados, o modelo de dados, a taxonomia de
-eventos e os mecanismos de privacidade já implementados no CEDIS Deck
-Manager, produto no qual foi possível realizar um levantamento técnico
-detalhado a partir do código-fonte do repositório. Esse levantamento
-fundamenta a caracterização dos dados de múltiplas fontes que serão
-utilizados na abordagem de \textit{Knowledge Tracing} proposta neste
+pedagógica. A caracterização dos produtos que compõem o Ecossistema CEDIS e
+o levantamento técnico detalhado da arquitetura de dados, do modelo de
+dados, da taxonomia de eventos e dos mecanismos de privacidade implementados
+no CEDIS Deck Manager fundamentam a compreensão dos dados de múltiplas
+fontes utilizados na abordagem de \textit{Knowledge Tracing} proposta neste
 trabalho.
 
 
@@ -48,7 +44,6 @@ conformidade com a Lei Geral de Proteção de Dados (LGPD), doravante
 referidos como \textit{LGPD-first}. Essa combinação permite que dados
 produzidos em um serviço sejam referenciados de forma consistente por outro
 serviço sem que dados pessoais desnecessários trafeguem entre os componentes.
-As subseções a seguir descrevem cada um dos seis produtos.
 
 \subsection{CEDIS Deck Manager}
 \label{subsec:deck-manager}
@@ -65,9 +60,7 @@ das ações realizadas sobre o conteúdo. Por concentrar o cadastro de
 usuários, a hierarquia de pastas e \textit{decks} e a telemetria de acesso
 e interação, o Deck Manager funciona como o núcleo a partir do qual os
 demais produtos do ecossistema obtêm contexto (por exemplo, a qual
-\textit{deck} e a qual docente pertence uma determinada atividade). A
-Seção~\ref{sec:dados-coletados} detalha o modelo de dados, a taxonomia de
-eventos e os mecanismos de privacidade implementados neste produto.
+\textit{deck} e a qual docente pertence uma determinada atividade).
 
 \subsection{CEDIS Slides}
 \label{subsec:slides}
@@ -159,13 +152,13 @@ melhores com base nesses \textit{insights}.
 \section{Dados Coletados do Sistema}
 \label{sec:dados-coletados}
 
-Esta seção descreve, com base em um levantamento técnico realizado sobre o
+Com base em um levantamento técnico realizado sobre o
 código-fonte do repositório do CEDIS Deck Manager\footnote{Levantamento
 realizado sobre o repositório \texttt{cedis-unb/CEDIS-Deck-Manager}, ramo
 \texttt{main}, \textit{commit} \texttt{3bb454ae885aaeef6c3950c98786acc41eda073f},
 em 12 de setembro de 2026. Como critério de verdade, adotou-se o código
 efetivamente implementado, tratando a documentação do repositório como
-evidência secundária.}, a arquitetura de dados, o modelo de dados, a
+evidência secundária.}, caracterizam-se a arquitetura de dados, o modelo de dados, a
 taxonomia de eventos e os mecanismos de privacidade atualmente em operação
 no ecossistema. O Deck Manager foi escolhido como objeto desse
 levantamento por concentrar o cadastro de usuários, o conteúdo publicado e
@@ -335,10 +328,9 @@ metodológicas relevantes para a análise desses dados: primeiro, o evento
 \textit{activity\_submitted} é registrado de forma independente da
 resposta efetivamente persistida em \textit{activity\_responses}, podendo
 haver divergência entre os dois caminhos caso ocorra falha parcial de
-envio; segundo, como o identificador anônimo de visitante (descrito na
-Seção~\ref{subsec:privacidade}) é recalculado diariamente, não é válido
-reconstruir trajetórias individuais de um mesmo aluno ao longo de dias
-distintos a partir apenas da telemetria anônima.
+envio; segundo, como o identificador anônimo de visitante é recalculado
+diariamente, não é válido reconstruir trajetórias individuais de um mesmo
+aluno ao longo de dias distintos a partir apenas da telemetria anônima.
 
 \subsection{Privacidade, Anonimização e Conformidade com a LGPD}
 \label{subsec:privacidade}
@@ -405,7 +397,7 @@ independentemente da base legal que ampara a operação da plataforma.
 \subsection{Métricas Existentes}
 \label{subsec:metricas-existentes}
 
-A partir dos eventos e das entidades descritos nas seções anteriores, o
+A partir dos eventos de interação e das entidades do modelo de dados, o
 Deck Manager já deriva um conjunto de métricas operacionais e
 descritivas, entre as quais se destacam: número de aberturas de
 \textit{deck} (\textit{deck opens}), número de visitantes distintos por
@@ -417,8 +409,7 @@ um \textit{deck}. Essas métricas são adequadas para descrição agregada de
 uso e engajamento, mas não devem ser interpretadas como evidência direta
 de aprendizagem: correlação entre exposição a um conteúdo e resposta a uma
 atividade não estabelece, isoladamente, causalidade pedagógica, e os
-próprios mecanismos de privacidade descritos na
-Seção~\ref{subsec:privacidade} (DNT, filtragem de \textit{bots} e
+próprios mecanismos de privacidade adotados (DNT, filtragem de \textit{bots} e
 \textit{k}-anonimato) introduzem ausência de dados de forma intencional.
 Essa ressalva é especialmente relevante para este trabalho, cujo objetivo
 não é reutilizar diretamente essas métricas agregadas, mas sim combinar os

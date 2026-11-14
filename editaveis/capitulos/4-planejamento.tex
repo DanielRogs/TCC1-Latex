@@ -339,30 +339,75 @@ O fluxo detalhado na Figura~\ref{fig:jornada-persona-3} evidencia o papel do Cog
 \subsection{MVP Canvas}
 \label{subsec:mvp-canvas}
 
-A Figura~\ref{fig:mvp-canvas} consolida o MVP Canvas do Cognita.
+Como etapa de fechamento do alinhamento estratégico da \textit{Lean Inception}, construiu-se o \textbf{Canvas MVP} (\textit{Minimum Viable Product Canvas}) do módulo Cognita \cite{caroli_lean_2018}. Esse artefato de engenharia de requisitos sintetiza, em um quadro visual integrado de sete blocos, a estratégia de validação da primeira entrega funcional do produto, conectando os segmentos de usuários e suas jornadas à proposta central de valor, ao conjunto de funcionalidades selecionadas para o MVP, ao cronograma de execução, aos resultados esperados e às métricas empíricas de validação das hipóteses de negócio. A Figura~\ref{fig:mvp-canvas} apresenta o Canvas MVP consolidado para o projeto.
 
-\begin{figure}[H]
-\caption{MVP Canvas do Cognita}
+\begin{figure}[htb]
+\caption{Artefato do Canvas MVP do módulo Cognita na \textit{Lean Inception}}
 \label{fig:mvp-canvas}
 \centering
-\espacofigura[7cm]{Futuramente será inserido o MVP Canvas produzido na \textit{Lean Inception}}
-\legend{Fonte: Dos autores.}
+\includegraphics[width=\textwidth]{figuras/CanvasMVP.png}
+\legend{Fonte: Elaborado pelos autores.}
 \end{figure}
+
+A estruturação dos sete quadrantes da Figura~\ref{fig:mvp-canvas} amarra de forma coesa as decisões de produto e de engenharia adotadas para o Cognita:
+
+\begin{enumerate}
+    \item \textbf{Proposta do MVP (Núcleo central de valor):} Define a essência da entrega mínima viável como a disponibilização de um módulo de \textit{Knowledge Tracing} nativamente integrado ao Ecossistema CEDIS, capaz de diagnosticar individualmente para o estudante os conceitos que ele ainda não domina e sinalizar para o professor os conteúdos com menor índice de assimilação pela turma.
+
+    \item \textbf{Personas Segmentadas (Público de validação do MVP):} Delimita os três segmentos que utilizarão e validarão o incremento inicial:
+    \begin{itemize}
+        \item \textit{Segmento Discente Universitário (Foco primário):} Estudantes de graduação da UnB (representados por João Guilherme e Marina Silva) matriculados em turmas que utilizam o CEDIS Slides e o Learning Passport;
+        \item \textit{Segmento Docente (Foco primário):} Professores da UnB vinculados ao CEDIS (representados por Sérgio Antônio e Patrícia Silva) que lecionam turmas numerosas com materiais e questões mapeados no Concept Studio;
+        \item \textit{Segmento Aprendiz Autônomo (Foco complementar):} Profissionais e estudantes independentes de TI (representados por Ricardo Gomes e Letícia Carvalho) que estudam pelos materiais públicos do ecossistema e pelo Atlas do Conhecimento.
+    \end{itemize}
+
+    \item \textbf{Jornadas (Fluxos atendidos pelo MVP):} Sintetiza os três macrofluxos habilitados pelo módulo, identificados pelas etiquetas de perfil no quadro:
+    \begin{itemize}
+        \item \textit{Discente UnB:} Responder às atividades da aula no CEDIS Slides $\rightarrow$ consultar no Cognita os conceitos ainda não dominados $\rightarrow$ revisar os tópicos prioritários no Atlas do Conhecimento;
+        \item \textit{Docente CEDIS:} Aplicar atividades na turma $\rightarrow$ visualizar no Cognita os conceitos com menor assimilação coletiva e a causa estrutural do gargalo $\rightarrow$ direcionar a revisão pedagógica na aula seguinte;
+        \item \textit{Aluno Externo:} Praticar questionários públicos com o Learning Passport $\rightarrow$ descobrir lacunas teóricas no Cognita $\rightarrow$ estudar os conceitos indicados e validar autonomamente a evolução do domínio.
+    \end{itemize}
+
+    \item \textbf{Funcionalidades (Escopo funcional enxuto do MVP):} Agrupa os blocos de capacidades que compõem as nove ondas do MVP:
+    \begin{itemize}
+        \item Validação de dados recebidos, treinamento inicial e retreinamento contínuo do modelo de \textit{Knowledge Tracing}, configuração da política de treino no Deck Manager e registro de métricas preditivas;
+        \item Exibição da probabilidade de domínio por conceito no Atlas do Conhecimento, atualização das estimativas a cada nova interação e listagem de conceitos priorizados para revisão;
+        \item Armazenamento do histórico individual das estimativas no Atlas e visualização da evolução temporal da absorção dos conceitos no Learning Analytics;
+        \item Estimativa da proporção de alunos com domínio, identificação e ranqueamento de conceitos com baixa absorção, filtragem de resultados e comparativo entre relações conceituais inferidas e mapeadas;
+        \item Transparência e explicabilidade algorítmica por meio da exibição do grau de confiança, tamanho da amostra e explicação dos motivos das estimativas tanto no Atlas quanto no Analytics;
+        \item Indicação visual no Deck Manager dos materiais que necessitam de reforço dentro de um conceito e garantia de privacidade mediante exclusão de dados preditivos vinculados ao passaporte em conformidade com a LGPD.
+    \end{itemize}
+
+    \item \textbf{Cronograma (Planejamento temporal das entregas):} Estrutura o horizonte de implementação em 11 \textit{Sprints} de aproximadamente 10 dias cada (de 15/02/2027 a 22/06/2027), compreendendo 9 ondas de desenvolvimento para os 21 requisitos do MVP (respeitando o teto de 5 pontos de esforço \textit{E} por onda) e 2 \textit{sprints} finais de estabilização:
+    \begin{itemize}
+        \item \textit{Sprints 1 a 3 (15/02 a 20/03/2027):} Base e retreinamento do modelo KT, probabilidade, confiança e explicação de domínio no Atlas e identificação de baixa absorção no Analytics;
+        \item \textit{Sprints 4 a 6 (22/03 a 24/04/2027):} Priorização, atualização por interação e histórico no Atlas, ranqueamento e explicação de estimativas no Analytics e registro de métricas de treino;
+        \item \textit{Sprints 7 a 9 (26/04 a 29/05/2027 -- Entrega do MVP):} Proporção de domínio, evolução temporal, filtros, comparativo de relações conceituais, indicação de materiais para reforço no Deck Manager e exclusão de dados preditivos (LGPD);
+        \item \textit{Sprint 10 (31/05 a 10/06/2027) e Sprint 11 (11/06 a 22/06/2027):} Bateria de testes integrados, correções de defeitos, congelamento de código (\textit{code freeze}) e encerramento.
+    \end{itemize}
+
+    \item \textbf{Resultado Esperado (Hipóteses qualitativas de valor):} Explicita as quatro transformações esperadas no ecossistema: (i) estudantes capazes de priorizar seus estudos no Atlas do Conhecimento com rapidez e recuperar o domínio de conceitos defasados; (ii) professores identificando precocemente conceitos com baixa absorção na turma para direcionar revisões e materiais antes das avaliações formais; (iii) transição efetiva do Ecossistema CEDIS de métricas puramente descritivas de uso para diagnósticos preditivos de domínio cognitivo via \textit{Knowledge Tracing}; e (iv) adoção confiável do diagnóstico por discentes e docentes — amparada pela explicabilidade das estimativas — mantendo estrita conformidade com a LGPD.
+
+    \item \textbf{Métricas para Validar as Hipóteses de Negócio (Indicadores quantitativos):} Define três eixos objetivos de aferição para comprovar o sucesso do MVP:
+    \begin{itemize}
+        \item \textit{Métricas de predição do modelo de Knowledge Tracing:} Monitoramento da Acurácia, \textit{F1 Score} e AUC-ROC na estimativa de domínio a cada ciclo de treinamento;
+        \item \textit{Taxa de recuperação conceitual:} Evolução observada na probabilidade estimada de domínio e no índice de acerto dos estudantes após revisarem os conceitos priorizados no Atlas;
+        \item \textit{Taxa de utilização acionável:} Frequência de acesso dos professores ao painel diagnóstico no Analytics e taxa de cliques dos estudantes nos conceitos recomendados para revisão no Atlas.
+    \end{itemize}
+\end{enumerate}
 
 
 \section{Requisitos}
 \label{sec:requisitos}
 
-Os requisitos do Cognita foram fundamentados nas jornadas de usuário,
-descritas na Seção~\ref{sec:visao-produto}. A partir delas, foi realizada
+Os requisitos do Cognita foram fundamentados nas jornadas de usuário mapeadas na \textit{Lean Inception}. A partir delas, foi realizada
 uma fase de \textit{brainstorming} de funcionalidades, conduzida de forma a
 contemplar todo o fluxo da jornada dos usuários.
 
 Os requisitos resultantes foram, então, validados por meio de
 \textit{feedbacks} de Sérgio Freitas, dono do Ecossistema CEDIS e cliente do
 projeto, e submetidos à fase de Revisão Técnica, de Negócio e de UX da
-\textit{Lean Inception} \cite{caroli_lean_2018}
-(Seção~\ref{subsubsec:lean-inception}). Nessa fase, cada requisito foi
+\textit{Lean Inception} \cite{caroli_lean_2018}. Nessa fase, cada requisito foi
 avaliado quanto à viabilidade técnica, ao valor agregado e à experiência do
 usuário. O resultado é apresentado na
 Figura~\ref{fig:requisitos-priorizacao}.
@@ -864,7 +909,7 @@ Cognita, orientados aos requisitos funcionais levantados.
 
 O desenvolvimento do Cognita será conduzido em onze \textit{sprints}. As
 nove primeiras correspondem às ondas do MVP definidas no sequenciador da
-\textit{Lean Inception} (Seção~\ref{subsec:mvp-incrementos}); os incrementos
+\textit{Lean Inception}; os incrementos
 não serão entregues no desenvolvimento. A décima \textit{sprint} é
 reservada para testes e correções, e a última, para o congelamento de código
 (\textit{code freeze}). A Tabela~\ref{tab:cronograma-ondas} associa cada

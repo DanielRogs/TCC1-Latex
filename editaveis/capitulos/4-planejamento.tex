@@ -399,11 +399,11 @@ A estruturação dos sete quadrantes da Figura~\ref{fig:mvp-canvas} amarra de fo
 
     \item \textbf{Resultado Esperado (Hipóteses qualitativas de valor):} Explicita as quatro transformações esperadas no ecossistema: (i) estudantes capazes de priorizar seus estudos no Atlas do Conhecimento com rapidez e recuperar o domínio de conceitos defasados; (ii) professores identificando precocemente conceitos com baixa absorção na turma para direcionar revisões e materiais antes das avaliações formais; (iii) transição efetiva do Ecossistema CEDIS de métricas puramente descritivas de uso para diagnósticos preditivos de domínio cognitivo via \textit{Knowledge Tracing}; e (iv) adoção confiável do diagnóstico por discentes e docentes — amparada pela explicabilidade das estimativas — mantendo estrita conformidade com a LGPD.
 
-    \item \textbf{Métricas para Validar as Hipóteses de Negócio (Indicadores quantitativos):} Define três eixos objetivos de aferição para comprovar o sucesso do MVP:
+    \item \textbf{Métricas para Validar as Hipóteses de Negócio (Indicadores quantitativos):} Define três métricas objetivas de avaliação do modelo de \textit{Knowledge Tracing} para comprovar a qualidade preditiva e a confiabilidade do MVP:
     \begin{itemize}
-        \item \textit{Métricas de predição do modelo de Knowledge Tracing:} Monitoramento da AUC, da acurácia (ACC) e da RMSE na estimativa de domínio a cada ciclo de treinamento;
-        \item \textit{Taxa de recuperação conceitual:} Evolução observada na probabilidade estimada de domínio e no índice de acerto dos estudantes após revisarem os conceitos priorizados no Atlas;
-        \item \textit{Taxa de utilização acionável:} Frequência de acesso dos professores ao painel diagnóstico no Analytics e taxa de cliques dos estudantes nos conceitos recomendados para revisão no Atlas.
+        \item \textit{AUC-ROC do modelo KT:} Mede a capacidade do modelo de distinguir respostas corretas de incorretas (ordenação), independentemente de um limiar de decisão;
+        \item \textit{Acurácia (ACC) do modelo KT:} Avalia a proporção de respostas previstas corretamente (considerando o limiar padrão de 0,5) como referência geral de acerto;
+        \item \textit{RMSE do modelo KT:} Mede o erro quadrático médio entre a probabilidade prevista e a resposta observada, validando a calibração das estimativas de domínio exibidas aos usuários.
     \end{itemize}
 \end{enumerate}
 

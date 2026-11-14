@@ -378,29 +378,30 @@ A estruturação dos sete quadrantes da Figura~\ref{fig:mvp-canvas} amarra de fo
         \item \textit{Aluno Externo:} Praticar questionários públicos com o Learning Passport $\rightarrow$ descobrir lacunas teóricas no Cognita $\rightarrow$ estudar os conceitos indicados e validar autonomamente a evolução do domínio.
     \end{itemize}
 
-    \item \textbf{Funcionalidades (Escopo funcional enxuto do MVP):} Agrupa os blocos de capacidades que compõem as nove ondas do MVP:
+    \item \textbf{Funcionalidades (Escopo funcional enxuto do MVP):} Agrupa os blocos de capacidades que compõem as oito ondas do MVP:
     \begin{itemize}
-        \item Validação de dados recebidos, treinamento inicial e retreinamento contínuo do modelo de \textit{Knowledge Tracing}, configuração da política de treino no Deck Manager e registro de métricas preditivas;
+        \item Validação de dados recebidos, treinamento inicial e retreinamento contínuo do modelo de \textit{Knowledge Tracing} baseado em BKT, configuração da política de treino no Deck Manager e registro de métricas preditivas;
         \item Exibição da probabilidade de domínio por conceito no Atlas do Conhecimento, atualização das estimativas a cada nova interação e listagem de conceitos priorizados para revisão;
         \item Armazenamento do histórico individual das estimativas no Atlas e visualização da evolução temporal da absorção dos conceitos no Learning Analytics;
-        \item Estimativa da proporção de alunos com domínio, identificação e ranqueamento de conceitos com baixa absorção, filtragem de resultados e comparativo entre relações conceituais inferidas e mapeadas;
+        \item Estimativa da proporção de alunos com domínio, identificação e ranqueamento de conceitos com baixa absorção e filtragem de resultados;
         \item Transparência e explicabilidade algorítmica por meio da exibição do grau de confiança, tamanho da amostra e explicação dos motivos das estimativas tanto no Atlas quanto no Analytics;
         \item Indicação visual no Deck Manager dos materiais que necessitam de reforço dentro de um conceito e garantia de privacidade mediante exclusão de dados preditivos vinculados ao passaporte em conformidade com a LGPD.
     \end{itemize}
 
-    \item \textbf{Cronograma (Planejamento temporal das entregas):} Estrutura o horizonte de implementação em 11 \textit{Sprints} de aproximadamente 10 dias cada (de 15/02/2027 a 22/06/2027), compreendendo 9 ondas de desenvolvimento para os 21 requisitos do MVP (respeitando o teto de 5 pontos de esforço \textit{E} por onda) e 2 \textit{sprints} finais de estabilização:
+    \item \textbf{Cronograma (Planejamento temporal das entregas):} Estrutura o horizonte de implementação em 11 \textit{Sprints} de aproximadamente 10 dias cada (de 15/02/2027 a 22/06/2027), compreendendo 8 ondas de desenvolvimento para os 20 requisitos do MVP (respeitando o teto de 5 pontos de esforço \textit{E} por onda) e 3 \textit{sprints} finais de estabilização:
     \begin{itemize}
         \item \textit{Sprints 1 a 3 (15/02 a 20/03/2027):} Base e retreinamento do modelo KT, probabilidade, confiança e explicação de domínio no Atlas e identificação de baixa absorção no Analytics;
         \item \textit{Sprints 4 a 6 (22/03 a 24/04/2027):} Priorização, atualização por interação e histórico no Atlas, ranqueamento e explicação de estimativas no Analytics e registro de métricas de treino;
-        \item \textit{Sprints 7 a 9 (26/04 a 29/05/2027 -- Entrega do MVP):} Proporção de domínio, evolução temporal, filtros, comparativo de relações conceituais, indicação de materiais para reforço no Deck Manager e exclusão de dados preditivos (LGPD);
-        \item \textit{Sprint 10 (31/05 a 10/06/2027) e Sprint 11 (11/06 a 22/06/2027):} Bateria de testes integrados, correções de defeitos, congelamento de código (\textit{code freeze}) e encerramento.
+        \item \textit{Sprints 7 e 8 (26/04 a 18/05/2027 -- Entrega do MVP):} Proporção de domínio, evolução temporal, filtros, indicação de materiais para reforço no Deck Manager e exclusão de dados preditivos (LGPD);
+        \item \textit{Sprint 9 (19/05 a 29/05/2027):} Bateria de testes integrados e correções de defeitos;
+        \item \textit{Sprints 10 e 11 (31/05 a 22/06/2027):} Congelamento de código (\textit{code freeze}) e encerramento.
     \end{itemize}
 
     \item \textbf{Resultado Esperado (Hipóteses qualitativas de valor):} Explicita as quatro transformações esperadas no ecossistema: (i) estudantes capazes de priorizar seus estudos no Atlas do Conhecimento com rapidez e recuperar o domínio de conceitos defasados; (ii) professores identificando precocemente conceitos com baixa absorção na turma para direcionar revisões e materiais antes das avaliações formais; (iii) transição efetiva do Ecossistema CEDIS de métricas puramente descritivas de uso para diagnósticos preditivos de domínio cognitivo via \textit{Knowledge Tracing}; e (iv) adoção confiável do diagnóstico por discentes e docentes — amparada pela explicabilidade das estimativas — mantendo estrita conformidade com a LGPD.
 
     \item \textbf{Métricas para Validar as Hipóteses de Negócio (Indicadores quantitativos):} Define três eixos objetivos de aferição para comprovar o sucesso do MVP:
     \begin{itemize}
-        \item \textit{Métricas de predição do modelo de Knowledge Tracing:} Monitoramento da Acurácia, \textit{F1 Score} e AUC-ROC na estimativa de domínio a cada ciclo de treinamento;
+        \item \textit{Métricas de predição do modelo de Knowledge Tracing:} Monitoramento da AUC, da acurácia (ACC) e da RMSE na estimativa de domínio a cada ciclo de treinamento;
         \item \textit{Taxa de recuperação conceitual:} Evolução observada na probabilidade estimada de domínio e no índice de acerto dos estudantes após revisarem os conceitos priorizados no Atlas;
         \item \textit{Taxa de utilização acionável:} Frequência de acesso dos professores ao painel diagnóstico no Analytics e taxa de cliques dos estudantes nos conceitos recomendados para revisão no Atlas.
     \end{itemize}
@@ -605,7 +606,7 @@ EP07 & TM01 & Privacidade e controle de acesso & O usuário deverá ter os seus 
 \hline
 \multicolumn{4}{l}{Fonte: Elaborado pelos autores.} \\
 \endlastfoot
-RF01 & EP01 & Treinamento inicial do modelo KT & O sistema deverá treinar inicialmente um modelo de \textit{Knowledge Tracing} com parâmetros estimados por conceito a partir dos dados do ecossistema, para que seja possível estimar o domínio conceitual dos estudantes. \\
+RF01 & EP01 & Treinamento inicial do modelo KT & O sistema deverá treinar inicialmente um modelo de \textit{Knowledge Tracing} do tipo \textit{Bayesian Knowledge Tracing} (BKT), com parâmetros estimados por conceito a partir dos dados do ecossistema, para que seja possível estimar o domínio conceitual dos estudantes. \\
 \hline
 RF02 & EP01 & Retreinamento contínuo do modelo & O sistema deverá retreinar continuamente o modelo preditivo com os novos dados recebidos, para que as estimativas se mantenham precisas. \\
 \hline
@@ -613,7 +614,7 @@ RF03 & EP01 & Validação dos dados recebidos & O sistema deverá validar os dad
 \hline
 RF04 & EP01 & Configuração da política de treino & O administrador deverá configurar a política de treino do modelo preditivo no Deck Manager, para que defina quando os treinamentos serão executados. \\
 \hline
-RF05 & EP01 & Registro de métricas de predição & O sistema deverá registrar as métricas de predição (acurácia, \textit{F1 Score}, entre outras) a cada novo treinamento, para que seja possível monitorar e comparar a qualidade do modelo ao longo do tempo. \\
+RF05 & EP01 & Registro de métricas de predição & O sistema deverá registrar as métricas de predição (AUC, acurácia e RMSE) a cada novo treinamento, para que seja possível monitorar e comparar a qualidade do modelo ao longo do tempo. \\
 \hline
 RF06 & EP02 & Probabilidade de domínio por conceito & O estudante deverá visualizar, no Atlas, a probabilidade de domínio de cada conceito de um curso, para que compreenda o seu nível de aprendizado em cada conceito. \\
 \hline
@@ -631,7 +632,7 @@ RF12 & EP04 & Identificação de conceitos com baixa absorção & O professor de
 \hline
 RF13 & EP04 & Listagem de conceitos por nível de absorção & O professor deverá visualizar, no Analytics, os conceitos de um curso ordenados do menor ao maior nível de absorção, para que identifique rapidamente os conceitos mais críticos. \\
 \hline
-RF14 & EP04 & Comparativo entre relações conceituais & O professor deverá visualizar comparativos entre as relações conceituais inferidas pelo modelo preditivo e o mapeamento manual feito no Concept Studio, para que possa validar e aprimorar o mapa conceitual do curso. \\
+RF14 & EP04 & Comparativo entre relações conceituais & O professor deverá visualizar comparativos entre as relações conceituais inferidas por um modelo de \textit{Deep Knowledge Tracing} (DKT) e o mapeamento manual feito no Concept Studio, para que possa validar e aprimorar o mapa conceitual do curso. \\
 \hline
 RF15 & EP04 & Filtragem dos resultados estimados & O professor deverá filtrar os resultados estimados no Analytics, para que concentre a análise nos cursos, conceitos ou grupos de interesse. \\
 \hline
@@ -704,7 +705,7 @@ RNF03 & As telas do Cognita devem ser utilizáveis em dispositivos móveis e com
 \hline
 RNF04 & O serviço de consulta às estimativas de domínio deve ter disponibilidade mensal mínima de 99\%. \\
 \hline
-RNF05 & A cada treinamento, o modelo preditivo deve atingir acurácia mínima de 70\% e \textit{F1 Score} mínimo de 0,70 sobre o conjunto de validação, e só deve substituir o modelo em uso se não apresentar queda superior a 2 pontos percentuais nessas métricas. \\
+RNF05 & A cada treinamento, o modelo preditivo deve atingir, sobre o conjunto de teste e com divisão dos dados por estudante, AUC mínima de 0,65, acurácia (ACC) mínima de 0,70 e RMSE máximo de 0,45, e só deve substituir o modelo em uso se sua AUC não for inferior à do modelo vigente em mais de 0,01. \\
 \hline
 RNF06 & Em caso de falha no retreinamento, o último modelo válido deve permanecer em operação, sem interrupção do serviço de consulta às estimativas. \\
 \hline
@@ -751,7 +752,7 @@ A definição do MVP decorreu da atividade de Ondas (Sequenciador) da \textit{Le
 \caption{Sequenciador do Cognita (ondas 1 a 3)}
 \label{fig:ondas-mvp-1}
 \centering
-\includegraphics[width=\textwidth]{figuras/sequenciador1.png}
+\includegraphics[width=0.9\textwidth]{figuras/sequenciador1.png}
 \legend{Fonte: Elaborado pelos autores.}
 \end{figure}
 
@@ -759,7 +760,7 @@ A definição do MVP decorreu da atividade de Ondas (Sequenciador) da \textit{Le
 \caption{Sequenciador do Cognita (ondas 4 a 6)}
 \label{fig:ondas-mvp-2}
 \centering
-\includegraphics[width=\textwidth]{figuras/sequenciador2.png}
+\includegraphics[width=0.9\textwidth]{figuras/sequenciador2.png}
 \legend{Fonte: Elaborado pelos autores.}
 \end{figure}
 
@@ -782,7 +783,7 @@ A distribuição dos requisitos entre as ondas deve respeitar as seis regras do 
     \item \textbf{Dependências:} se um requisito depende de outro, o requisito do qual ele depende deve estar em uma onda anterior.
 \end{enumerate}
 
-Considerando as regras do sequenciador, os requisitos do MVP foram distribuídos nas nove primeiras ondas da seguinte forma:
+Considerando as regras do sequenciador, os requisitos do MVP foram distribuídos nas oito primeiras ondas da seguinte forma:
 
 \begin{itemize}
     \item \textbf{Primeira onda}
@@ -829,10 +830,6 @@ Considerando as regras do sequenciador, os requisitos do MVP foram distribuídos
         \item RF10 -- Evolução da absorção ao longo do tempo;
         \item RF15 -- Filtragem dos resultados estimados.
     \end{itemize}
-    \item \textbf{Nona onda}
-    \begin{itemize}
-        \item RF14 -- Comparativo entre relações conceituais.
-    \end{itemize}
 \end{itemize}
 
 Após o marco do MVP, foram posicionados os requisitos classificados como incrementos, os quais não serão entregues no escopo do desenvolvimento deste trabalho:
@@ -840,6 +837,7 @@ Após o marco do MVP, foram posicionados os requisitos classificados como increm
 \begin{itemize}
     \item \textbf{Nona onda}
     \begin{itemize}
+        \item RF14 -- Comparativo entre relações conceituais;
         \item RF23 -- Recomendação de materiais de reforço.
     \end{itemize}
     \item \textbf{Décima onda}
@@ -973,10 +971,10 @@ Cognita, orientados aos requisitos funcionais levantados.
 \label{sec:cronograma}
 
 O desenvolvimento do Cognita será conduzido em onze \textit{sprints}. As
-nove primeiras correspondem às ondas do MVP definidas no sequenciador da
+oito primeiras correspondem às ondas do MVP definidas no sequenciador da
 \textit{Lean Inception}; os incrementos
-não serão entregues no desenvolvimento. A décima \textit{sprint} é
-reservada para testes e correções, e a última, para o congelamento de código
+não serão entregues no desenvolvimento. A nona \textit{sprint} é
+reservada para testes e correções, e as duas últimas, para o congelamento de código
 (\textit{code freeze}). A Tabela~\ref{tab:cronograma-ondas} associa cada
 \textit{sprint} aos requisitos entregues, ao escopo da entrega e ao período
 de execução.
@@ -1014,11 +1012,11 @@ de execução.
 \hline
 7 & RF11, RF20, RF24 & Proporção de estudantes com domínio, materiais para reforço e exclusão de dados do passaporte. & 26/04/2027 & 06/05/2027 \\
 \hline
-8 & RF10, RF15 & Evolução da absorção ao longo do tempo e filtros de resultados no Analytics. & 07/05/2027 & 18/05/2027 \\
+8 & RF10, RF15 & Evolução da absorção ao longo do tempo e filtros de resultados no Analytics, concluindo o MVP. & 07/05/2027 & 18/05/2027 \\
 \hline
-9 & RF14 & Comparativo entre relações conceituais do modelo e do mapeamento manual, concluindo o MVP. & 19/05/2027 & 29/05/2027 \\
+9 & -- & Reservada para testes e correções. & 19/05/2027 & 29/05/2027 \\
 \hline
-10 & -- & Reservada para testes e correções. & 31/05/2027 & 10/06/2027 \\
+10 & -- & \textit{Code freeze}. & 31/05/2027 & 10/06/2027 \\
 \hline
 11 & -- & \textit{Code freeze}. & 11/06/2027 & 22/06/2027 \\
 \hline

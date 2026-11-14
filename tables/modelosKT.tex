@@ -1,0 +1,22 @@
+\begin{table}[H]
+\caption{Síntese das principais famílias de modelos de \textit{Knowledge Tracing}}
+\label{tab:familias-kt}
+\centering
+\small
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}
+\hline
+\textbf{Família} & \textbf{Representação do estado de conhecimento} & \textbf{Vantagens} & \textbf{Limitações} \\
+\hline
+Probabilística (BKT e extensões) \cite{corbett_knowledge_1994, pardos_kt-idem_2011} & Variável latente binária por conceito (domina / não domina), atualizada por um Modelo Oculto de Markov & Parâmetros com significado pedagógico explícito; baixo custo computacional; funciona com poucos dados por conceito & Conceitos tratados de forma independente; ausência de esquecimento no modelo original; menor poder preditivo \\
+\hline
+Fatorial e psicométrica (IRT, PFA) \cite{embretson_item_2013, pavlik_performance_2009} & Proficiência contínua estimada por função logística a partir de acertos, erros e dificuldade dos itens & Interpretação psicométrica consolidada; incorporação simples de atributos & Desconsidera a ordem completa da sequência de interações; supõe proficiência estável na IRT clássica \\
+\hline
+Profunda recorrente e de memória (DKT, DKVMN) \cite{piech_deep_2015, zhang_dynamic_2017} & Vetor oculto denso (RNN/LSTM) ou matriz de memória chave-valor & Captura dinâmicas não lineares e dependências temporais longas & Estado latente pouco interpretável; demanda grandes volumes de dados \\
+\hline
+Baseada em atenção (SAKT, AKT) \cite{pandey_self-attentive_2019, ghosh_context-aware_2020} & Representação contextual ponderada pelas interações históricas mais relevantes & Elevado desempenho preditivo; pesos de atenção oferecem explicação parcial & Custo computacional maior; sensível a dados esparsos \\
+\hline
+Estrutural e híbrida (grafos, transferência, caminho duplo) \cite{liu_enhancing_2026, liao_naviedu_2026} & Estados por conceito propagados sobre grafos ou hipergrafos de pré-requisitos & Modela relações entre conceitos e generaliza para conceitos pouco observados & Maior complexidade de engenharia e de implantação \\
+\hline
+\end{tabularx}
+\legend{Fonte: Elaborado pelos autores.}
+\end{table}

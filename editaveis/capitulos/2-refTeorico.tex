@@ -83,5 +83,109 @@ D
 
 
 \section{Aprendizagem de máquina}
+\label{sec:aprendizagem-maquina}
 
-E
+A Aprendizagem de Máquina (\textit{Machine Learning} -- ML) é a subárea da Inteligência Artificial dedicada ao desenvolvimento de programas capazes de melhorar automaticamente seu desempenho a partir da experiência. Na definição clássica de \citeonline{mitchell_machine_1997}, diz-se que um programa aprende com a experiência $E$, em relação a uma classe de tarefas $T$ e a uma medida de desempenho $P$, se o seu desempenho nas tarefas de $T$, medido por $P$, melhora com a experiência $E$. Em vez de codificar explicitamente as regras de decisão, o desenvolvedor especifica um modelo parametrizado e um critério de otimização, deixando que os parâmetros sejam ajustados a partir de dados observados.
+
+Os métodos de aprendizagem de máquina costumam ser organizados em três paradigmas principais \cite{mitchell_machine_1997}:
+
+\begin{enumerate}
+    \item \textbf{Aprendizagem supervisionada:} o modelo aprende uma função que mapeia entradas a saídas a partir de exemplos rotulados. Quando a saída é categórica, a tarefa é de classificação; quando é contínua, de regressão;
+    \item \textbf{Aprendizagem não supervisionada:} o modelo identifica estruturas latentes em dados não rotulados, como agrupamentos ou representações de menor dimensionalidade;
+    \item \textbf{Aprendizagem por reforço:} um agente aprende uma política de ações por meio da interação com um ambiente, orientado por sinais de recompensa.
+\end{enumerate}
+
+No contexto deste trabalho, interessa sobretudo a aprendizagem supervisionada aplicada a dados sequenciais. A previsão do desempenho de um estudante em uma questão futura constitui um problema de classificação binária — a resposta será correta ou incorreta —, cujos rótulos são obtidos diretamente do histórico de respostas registrado nas plataformas educacionais \cite{cui_rebalancing_2025}. O objetivo do treinamento não é memorizar os exemplos observados, mas generalizar para interações ainda não vistas. Por essa razão, os dados são particionados em conjuntos de treino, validação e teste, frequentemente com validação cruzada em $k$ partições (\textit{k-fold cross-validation}), de modo a detectar o sobreajuste (\textit{overfitting}) — situação em que o modelo se ajusta excessivamente aos dados de treino e perde capacidade de generalização \cite{shen_assessing_2022, nagatani_augmenting_2019}.
+
+Nas últimas décadas, a aprendizagem profunda (\textit{deep learning}) consolidou-se como a vertente de maior expressividade da área. Fundamentada em redes neurais artificiais com múltiplas camadas, ela aprende representações hierárquicas diretamente dos dados brutos, dispensando boa parte da engenharia manual de atributos \cite{lecun_deep_2015}. Arquiteturas como as Redes Neurais Recorrentes (\textit{Recurrent Neural Networks} -- RNN), em especial a variante \textit{Long Short-Term Memory} (LSTM) \cite{hochreiter_long_1997}, e o \textit{Transformer}, baseado em mecanismos de atenção \cite{vaswani_attention_2017}, tornaram-se predominantes na modelagem de sequências. Esse ganho de expressividade, contudo, tem como contrapartida a redução da interpretabilidade: o estado interno de uma rede profunda é um vetor denso cujos componentes, isoladamente, não possuem significado direto para o usuário final \cite{cao_multi-granularity_2025}. Em aplicações educacionais, nas quais docentes e estudantes precisam compreender por que um diagnóstico foi emitido, esse compromisso entre precisão e interpretabilidade é decisivo para a escolha do modelo.
+
+\subsection{Rastreamento de conhecimento (Knowledge Tracing)}
+\label{subsec:knowledge-tracing}
+
+O Rastreamento de Conhecimento (\textit{Knowledge Tracing} -- KT) é a tarefa de modelar a evolução do estado de conhecimento latente de um estudante a partir de suas interações com um sistema de aprendizagem e de prever seu desempenho em interações futuras \cite{corbett_knowledge_1994, shen_assessing_2022}. Trata-se de um componente central de sistemas tutores inteligentes e de plataformas adaptativas, pois a estimativa do domínio de cada conceito fundamenta decisões como a recomendação de exercícios, a priorização de revisões e a identificação precoce de estudantes em risco \cite{liu_enhancing_2026, gao_transformer-based_2025}.
+
+Formalmente, considera-se um conjunto de estudantes, um conjunto de questões e um conjunto de conceitos (\textit{knowledge concepts} -- KC), no qual cada questão está associada a um ou mais conceitos por meio de uma matriz de associação questão--conceito, denominada matriz Q \cite{liu_enhancing_2026}. O histórico de um estudante é representado por uma sequência temporal de interações $X = \{(q_1, a_1), (q_2, a_2), \ldots, (q_t, a_t)\}$, em que $q_i$ é a questão respondida no instante $i$ e $a_i \in \{0, 1\}$ indica se a resposta foi incorreta ou correta. Dado esse histórico, o modelo de KT estima a probabilidade de acerto da próxima questão, $P(a_{t+1} = 1 \mid X, q_{t+1})$, e, de forma subjacente, a probabilidade de domínio de cada conceito \cite{shen_assessing_2022, cui_rebalancing_2025}.
+
+Dois aspectos distinguem o KT de uma classificação convencional. Primeiro, o estado de conhecimento não é diretamente observável: as respostas constituem apenas evidências ruidosas, sujeitas a acertos por chute e a erros por descuido. Segundo, esse estado é dinâmico, pois evolui com a prática e decai com o tempo em razão do esquecimento \cite{nagatani_augmenting_2019}. A literatura propôs diversas famílias de modelos para lidar com esses aspectos, sintetizadas na Tabela~\ref{tab:familias-kt} e detalhadas nas subseções seguintes.
+
+\input{./tables/modelosKT.tex}
+
+\subsubsection{Bayesian Knowledge Tracing}
+\label{subsubsec:bkt}
+
+O \textit{Bayesian Knowledge Tracing} (BKT), proposto por \citeonline{corbett_knowledge_1994}, é o modelo fundador da área e permanece como referência pela clareza de sua formulação. O BKT modela o domínio de cada conceito como um Modelo Oculto de Markov (\textit{Hidden Markov Model} -- HMM) com dois estados latentes — o estudante domina ou não domina o conceito — e observações binárias correspondentes às respostas corretas ou incorretas \cite{pelanek_bayesian_2017, nagatani_augmenting_2019}. Cada conceito é descrito por quatro parâmetros probabilísticos, todos com interpretação pedagógica direta:
+
+\begin{itemize}
+    \item \textbf{Conhecimento inicial ($P(L_0)$):} probabilidade de o estudante já dominar o conceito antes da primeira interação;
+    \item \textbf{Aprendizado ($P(T)$):} probabilidade de transição do estado de não domínio para o de domínio após uma oportunidade de prática;
+    \item \textbf{Chute ($P(G)$):} probabilidade de o estudante acertar a questão sem dominar o conceito (\textit{guess});
+    \item \textbf{Descuido ($P(S)$):} probabilidade de o estudante errar a questão mesmo dominando o conceito (\textit{slip}).
+\end{itemize}
+
+A cada resposta observada, o BKT atualiza a crença sobre o domínio do conceito aplicando o teorema de Bayes. Sendo $P(L_t)$ a probabilidade de domínio antes da interação $t$, a probabilidade a posteriori, condicionada a uma resposta correta ou incorreta, é dada respectivamente pelas Equações~\ref{eq:bkt-correta} e~\ref{eq:bkt-incorreta} \cite{corbett_knowledge_1994, pelanek_bayesian_2017}:
+
+\begin{equation}
+\label{eq:bkt-correta}
+P(L_t \mid a_t = 1) = \frac{P(L_t)\,\bigl(1 - P(S)\bigr)}{P(L_t)\,\bigl(1 - P(S)\bigr) + \bigl(1 - P(L_t)\bigr)\,P(G)}
+\end{equation}
+
+\begin{equation}
+\label{eq:bkt-incorreta}
+P(L_t \mid a_t = 0) = \frac{P(L_t)\,P(S)}{P(L_t)\,P(S) + \bigl(1 - P(L_t)\bigr)\,\bigl(1 - P(G)\bigr)}
+\end{equation}
+
+Em seguida, incorpora-se a possibilidade de aprendizado decorrente da prática, obtendo-se a estimativa de domínio para a próxima interação (Equação~\ref{eq:bkt-transicao}) e, a partir dela, a probabilidade de acerto da próxima questão associada ao conceito (Equação~\ref{eq:bkt-predicao}):
+
+\begin{equation}
+\label{eq:bkt-transicao}
+P(L_{t+1}) = P(L_t \mid a_t) + \bigl(1 - P(L_t \mid a_t)\bigr)\,P(T)
+\end{equation}
+
+\begin{equation}
+\label{eq:bkt-predicao}
+P(a_{t+1} = 1) = P(L_{t+1})\,\bigl(1 - P(S)\bigr) + \bigl(1 - P(L_{t+1})\bigr)\,P(G)
+\end{equation}
+
+Os quatro parâmetros de cada conceito são estimados a partir dos dados históricos, tipicamente pelo algoritmo de Maximização da Expectativa (\textit{Expectation-Maximization} -- EM) ou por busca em grade, sendo comum a imposição de restrições como $P(G) < 0{,}5$ e $P(S) < 0{,}5$ para evitar soluções degeneradas sem sentido pedagógico \cite{pelanek_bayesian_2017}. O resultado é, para cada estudante e conceito, uma probabilidade de domínio $P(L_t)$ que evolui a cada interação e pode ser apresentada diretamente ao usuário.
+
+Essa formulação confere ao BKT propriedades particularmente relevantes para sistemas educacionais em produção. Os parâmetros são interpretáveis por docentes — por exemplo, um valor elevado de $P(G)$ sinaliza questões com alternativas facilmente adivinháveis —, o custo computacional de treinamento e de inferência é baixo e a atualização a cada nova resposta é imediata, o que viabiliza o acompanhamento contínuo do estudante \cite{corbett_knowledge_1994, pelanek_bayesian_2017}. Em contrapartida, o modelo original apresenta limitações conhecidas: representa o conhecimento de forma binária, trata cada conceito de maneira independente, ignorando relações de pré-requisito, desconsidera a dificuldade específica de cada questão e não modela o esquecimento, já que a probabilidade de domínio não decai com o passar do tempo \cite{nagatani_augmenting_2019, cui_rebalancing_2025}.
+
+Diversas extensões foram propostas para mitigar essas limitações sem abandonar a estrutura probabilística. O KT-IDEM (\textit{Item Difficulty Effect Model}) incorpora parâmetros de chute e descuido específicos por questão, introduzindo a dificuldade dos itens no modelo \cite{pardos_kt-idem_2011}. Outras variações acrescentam o efeito do intervalo de tempo entre interações ou do número de tentativas para representar o esquecimento \cite{nagatani_augmenting_2019}. Essas extensões preservam a principal virtude do BKT — uma estimativa de domínio por conceito explicável e de baixo custo —, o que o mantém como base adequada para cenários em que a transparência do diagnóstico é tão importante quanto a precisão.
+
+\subsubsection{Modelos psicométricos e fatoriais}
+\label{subsubsec:modelos-psicometricos}
+
+Em paralelo ao BKT, desenvolveu-se uma família de modelos baseados em funções logísticas, oriunda da psicometria. A Teoria de Resposta ao Item (\textit{Item Response Theory} -- IRT) estima a probabilidade de acerto de uma questão $i$ em função da proficiência $\theta$ do estudante e de parâmetros do item, como a discriminação $a_i$ e a dificuldade $b_i$, conforme o modelo logístico de dois parâmetros \cite{embretson_item_2013, cui_rebalancing_2025}:
+
+\begin{equation}
+\label{eq:irt-2pl}
+P_i(\theta) = \frac{1}{1 + e^{-a_i(\theta - b_i)}}
+\end{equation}
+
+A IRT clássica, contudo, supõe que a proficiência do estudante permanece estável durante a avaliação, o que a torna pouco adequada para acompanhar a aprendizagem ao longo da prática diária \cite{shen_assessing_2022}. A \textit{Performance Factors Analysis} (PFA) adapta essa abordagem ao contexto de aprendizagem ao estimar a probabilidade de acerto a partir da quantidade de acertos e erros anteriores do estudante em cada conceito \cite{pavlik_performance_2009}. Embora permita incorporar atributos adicionais com facilidade, a PFA considera apenas interações relativas ao mesmo conceito e não explora a ordem completa da sequência de respostas \cite{nagatani_augmenting_2019}.
+
+\subsubsection{Deep Knowledge Tracing e modelos profundos}
+\label{subsubsec:dkt}
+
+O \textit{Deep Knowledge Tracing} (DKT), proposto por \citeonline{piech_deep_2015}, introduziu a aprendizagem profunda no rastreamento de conhecimento ao modelar a sequência de interações com uma rede LSTM. Diferentemente do BKT, que mantém uma variável binária por conceito, o DKT representa o estado de conhecimento do estudante como o vetor oculto da rede recorrente, denso e de baixa dimensionalidade, a partir do qual se estima a probabilidade de acerto para todos os conceitos simultaneamente \cite{nagatani_augmenting_2019}. Essa representação permite capturar dinâmicas não lineares e relações implícitas entre conceitos, o que resultou em ganhos expressivos de desempenho preditivo em relação aos modelos clássicos \cite{gao_transformer-based_2025}.
+
+A partir do DKT, a literatura evoluiu em diversas direções. O DKVMN (\textit{Dynamic Key-Value Memory Network}) emprega uma matriz estática de chaves para representar os conceitos e uma matriz dinâmica de valores para registrar o domínio do estudante, recuperando parte da interpretabilidade por conceito \cite{zhang_dynamic_2017}. Modelos baseados em atenção, como o SAKT (\textit{Self-Attentive Knowledge Tracing}) \cite{pandey_self-attentive_2019} e o AKT (\textit{Context-Aware Attentive Knowledge Tracing}) \cite{ghosh_context-aware_2020}, inspirados no \textit{Transformer}, ponderam a relevância de cada interação histórica para a previsão atual, sendo que o AKT incorpora ainda parâmetros de dificuldade inspirados no modelo de Rasch.
+
+Trabalhos recentes têm buscado incorporar explicitamente fatores pedagógicos à modelagem. O DIMKT incorpora a dificuldade das questões e dos conceitos e modela o efeito dessa dificuldade antes, durante e após a prática \cite{shen_assessing_2022}. \citeonline{nagatani_augmenting_2019} estendem o DKT com atributos de esquecimento, como o intervalo desde a última interação com o mesmo conceito e o número de tentativas anteriores. \citeonline{cui_rebalancing_2025} demonstram que boa parte dos ganhos de acurácia dos modelos recentes provém de respostas pouco discriminativas — como acertos em questões fáceis — e propõem reponderar o treinamento para privilegiar as respostas que efetivamente diferenciam os níveis de domínio dos estudantes. Na linha estrutural, o MHAKT modela a transferência de conhecimento entre conceitos e áreas por meio de hipergrafos \cite{liu_enhancing_2026}, enquanto o NaviEdu combina um caminho neural e um caminho baseado em grafo de conceitos para detectar mudanças abruptas de desempenho e convertê-las em intervenções direcionadas \cite{liao_naviedu_2026}. Há ainda propostas que acoplam o KT diretamente à recomendação de exercícios \cite{gao_transformer-based_2025} ou que empregam técnicas de explicabilidade \textit{post hoc}, como valores SHAP, para justificar as previsões a docentes \cite{cao_multi-granularity_2025}.
+
+Em comum, esses trabalhos evidenciam que o aumento do desempenho preditivo dos modelos profundos veio acompanhado de maior complexidade arquitetural, maior demanda por dados e menor transparência do estado latente \cite{liu_enhancing_2026, cao_multi-granularity_2025}. Essa tensão é central para a escolha do modelo em um módulo como o Cognita, que precisa entregar diagnósticos compreensíveis a estudantes e docentes a partir de volumes de dados ainda modestos.
+
+\subsection{Avaliação de modelos de rastreamento de conhecimento}
+\label{subsec:avaliacao-kt}
+
+Por se tratar de uma tarefa de classificação binária probabilística, os modelos de KT são avaliados com métricas que comparam as probabilidades previstas às respostas efetivamente observadas no conjunto de teste. As mais recorrentes na literatura são \cite{shen_assessing_2022, cui_rebalancing_2025, liao_naviedu_2026}:
+
+\begin{itemize}
+    \item \textbf{Área sob a curva ROC (\textit{Area Under the Curve} -- AUC):} mede a capacidade do modelo de ordenar corretamente respostas corretas acima das incorretas, independentemente de um limiar de decisão. Varia de 0 a 1, sendo 0,5 o desempenho de um classificador aleatório;
+    \item \textbf{Acurácia (ACC):} proporção de respostas cuja correção foi prevista acertadamente, considerando em geral o limiar de 0,5 sobre a probabilidade prevista;
+    \item \textbf{Raiz do erro quadrático médio (\textit{Root Mean Squared Error} -- RMSE):} mede a distância média entre a probabilidade prevista e o rótulo observado, refletindo a calibração das probabilidades.
+\end{itemize}
+
+A interpretação dessas métricas exige cautela. Como a proporção de respostas corretas costuma ser elevada nas bases educacionais, um modelo pode obter acurácia alta apenas acertando respostas previsíveis, sem de fato distinguir estudantes com diferentes níveis de domínio \cite{cui_rebalancing_2025}. Além disso, a divisão dos dados deve ser feita por estudante, e não por interação isolada, para evitar que informações de um mesmo estudante apareçam simultaneamente no treino e no teste \cite{nagatani_augmenting_2019, cao_multi-granularity_2025}. Esses cuidados orientam a definição das métricas de qualidade do Cognita e o monitoramento de cada novo treinamento do modelo.
+
+Em síntese, o rastreamento de conhecimento fornece o arcabouço teórico para transformar o histórico de respostas registrado no Ecossistema CEDIS em estimativas de domínio por conceito. Entre as abordagens apresentadas, o BKT destaca-se pela correspondência direta entre seus parâmetros e o fenômeno pedagógico modelado, pela estimativa explícita da probabilidade de domínio de cada conceito e pelo baixo custo de operação, características alinhadas aos objetivos de transparência e de acompanhamento contínuo do módulo proposto neste trabalho. Por esse motivo, o BKT é adotado como modelo principal do MVP do Cognita. Os modelos profundos, em particular o DKT, são tratados como evolução incremental, a ser incorporada à medida que o volume de dados do ecossistema cresça e que se demonstre ganho de desempenho preditivo sobre o BKT, o qual permanece como modelo de referência para comparação e como alternativa de contingência. O DKT viabiliza, ainda, a inferência de relações entre conceitos a partir da influência que o desempenho em um conceito exerce sobre a previsão dos demais \cite{piech_deep_2015}, capacidade ausente no BKT, que trata cada conceito de forma independente.

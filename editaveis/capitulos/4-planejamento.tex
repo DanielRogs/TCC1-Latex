@@ -353,64 +353,128 @@ A Figura~\ref{fig:mvp-canvas} consolida o MVP Canvas do Cognita.
 \section{Requisitos}
 \label{sec:requisitos}
 
-Os requisitos do Cognita foram fundamentados nas jornadas de usuário,
-descritas na Seção~\ref{sec:visao-produto}. A partir delas, foi realizada
-uma fase de \textit{brainstorming} de funcionalidades, conduzida de forma a
-contemplar todo o fluxo da jornada dos usuários.
+A especificação dos requisitos do módulo Cognita decorreu diretamente dos artefatos produzidos na Seção~\ref{sec:visao-produto}, em especial das jornadas de usuário descritas na Seção~\ref{subsec:jornadas-usuario}, que evidenciaram os pontos de contato nos quais o módulo deve intervir. A partir desse mapeamento, conduziu-se a atividade de \textit{Brainstorming} de Funcionalidades da \textit{Lean Inception} \cite{caroli_lean_2018}, cujo objetivo é traduzir as necessidades e os pontos de dor das personas em funcionalidades candidatas. A atividade foi conduzida de modo a contemplar o fluxo completo das jornadas dos usuários, resultando no conjunto de requisitos funcionais do módulo.
 
-Os requisitos resultantes foram, então, validados por meio de
-\textit{feedbacks} de Sérgio Freitas, dono do Ecossistema CEDIS e cliente do
-projeto, e submetidos à fase de Revisão Técnica, de Negócio e de UX da
-\textit{Lean Inception} \cite{caroli_lean_2018}
-(Seção~\ref{subsubsec:lean-inception}). Nessa fase, cada requisito foi
-avaliado quanto à viabilidade técnica, ao valor agregado e à experiência do
-usuário. O resultado é apresentado na
-Figura~\ref{fig:requisitos-priorizacao}.
+Os requisitos resultantes foram submetidos a \textit{feedbacks} de Sérgio Freitas, dono do Ecossistema CEDIS e cliente do projeto, e, em seguida, à atividade de Revisão Técnica, de Negócio e de UX da \textit{Lean Inception} (Seção~\ref{subsubsec:lean-inception}). Nessa atividade, cada requisito é avaliado quanto a quatro atributos: a dificuldade de aplicabilidade, o esforço de implementação, o valor agregado ao produto e a contribuição para a experiência do usuário. A Figura~\ref{fig:requisitos-priorizacao} apresenta o artefato resultante, no qual cada cartão representa um requisito: a cor indica a dificuldade de aplicabilidade, e as quantidades de símbolos \textit{E}, \$ e $\heartsuit$ indicam, respectivamente, as pontuações de esforço, de valor agregado e de experiência do usuário. Os atributos de cada requisito são detalhados na Tabela~\ref{tab:atributos-requisitos}.
 
 \begin{figure}[H]
-\caption{Requisitos do Cognita avaliados na Revisão Técnica, de Negócio e de UX}
+\caption{Artefato da atividade de Revisão Técnica, de Negócio e de UX na \textit{Lean Inception}}
 \label{fig:requisitos-priorizacao}
 \centering
 \includegraphics[width=\textwidth]{figuras/requisitos.png}
-\legend{Fonte: Dos autores.}
+\legend{Fonte: Elaborado pelos autores.}
 \end{figure}
 
-Cada cartão da figura representa um requisito e é avaliado por quatro
-indicadores. A cor indica a aplicabilidade do requisito para os
-desenvolvedores: vermelho representa difícil aplicabilidade, amarelo, média
-aplicabilidade, e verde, fácil aplicabilidade. Ela foi definida em conjunto
-pelos autores, considerando o entendimento do requisito e a facilidade de
-implementá-lo. O símbolo \textit{E} indica o nível de esforço necessário
-para implementar o requisito, também estimado em conjunto com os
-desenvolvedores. Já o símbolo \$ indica o nível de valor agregado ao
-produto, e o símbolo $\heartsuit$ indica o nível de contribuição do
-requisito para a experiência do usuário (\textit{UX}). Em cada um desses
-três indicadores, a quantidade de símbolos varia de um a três, do menor ao
-maior nível.
+Os atributos avaliados e os significados de seus possíveis valores são os seguintes:
 
-O valor agregado e a experiência do usuário foram definidos por Sérgio
-Freitas, por meio de um formulário submetido com todos os requisitos, no
-qual os níveis eram escolhidos com base na descrição de cada
-requisito.%
+\begin{itemize}
+    \item \textbf{Dificuldade de aplicabilidade (cor):} indica o quão difícil é, para os desenvolvedores, aplicar o requisito, considerando o entendimento do requisito e a facilidade de implementá-lo:
+    \begin{itemize}
+        \item \textit{Fácil} (verde): requisito bem compreendido e de implementação direta;
+        \item \textit{Média} (amarelo): requisito com alguma complexidade ou incerteza de implementação;
+        \item \textit{Difícil} (vermelho): requisito de implementação complexa ou com alto grau de incerteza.
+    \end{itemize}
+    \item \textbf{Pontuação de esforço (\textit{E}):} indica o esforço necessário para implementar o requisito:
+    \begin{itemize}
+        \item 1 -- Baixo esforço para implementar;
+        \item 2 -- Médio esforço para implementar;
+        \item 3 -- Alto esforço para implementar.
+    \end{itemize}
+    \item \textbf{Pontuação de valor agregado (\$):} indica o valor que o requisito agrega ao produto:
+    \begin{itemize}
+        \item 1 -- Baixo valor agregado ao produto;
+        \item 2 -- Médio valor agregado ao produto;
+        \item 3 -- Alto valor agregado ao produto.
+    \end{itemize}
+    \item \textbf{Pontuação de experiência do usuário ($\heartsuit$):} indica a contribuição do requisito para a experiência do usuário (\textit{UX}):
+    \begin{itemize}
+        \item 1 -- Baixa contribuição para a experiência do usuário;
+        \item 2 -- Média contribuição para a experiência do usuário;
+        \item 3 -- Alta contribuição para a experiência do usuário.
+    \end{itemize}
+\end{itemize}
+
+A dificuldade de aplicabilidade e o esforço foram definidos em conjunto pelos autores e desenvolvedores do projeto, uma vez que dependem do entendimento do requisito e da facilidade de implementá-lo. Já o valor agregado e a experiência do usuário foram definidos por Sérgio Freitas, por meio de um formulário submetido com todos os requisitos, no qual as pontuações eram escolhidas com base na descrição de cada requisito.%
 \footnote{Formulário disponível em: \textit{[inserir link do formulário]}.}
+
+{\small
+\begin{longtable}{>{\raggedright\arraybackslash}p{6.0cm}>{\raggedright\arraybackslash}p{2.2cm}>{\centering\arraybackslash}p{1.5cm}>{\centering\arraybackslash}p{2.0cm}>{\centering\arraybackslash}p{1.0cm}}
+\caption{Atributos dos requisitos funcionais (dificuldade de aplicabilidade, esforço, valor agregado e UX)}
+\label{tab:atributos-requisitos} \\
+\hline
+\textbf{Requisito} & \textbf{Dificuldade} & \textbf{Esforço} & \textbf{Valor agregado} & \textbf{UX} \\
+\hline
+\endfirsthead
+\caption[]{Atributos dos requisitos funcionais (continuação)} \\
+\hline
+\textbf{Requisito} & \textbf{Dificuldade} & \textbf{Esforço} & \textbf{Valor agregado} & \textbf{UX} \\
+\hline
+\endhead
+\hline
+\multicolumn{5}{r}{\textit{Continua na próxima página}} \\
+\endfoot
+\hline
+\multicolumn{5}{l}{Fonte: Elaborado pelos autores.} \\
+\endlastfoot
+Treinamento inicial do modelo KT & Média & 3 & 3 & 1 \\
+\hline
+Retreinamento contínuo do modelo & Fácil & 1 & 3 & 1 \\
+\hline
+Validação dos dados recebidos & Fácil & 1 & 2 & 1 \\
+\hline
+Configuração da política de treino & Difícil & 2 & 2 & 2 \\
+\hline
+Registro de métricas de predição & Fácil & 2 & 2 & 1 \\
+\hline
+Probabilidade de domínio por conceito & Média & 1 & 3 & 3 \\
+\hline
+Atualização das estimativas por interação & Média & 3 & 3 & 2 \\
+\hline
+Conceitos priorizados para revisão & Média & 3 & 3 & 3 \\
+\hline
+Histórico das estimativas por conceito & Fácil & 1 & 2 & 2 \\
+\hline
+Evolução da absorção ao longo do tempo & Média & 3 & 2 & 3 \\
+\hline
+Proporção de estudantes com domínio & Média & 2 & 3 & 2 \\
+\hline
+Identificação de conceitos com baixa absorção & Fácil & 2 & 3 & 3 \\
+\hline
+Listagem de conceitos por nível de absorção & Fácil & 1 & 2 & 2 \\
+\hline
+Comparativo entre relações conceituais & Difícil & 3 & 2 & 2 \\
+\hline
+Filtragem dos resultados estimados & Fácil & 1 & 3 & 2 \\
+\hline
+Grau de confiança das estimativas no Atlas & Fácil & 1 & 2 & 2 \\
+\hline
+Explicação da estimativa no Atlas & Difícil & 3 & 3 & 2 \\
+\hline
+Confiança e amostra das estimativas no Analytics & Fácil & 1 & 2 & 2 \\
+\hline
+Explicação da estimativa no Analytics & Difícil & 3 & 2 & 3 \\
+\hline
+Indicação visual de materiais para reforço & Média & 2 & 2 & 3 \\
+\hline
+Notificação para criação de novas questões & Fácil & 1 & 3 & 2 \\
+\hline
+Rastreabilidade de missões de reforço & Média & 3 & 3 & 1 \\
+\hline
+Recomendação de materiais de reforço & Fácil & 2 & 2 & 3 \\
+\hline
+Exclusão de dados preditivos de um passaporte & Fácil & 1 & 1 & 2 \\
+\hline
+Controle de acesso às consultas do Analytics & Difícil & 1 & 2 & 2 \\
+\hline
+\end{longtable}
+}
 
 \subsection{Temas, Épicos e Requisitos Funcionais}
 \label{subsec:requisitos-funcionais}
 
-Após a validação na fase de Revisão Técnica, de Negócio e de UX, os
-requisitos foram detalhados pelos próprios desenvolvedores, com base no
-entendimento do produto construído ao longo de toda a \textit{Lean
-Inception}. Esse detalhamento seguiu uma estrutura hierárquica de temas,
-épicos e histórias de usuário: os temas agrupam as grandes áreas de valor do
-produto, os épicos decompõem cada tema em objetivos funcionais coesos e as
-histórias de usuário descrevem cada requisito.
+Concluída a Revisão Técnica, de Negócio e de UX, os requisitos foram detalhados pelos próprios desenvolvedores, com base no entendimento do produto consolidado ao longo de toda a \textit{Lean Inception}. O detalhamento seguiu uma estrutura hierárquica de três níveis: os \textbf{temas}, que agrupam as grandes áreas de valor do produto; os \textbf{épicos}, que decompõem cada tema em objetivos funcionais coesos; e as \textbf{histórias de usuário}, que descrevem cada requisito no formato ``O <usuário> deverá <ação>, para que <benefício>''.
 
-Concluído o detalhamento, Sérgio Freitas validou novamente os requisitos,
-avaliando se contemplavam o que era esperado e se não havia ambiguidade em
-sua própria interpretação. A versão validada pode ser consultada nas
-tabelas de temas (Tabela~\ref{tab:temas}), de épicos
-(Tabela~\ref{tab:epicos}) e de requisitos funcionais
-(Tabela~\ref{tab:requisitos-funcionais}).
+Concluído o detalhamento, Sérgio Freitas validou novamente os requisitos, avaliando se contemplavam o que era esperado e se não havia ambiguidade em sua própria interpretação. A versão validada pode ser consultada na Tabela~\ref{tab:temas}, que apresenta o tema do Cognita, na Tabela~\ref{tab:epicos}, que apresenta os épicos associados a esse tema, e na Tabela~\ref{tab:requisitos-funcionais}, que apresenta os requisitos funcionais, cada um associado ao épico ao qual pertence.
 
 % Futuramente: temas definidos na Lean Inception.
 \begin{table}[H]
@@ -424,7 +488,7 @@ tabelas de temas (Tabela~\ref{tab:temas}), de épicos
 TM01 & Módulo Cognita & Módulo de previsão de conhecimento incorporado ao Ecossistema CEDIS, que estima o domínio conceitual dos estudantes e entrega diagnósticos acionáveis a eles e aos docentes. \\
 \hline
 \end{tabularx}
-\legend{Fonte: Dos autores.}
+\legend{Fonte: Elaborado pelos autores.}
 \end{table}
 
 % Futuramente: épicos definidos na Lean Inception.
@@ -445,7 +509,7 @@ TM01 & Módulo Cognita & Módulo de previsão de conhecimento incorporado ao Eco
 \multicolumn{4}{r}{\textit{Continua na próxima página}} \\
 \endfoot
 \hline
-\multicolumn{4}{l}{Fonte: Dos autores.} \\
+\multicolumn{4}{l}{Fonte: Elaborado pelos autores.} \\
 \endlastfoot
 EP01 & TM01 & Gestão do modelo preditivo & O sistema deverá treinar, validar, configurar e monitorar o modelo preditivo de forma contínua, para que as estimativas de domínio sejam geradas a partir de dados consistentes e de um modelo confiável. \\
 \hline
@@ -482,7 +546,7 @@ EP07 & TM01 & Privacidade e controle de acesso & O usuário deverá ter os seus 
 \multicolumn{4}{r}{\textit{Continua na próxima página}} \\
 \endfoot
 \hline
-\multicolumn{4}{l}{Fonte: Dos autores.} \\
+\multicolumn{4}{l}{Fonte: Elaborado pelos autores.} \\
 \endlastfoot
 RF01 & EP01 & Treinamento inicial do modelo KT & O sistema deverá treinar inicialmente um modelo de \textit{Knowledge Tracing} com parâmetros estimados por conceito a partir dos dados do ecossistema, para que seja possível estimar o domínio conceitual dos estudantes. \\
 \hline
@@ -540,23 +604,18 @@ RF25 & EP07 & Controle de acesso às consultas do Analytics & O sistema deverá 
 \subsection{Requisitos Não Funcionais}
 \label{subsec:requisitos-nao-funcionais}
 
-Os requisitos não funcionais do Cognita foram organizados segundo o modelo
-URPS+, uma variação do modelo FURPS+ \cite{pressman_engenharia_2021} que
-omite a categoria de funcionalidade, já tratada nos requisitos funcionais.
-O modelo classifica os requisitos de qualidade em quatro categorias:
-usabilidade (\textit{Usability}), confiabilidade (\textit{Reliability}),
-desempenho (\textit{Performance}) e suportabilidade (\textit{Supportability}).
-O símbolo ``+'' complementa essas categorias com as restrições de projeto,
-de implementação, de interface e físicas.
+Os requisitos não funcionais do Cognita foram organizados segundo o modelo URPS+, uma variação do modelo FURPS+ \cite{pressman_engenharia_2021} que omite a categoria de funcionalidade, já tratada nos requisitos funcionais. O modelo classifica os requisitos de qualidade em quatro categorias, complementadas pelo símbolo ``+'', que agrega as restrições impostas ao sistema:
 
-Os requisitos não funcionais foram construídos primeiramente por
-introspecção dos desenvolvedores, com base no entendimento do produto
-adquirido ao longo do projeto. Em seguida, Sérgio Freitas os validou para
-avaliar se contemplavam o módulo. A versão validada pode ser consultada na
-Tabela~\ref{tab:requisitos-nao-funcionais}, que os agrupa por categoria do
-modelo.
+\begin{itemize}
+    \item \textbf{Usabilidade (\textit{Usability}):} requisitos relacionados à facilidade de uso e de aprendizado do módulo pelos usuários;
+    \item \textbf{Confiabilidade (\textit{Reliability}):} requisitos relacionados à disponibilidade, à tolerância a falhas e à precisão dos resultados produzidos;
+    \item \textbf{Desempenho (\textit{Performance}):} requisitos relacionados ao tempo de resposta, à capacidade de processamento e ao uso de recursos;
+    \item \textbf{Suportabilidade (\textit{Supportability}):} requisitos relacionados à manutenção, à testabilidade e à configuração do módulo;
+    \item \textbf{Restrições de projeto, de implementação, de interface e físicas (+):} limitações impostas, respectivamente, às decisões de projeto, às tecnologias e aos padrões de implementação, à integração com outros sistemas e ao ambiente físico de execução.
+\end{itemize}
 
-% Futuramente: requisitos não funcionais levantados na Lean Inception.
+Os requisitos não funcionais foram construídos primeiramente por introspecção dos desenvolvedores, com base no entendimento do produto adquirido ao longo do projeto. Em seguida, Sérgio Freitas os validou, avaliando se contemplavam o módulo. Para que fossem verificáveis, cada requisito foi definido com uma métrica objetiva. Como o Cognita é um módulo de software executado na infraestrutura do próprio ecossistema, não foram identificadas restrições físicas nem de interface. A versão validada pode ser consultada na Tabela~\ref{tab:requisitos-nao-funcionais}, que os agrupa por categoria do modelo.
+
 {\small
 \begin{longtable}{>{\raggedright\arraybackslash}p{2.0cm}>{\raggedright\arraybackslash}p{11.8cm}}
 \caption{Requisitos não funcionais do Cognita}
@@ -574,39 +633,53 @@ modelo.
 \multicolumn{2}{r}{\textit{Continua na próxima página}} \\
 \endfoot
 \hline
-\multicolumn{2}{l}{Fonte: Dos autores.} \\
+\multicolumn{2}{l}{Fonte: Elaborado pelos autores.} \\
 \endlastfoot
 \multicolumn{2}{l}{\textbf{Usabilidade}} \\
 \hline
--- & -- \\
+RNF01 & Um estudante deve conseguir identificar, no Atlas, os conceitos que precisa revisar em até 3 interações (cliques) a partir da tela inicial de um curso. \\
+\hline
+RNF02 & As telas do Cognita devem obter pontuação mínima de 68 pontos na escala \textit{System Usability Scale} (SUS) em teste de usabilidade com estudantes e professores. \\
+\hline
+RNF03 & As telas do Cognita devem ser utilizáveis em dispositivos móveis e computadores, sem rolagem horizontal em larguras de tela a partir de 360 pixels. \\
 \hline
 \multicolumn{2}{l}{\textbf{Confiabilidade}} \\
 \hline
--- & -- \\
+RNF04 & O serviço de consulta às estimativas de domínio deve ter disponibilidade mensal mínima de 99\%. \\
+\hline
+RNF05 & A cada treinamento, o modelo preditivo deve atingir acurácia mínima de 70\% e \textit{F1 Score} mínimo de 0,70 sobre o conjunto de validação, e só deve substituir o modelo em uso se não apresentar queda superior a 2 pontos percentuais nessas métricas. \\
+\hline
+RNF06 & Em caso de falha no retreinamento, o último modelo válido deve permanecer em operação, sem interrupção do serviço de consulta às estimativas. \\
+\hline
+RNF07 & 100\% dos registros considerados inconsistentes na validação dos dados devem passar por tratamento antes do treinamento, e apenas aqueles cujo tratamento não tiver êxito devem ser descartados, sendo 100\% dos descartes registrados em \textit{log} com o motivo, para auditoria. \\
 \hline
 \multicolumn{2}{l}{\textbf{Desempenho}} \\
 \hline
--- & -- \\
+RNF08 & A consulta às estimativas de domínio de um estudante deve ser respondida em até 2 segundos para 95\% das requisições, com até 50 usuários simultâneos. \\
+\hline
+RNF09 & As consultas agregadas do Analytics sobre um curso de até 300 estudantes devem ser respondidas em até 5 segundos para 95\% das requisições. \\
+\hline
+RNF10 & Após a ingestão de uma nova interação do estudante, a estimativa de domínio correspondente deve ser atualizada em até 60 segundos. \\
+\hline
+RNF11 & O retreinamento do modelo deve ser concluído em até 6 horas, sem aumentar em mais de 10\% o tempo de resposta das consultas durante sua execução. \\
 \hline
 \multicolumn{2}{l}{\textbf{Suportabilidade}} \\
 \hline
--- & -- \\
+RNF12 & Os componentes de ingestão, validação de dados e inferência devem ter cobertura de testes automatizados de, no mínimo, 80\% das linhas de código. \\
+\hline
+RNF13 & 100\% dos modelos em operação devem ter versão, parâmetros, período dos dados de treino e métricas de predição registrados, de modo a permitir sua rastreabilidade e reprodução. \\
 \hline
 \multicolumn{2}{l}{\textbf{Restrições de Projeto}} \\
 \hline
--- & -- \\
+RNF14 & O Cognita deve processar dados individuais apenas de passaportes com consentimento ativo (\textit{opt-in}) no Learning Passport, e 100\% das estimativas individuais devem estar associadas a identificadores pseudonimizados, em conformidade com a LGPD. \\
+\hline
+RNF15 & Indicadores agregados no Analytics devem ser suprimidos quando o grupo analisado tiver menos de 5 estudantes (\textit{k}-anonimato com $k = 5$). \\
+\hline
+RNF16 & Os dados preditivos associados a um passaporte devem ser excluídos em até 48 horas após a solicitação de exclusão. \\
 \hline
 \multicolumn{2}{l}{\textbf{Restrições de Implementação}} \\
 \hline
--- & -- \\
-\hline
-\multicolumn{2}{l}{\textbf{Restrições de Interface}} \\
-\hline
--- & -- \\
-\hline
-\multicolumn{2}{l}{\textbf{Restrições Físicas}} \\
-\hline
--- & -- \\
+RNF17 & 100\% das requisições entre o Cognita e os demais produtos do ecossistema devem ser autenticadas por OAuth2/OIDC, ter as mensagens assinadas com HMAC-SHA256 e trafegar por HTTPS com TLS 1.2 ou superior. \\
 \hline
 \end{longtable}
 }
@@ -615,18 +688,14 @@ modelo.
 \subsection{MVP e Incrementos}
 \label{subsec:mvp-incrementos}
 
-O MVP foi definido por meio da fase de Ondas (Sequenciador) da
-\textit{Lean Inception}, na qual os requisitos foram organizados em ondas de
-entrega, conforme as Figuras~\ref{fig:ondas-mvp-1} a~\ref{fig:ondas-mvp-3}.
-Os requisitos posicionados antes do marco do MVP compõem a primeira entrega
-do Cognita, e os posicionados após esse marco constituem os incrementos.
+A definição do MVP decorreu da atividade de Ondas (Sequenciador) da \textit{Lean Inception} \cite{caroli_lean_2018}, na qual os requisitos avaliados na etapa anterior são organizados em ondas incrementais de entrega, considerando seus atributos e suas dependências técnicas. Nessa atividade, o marco do MVP delimita a menor entrega capaz de oferecer o valor central do produto: os requisitos posicionados antes desse marco compõem a primeira entrega do Cognita, enquanto os posicionados após ele constituem os incrementos. As Figuras~\ref{fig:ondas-mvp-1} a~\ref{fig:ondas-mvp-3} apresentam o sequenciador resultante.
 
 \begin{figure}[H]
 \caption{Sequenciador do Cognita (ondas 1 a 3)}
 \label{fig:ondas-mvp-1}
 \centering
 \includegraphics[width=\textwidth]{figuras/sequenciador1.png}
-\legend{Fonte: Dos autores.}
+\legend{Fonte: Elaborado pelos autores.}
 \end{figure}
 
 \begin{figure}[H]
@@ -634,7 +703,7 @@ do Cognita, e os posicionados após esse marco constituem os incrementos.
 \label{fig:ondas-mvp-2}
 \centering
 \includegraphics[width=\textwidth]{figuras/sequenciador2.png}
-\legend{Fonte: Dos autores.}
+\legend{Fonte: Elaborado pelos autores.}
 \end{figure}
 
 \begin{figure}[H]
@@ -642,103 +711,87 @@ do Cognita, e os posicionados após esse marco constituem os incrementos.
 \label{fig:ondas-mvp-3}
 \centering
 \includegraphics[width=0.9\textwidth]{figuras/sequenciador3.png}
-\legend{Fonte: Dos autores.}
+\legend{Fonte: Elaborado pelos autores.}
 \end{figure}
 
-A distribuição dos requisitos entre as ondas seguiu as seis regras do
-sequenciador \cite{caroli_lean_2018}, apresentadas a seguir. Nelas, o
-esforço, o valor agregado e a experiência do usuário de um requisito
-correspondem à quantidade de símbolos \textit{E}, \$ e $\heartsuit$ de seu
-cartão, de um a três.
+A distribuição dos requisitos entre as ondas deve respeitar as seis regras do sequenciador \cite{caroli_lean_2018}, apresentadas a seguir. Nelas, o esforço, o valor agregado e a experiência do usuário de um requisito correspondem às pontuações de 1 a 3 atribuídas a ele na Revisão Técnica, de Negócio e de UX (Tabela~\ref{tab:atributos-requisitos}):
 
 \begin{enumerate}
     \item \textbf{Limite de requisitos:} uma onda pode conter, no máximo, três requisitos;
-    \item \textbf{Limite de dificuldade:} uma onda não pode conter mais de um requisito de cor vermelha, isto é, de difícil aplicabilidade;
-    \item \textbf{Equilíbrio de aplicabilidade:} uma onda com três requisitos não pode ser composta apenas por requisitos amarelos ou vermelhos, devendo conter ao menos um requisito verde;
-    \item \textbf{Limite de esforço:} a soma do esforço dos requisitos de uma onda não pode ultrapassar cinco \textit{E};
-    \item \textbf{Contribuição mínima de valor:} a soma do valor agregado dos requisitos de uma onda deve ser de, no mínimo, quatro \$, e a soma da contribuição para a experiência do usuário deve ser de, no mínimo, quatro $\heartsuit$, de modo que cada onda entregue valor de negócio e de UX relevantes;
+    \item \textbf{Limite de dificuldade:} uma onda não pode conter mais de um requisito de dificuldade de aplicabilidade difícil (vermelho);
+    \item \textbf{Equilíbrio de aplicabilidade:} uma onda com três requisitos não pode ser composta apenas por requisitos amarelos ou vermelhos, devendo conter ao menos um requisito de dificuldade fácil (verde);
+    \item \textbf{Limite de esforço:} a soma do esforço dos requisitos de uma onda não pode ultrapassar cinco pontos;
+    \item \textbf{Contribuição mínima de valor:} a soma do valor agregado dos requisitos de uma onda deve ser de, no mínimo, quatro pontos, e a soma das pontuações de experiência do usuário também deve ser de, no mínimo, quatro pontos, de modo que cada onda entregue valor de negócio e de UX relevantes;
     \item \textbf{Dependências:} se um requisito depende de outro, o requisito do qual ele depende deve estar em uma onda anterior.
 \end{enumerate}
 
-Para facilitar a leitura do sequenciador, a Tabela~\ref{tab:mvp-incrementos}
-lista os requisitos de cada escopo, pelos seus códigos, com a onda em que
-serão entregues.
+Considerando as regras do sequenciador, os requisitos do MVP foram distribuídos nas nove primeiras ondas da seguinte forma:
 
-{\small
-\begin{longtable}{>{\raggedright\arraybackslash}p{1.6cm}>{\raggedright\arraybackslash}p{10.2cm}>{\centering\arraybackslash}p{1.6cm}}
-\caption{Requisitos do MVP e do incremento do Cognita}
-\label{tab:mvp-incrementos} \\
-\hline
-\textbf{Código} & \textbf{Requisito} & \textbf{Onda} \\
-\hline
-\endfirsthead
-\caption[]{Requisitos do MVP e do incremento do Cognita (continuação)} \\
-\hline
-\textbf{Código} & \textbf{Requisito} & \textbf{Onda} \\
-\hline
-\endhead
-\hline
-\multicolumn{3}{r}{\textit{Continua na próxima página}} \\
-\endfoot
-\hline
-\multicolumn{3}{l}{Fonte: Dos autores.} \\
-\endlastfoot
-\multicolumn{3}{l}{\textbf{MVP}} \\
-\hline
-RF01 & Treinamento inicial do modelo KT & 1 \\
-\hline
-RF03 & Validação dos dados recebidos & 1 \\
-\hline
-RF06 & Probabilidade de domínio por conceito & 1 \\
-\hline
-RF02 & Retreinamento contínuo do modelo & 2 \\
-\hline
-RF04 & Configuração da política de treino & 2 \\
-\hline
-RF16 & Grau de confiança das estimativas no Atlas & 2 \\
-\hline
-RF12 & Identificação de conceitos com baixa absorção & 3 \\
-\hline
-RF17 & Explicação da estimativa no Atlas & 3 \\
-\hline
-RF08 & Conceitos priorizados para revisão & 4 \\
-\hline
-RF13 & Listagem de conceitos por nível de absorção & 4 \\
-\hline
-RF18 & Confiança e amostra das estimativas no Analytics & 4 \\
-\hline
-RF07 & Atualização das estimativas por interação & 5 \\
-\hline
-RF09 & Histórico das estimativas por conceito & 5 \\
-\hline
-RF05 & Registro de métricas de predição & 6 \\
-\hline
-RF19 & Explicação da estimativa no Analytics & 6 \\
-\hline
-RF11 & Proporção de estudantes com domínio & 7 \\
-\hline
-RF20 & Indicação visual de materiais para reforço & 7 \\
-\hline
-RF24 & Exclusão de dados preditivos de um passaporte & 7 \\
-\hline
-RF10 & Evolução da absorção ao longo do tempo & 8 \\
-\hline
-RF15 & Filtragem dos resultados estimados & 8 \\
-\hline
-RF14 & Comparativo entre relações conceituais & 9 \\
-\hline
-\multicolumn{3}{l}{\textbf{Incremento}} \\
-\hline
-RF23 & Recomendação de materiais de reforço & 9 \\
-\hline
-RF21 & Notificação para criação de novas questões & 10 \\
-\hline
-RF22 & Rastreabilidade de missões de reforço & 10 \\
-\hline
-RF25 & Controle de acesso às consultas do Analytics & 10 \\
-\hline
-\end{longtable}
-}
+\begin{itemize}
+    \item \textbf{Primeira onda}
+    \begin{itemize}
+        \item RF01 -- Treinamento inicial do modelo KT;
+        \item RF03 -- Validação dos dados recebidos;
+        \item RF06 -- Probabilidade de domínio por conceito.
+    \end{itemize}
+    \item \textbf{Segunda onda}
+    \begin{itemize}
+        \item RF02 -- Retreinamento contínuo do modelo;
+        \item RF04 -- Configuração da política de treino;
+        \item RF16 -- Grau de confiança das estimativas no Atlas.
+    \end{itemize}
+    \item \textbf{Terceira onda}
+    \begin{itemize}
+        \item RF12 -- Identificação de conceitos com baixa absorção;
+        \item RF17 -- Explicação da estimativa no Atlas.
+    \end{itemize}
+    \item \textbf{Quarta onda}
+    \begin{itemize}
+        \item RF08 -- Conceitos priorizados para revisão;
+        \item RF13 -- Listagem de conceitos por nível de absorção;
+        \item RF18 -- Confiança e amostra das estimativas no Analytics.
+    \end{itemize}
+    \item \textbf{Quinta onda}
+    \begin{itemize}
+        \item RF07 -- Atualização das estimativas por interação;
+        \item RF09 -- Histórico das estimativas por conceito.
+    \end{itemize}
+    \item \textbf{Sexta onda}
+    \begin{itemize}
+        \item RF05 -- Registro de métricas de predição;
+        \item RF19 -- Explicação da estimativa no Analytics.
+    \end{itemize}
+    \item \textbf{Sétima onda}
+    \begin{itemize}
+        \item RF11 -- Proporção de estudantes com domínio;
+        \item RF20 -- Indicação visual de materiais para reforço;
+        \item RF24 -- Exclusão de dados preditivos de um passaporte.
+    \end{itemize}
+    \item \textbf{Oitava onda}
+    \begin{itemize}
+        \item RF10 -- Evolução da absorção ao longo do tempo;
+        \item RF15 -- Filtragem dos resultados estimados.
+    \end{itemize}
+    \item \textbf{Nona onda}
+    \begin{itemize}
+        \item RF14 -- Comparativo entre relações conceituais.
+    \end{itemize}
+\end{itemize}
+
+Após o marco do MVP, foram posicionados os requisitos classificados como incrementos, os quais não serão entregues no escopo do desenvolvimento deste trabalho:
+
+\begin{itemize}
+    \item \textbf{Nona onda}
+    \begin{itemize}
+        \item RF23 -- Recomendação de materiais de reforço.
+    \end{itemize}
+    \item \textbf{Décima onda}
+    \begin{itemize}
+        \item RF21 -- Notificação para criação de novas questões;
+        \item RF22 -- Rastreabilidade de missões de reforço;
+        \item RF25 -- Controle de acesso às consultas do Analytics.
+    \end{itemize}
+\end{itemize}
 
 \section{Arquitetura}
 \label{sec:arquitetura}

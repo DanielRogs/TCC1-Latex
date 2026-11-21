@@ -612,7 +612,7 @@ RF02 & EP01 & Retreinamento contínuo do modelo & O sistema deverá retreinar co
 \hline
 RF03 & EP01 & Validação dos dados recebidos & O sistema deverá validar os dados recebidos, tratando os dados inconsistentes, para que o treinamento e as estimativas não sejam prejudicados por informações incorretas. \\
 \hline
-RF04 & EP01 & Configuração da política de treino & O administrador deverá configurar a política de treino do modelo preditivo no Deck Manager, para que defina quando os treinamentos serão executados. \\
+RF04 & EP01 & Configuração da política de treino & O professor deverá definir, no Deck Manager, quais de seus decks serão considerados no treinamento do modelo preditivo, para que materiais em construção ou com mapeamento provisório não afetem as estimativas. \\
 \hline
 RF05 & EP01 & Registro de métricas de predição & O sistema deverá registrar as métricas de predição (AUC, acurácia e RMSE) a cada novo treinamento, para que seja possível monitorar e comparar a qualidade do modelo ao longo do tempo. \\
 \hline
@@ -952,18 +952,117 @@ utilizados e a finalidade de cada uma.
 \section{Prototipação das Telas}
 \label{sec:prototipacao}
 
-A prototipação tem por objetivo validar, antes da implementação, os fluxos
-de interação do aluno e do docente com o diagnóstico de domínio. A
-Figura~\ref{fig:prototipo-telas} reúne os protótipos simples das telas do
-Cognita, orientados aos requisitos funcionais levantados.
+Com os requisitos definidos e priorizados, foram elaborados protótipos de alta fidelidade das telas do Cognita, com o objetivo de validar, antes da implementação, como as estimativas de domínio serão apresentadas ao estudante e ao professor. Como o Cognita é um módulo integrado ao ecossistema, e não um novo software, os protótipos não descrevem uma aplicação própria: eles mostram como as funcionalidades do módulo aparecem dentro das aplicações já existentes do CEDIS, que são o Atlas, o CEDIS Slides, o Learning Analytics, o Concept Studio, o Deck Manager e o Learning Passport.
 
-% Futuramente: protótipos (telas do aluno e do docente), indicando os RF atendidos por cada tela.
+Cada tela foi desenhada a partir de um conjunto de requisitos funcionais do MVP, indicados na legenda de cada figura, de modo que todos os requisitos do MVP estão representados em pelo menos uma tela. Os requisitos dos incrementos (RF14, RF21, RF22, RF23 e RF25) não foram prototipados, pois não serão entregues no desenvolvimento. Para manter a coerência entre as telas, todos os protótipos utilizam um mesmo cenário fictício: a disciplina de Compiladores, ministrada por uma professora, e um estudante identificado apenas pelo pseudônimo do seu passaporte.
+
+\subsection{Telas do Estudante}
+\label{subsec:prototipo-estudante}
+
+A principal tela do estudante é a página \textit{Seu domínio}, no Atlas, apresentada na Figura~\ref{fig:prototipo-atlas-dominio}. Nela, o estudante escolhe um curso e visualiza a probabilidade de domínio de cada conceito (RF06), agrupada em quatro situações: dominado (probabilidade igual ou superior a 80\%), em progresso, a revisar e sem evidências. A seção \textit{Revise primeiro} lista os conceitos ainda não dominados em ordem de prioridade de revisão (RF08), considerando tanto o menor domínio quanto os conceitos que servem de base para os próximos destinos da rota. Cada estimativa é acompanhada do seu grau de confiança e da quantidade de evidências que a sustentam (RF16), e o indicador de atualização informa que a página reflete a interação mais recente do estudante (RF07). O texto da tela reforça que as estimativas são orientações e não bloqueiam a rota nem valem nota.
+
 \begin{figure}[H]
-\caption{Protótipo das telas do Cognita}
-\label{fig:prototipo-telas}
+\caption{Protótipo da página \textit{Seu domínio} no Atlas (RF06, RF07, RF08 e RF16)}
+\label{fig:prototipo-atlas-dominio}
 \centering
-\espacofigura[10cm]{Futuramente serão inseridos os protótipos das telas}
-\legend{Fonte: Dos autores.}
+\includegraphics[width=\textwidth,height=0.72\textheight,keepaspectratio]{figuras/prototipo/atlas-seu-dominio-rf06-rf07-rf08-rf16.png}
+\legend{Fonte: Elaborado pelos autores.}
+\end{figure}
+
+Ao selecionar a opção \textit{Entender estimativa}, o estudante acessa o detalhe do conceito, apresentado na Figura~\ref{fig:prototipo-atlas-detalhe}. A tela mostra a probabilidade de domínio atual e a última variação causada por uma resposta (RF07), além de um quadro que explica o quanto confiar na estimativa e qual é a sua faixa provável (RF16). O bloco \textit{Por que 38\%?} descreve, em linguagem acessível, os motivos que levaram à estimativa, como a quantidade de acertos e erros, o peso das respostas mais recentes e a origem das atividades (RF17). Por fim, o gráfico \textit{Seu histórico neste conceito} exibe a evolução da estimativa ao longo do tempo, com cada ponto correspondendo a uma resposta do estudante (RF09).
+
+\begin{figure}[H]
+\caption{Protótipo do detalhe de um conceito no Atlas (RF07, RF09, RF16 e RF17)}
+\label{fig:prototipo-atlas-detalhe}
+\centering
+\includegraphics[width=\textwidth,height=0.72\textheight,keepaspectratio]{figuras/prototipo/atlas-detalhe-conceito-rf07-rf09-rf16-rf17.png}
+\legend{Fonte: Elaborado pelos autores.}
+\end{figure}
+
+A atualização das estimativas também é percebida fora do Atlas. A Figura~\ref{fig:prototipo-slides} mostra uma questão de prática no CEDIS Slides: após o envio da resposta, um quadro informa como o domínio dos conceitos ligados à questão foi alterado (RF07) e oferece um atalho para a página \textit{Seu domínio}. O quadro só é exibido quando o Learning Passport do estudante está ativo e com o Cognita autorizado.
+
+\begin{figure}[H]
+\caption{Protótipo da atualização da estimativa após uma prática no CEDIS Slides (RF07)}
+\label{fig:prototipo-slides}
+\centering
+\includegraphics[width=0.85\textwidth,height=0.72\textheight,keepaspectratio]{figuras/prototipo/slides-pratica-enviada-rf07.png}
+\legend{Fonte: Elaborado pelos autores.}
+\end{figure}
+
+\subsection{Telas do Professor}
+\label{subsec:prototipo-professor}
+
+No Learning Analytics, o Cognita é apresentado na aba \textit{Domínio da turma por conceito}, ilustrada na Figura~\ref{fig:prototipo-analytics-turma}. A tela exibe a proporção estimada de estudantes que dominam cada conceito do curso (RF11), com os conceitos ordenados do menor ao maior nível de absorção (RF13) e sinalizados quando a absorção é baixa (RF12). Os filtros por curso, turma, período e conceito permitem concentrar a análise nos grupos de interesse (RF15), e cada linha apresenta o intervalo provável, a quantidade de estudantes envolvidos e o grau de confiança da estimativa (RF18). Conceitos com menos de cinco estudantes têm o indicador suprimido, conforme o RNF15. Na parte inferior, o quadro \textit{Qualidade do modelo} resume as métricas AUC, acurácia e RMSE do modelo em uso (RF05), comparando-as com os limites definidos no RNF05.
+
+\begin{figure}[H]
+\caption{Protótipo do domínio da turma por conceito no Learning Analytics (RF05, RF11, RF12, RF13, RF15 e RF18)}
+\label{fig:prototipo-analytics-turma}
+\centering
+\includegraphics[width=\textwidth,height=0.72\textheight,keepaspectratio]{figuras/prototipo/analytics-dominio-turma-rf05-rf11-rf12-rf13-rf15-rf18.png}
+\legend{Fonte: Elaborado pelos autores.}
+\end{figure}
+
+Ao selecionar \textit{Ver por quê} em um conceito, o professor acessa a tela da Figura~\ref{fig:prototipo-analytics-conceito}. Nela, o gráfico \textit{Evolução da absorção} mostra a proporção da turma com domínio ao longo das semanas (RF10), permitindo comparar o conceito com seus pré-requisitos e dependentes e marcar eventos pedagógicos, como uma aula de revisão. O quadro superior informa a amostra, as respostas utilizadas, o intervalo provável e a confiança da estimativa (RF18), enquanto o bloco \textit{Por que o Cognita estimou 27\%?} explica os motivos da estimativa, como as questões com mais erros, a baixa absorção do pré-requisito e os parâmetros de chute e deslize estimados pelo BKT (RF19).
+
+\begin{figure}[H]
+\caption{Protótipo do detalhe de um conceito no Learning Analytics (RF10, RF18 e RF19)}
+\label{fig:prototipo-analytics-conceito}
+\centering
+\includegraphics[width=\textwidth,height=0.72\textheight,keepaspectratio]{figuras/prototipo/analytics-conceito-rf10-rf18-rf19.png}
+\legend{Fonte: Elaborado pelos autores.}
+\end{figure}
+
+A tela \textit{Modelo e qualidade dos dados}, apresentada na Figura~\ref{fig:prototipo-analytics-modelo}, reúne as informações sobre o funcionamento do modelo preditivo. O primeiro quadro identifica o modelo BKT em operação, o período dos dados de treino, os parâmetros e a divisão de teste, atendendo à rastreabilidade exigida pelo RNF13. Os gráficos e o \textit{Histórico de treinos} mostram as métricas registradas a cada treinamento (RF05) e o resultado de cada retreinamento (RF02), indicando quais versões foram promovidas e quais foram mantidas fora de operação por não atingirem os critérios definidos (RF01). Por fim, o quadro \textit{Validação dos dados recebidos} detalha quantos registros foram recebidos, tratados e descartados em cada lote, com os respectivos motivos (RF03).
+
+\begin{figure}[H]
+\caption{Protótipo do modelo e da qualidade dos dados no Learning Analytics (RF01, RF02, RF03, RF05 e RNF13)}
+\label{fig:prototipo-analytics-modelo}
+\centering
+\includegraphics[width=\textwidth,height=0.72\textheight,keepaspectratio]{figuras/prototipo/analytics-qualidade-modelo-rf01-rf02-rf03-rf05-rnf13.png}
+\legend{Fonte: Elaborado pelos autores.}
+\end{figure}
+
+No Concept Studio, a absorção da turma é sobreposta ao mapa conceitual do curso, como mostra a Figura~\ref{fig:prototipo-concept-studio}. Ao ativar a opção \textit{Mostrar absorção da turma}, cada conceito do mapa passa a exibir a proporção estimada de estudantes com domínio, e os conceitos com baixa absorção recebem destaque visual e são listados no painel lateral (RF12). Dessa forma, o professor identifica os conceitos críticos diretamente nas relações de pré-requisito e hierarquia que ele mesmo mapeou.
+
+\begin{figure}[H]
+\caption{Protótipo do mapa conceitual com absorção no Concept Studio (RF12)}
+\label{fig:prototipo-concept-studio}
+\centering
+\includegraphics[width=\textwidth,height=0.72\textheight,keepaspectratio]{figuras/prototipo/concept-studio-mapa-absorcao-rf12.png}
+\legend{Fonte: Elaborado pelos autores.}
+\end{figure}
+
+No Deck Manager, o Cognita ocupa duas abas. A aba \textit{Reforço por conceito}, apresentada na Figura~\ref{fig:prototipo-deck-reforco}, lista os conceitos com menor absorção e, para o conceito selecionado, indica visualmente os decks e atividades que precisam de reforço, a partir da taxa de erro das atividades ligadas ao conceito (RF20).
+
+\begin{figure}[H]
+\caption{Protótipo dos materiais que precisam de reforço no Deck Manager (RF20)}
+\label{fig:prototipo-deck-reforco}
+\centering
+\includegraphics[width=\textwidth,height=0.72\textheight,keepaspectratio]{figuras/prototipo/deck-manager-materiais-reforco-rf20.png}
+\legend{Fonte: Elaborado pelos autores.}
+\end{figure}
+
+Já a aba \textit{Uso no Cognita}, apresentada na Figura~\ref{fig:prototipo-deck-treino}, permite que o professor defina quais decks da sua pasta serão considerados no treinamento do modelo (RF04). Decks sem atividades vinculadas a conceitos ficam indisponíveis, e decks com mapeamento parcial podem ser retirados do treino até que o mapeamento seja concluído, evitando que materiais em construção afetem as estimativas.
+
+\begin{figure}[H]
+\caption{Protótipo da seleção dos decks considerados no treinamento no Deck Manager (RF04)}
+\label{fig:prototipo-deck-treino}
+\centering
+\includegraphics[width=\textwidth,height=0.72\textheight,keepaspectratio]{figuras/prototipo/deck-manager-uso-decks-rf04.png}
+\legend{Fonte: Elaborado pelos autores.}
+\end{figure}
+
+\subsection{Privacidade dos Dados}
+\label{subsec:prototipo-privacidade}
+
+Por fim, a Figura~\ref{fig:prototipo-passport} apresenta a página \textit{Meus dados} do Learning Passport, onde o usuário controla o uso dos seus dados pelo Cognita. A chave \textit{Usar minhas respostas para estimar meu domínio} representa o consentimento ativo exigido pelo RNF14, e a opção \textit{Solicitar exclusão} permite apagar as estimativas de domínio e o histórico associados ao passaporte (RF24), dentro do prazo definido pelo RNF16, sem afetar os demais dados do estudante no ecossistema.
+
+\begin{figure}[H]
+\caption{Protótipo da página \textit{Meus dados} no Learning Passport (RF24, RNF14 e RNF16)}
+\label{fig:prototipo-passport}
+\centering
+\includegraphics[width=0.85\textwidth,height=0.72\textheight,keepaspectratio]{figuras/prototipo/passport-meus-dados-rf24-rnf14-rnf16.png}
+\legend{Fonte: Elaborado pelos autores.}
 \end{figure}
 
 

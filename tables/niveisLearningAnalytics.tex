@@ -1,0 +1,19 @@
+\begin{table}[H]
+\caption{Níveis de maturidade em \textit{Learning Analytics} e sua correspondência no Ecossistema CEDIS e no módulo Cognita}
+\label{tab:niveis-learning-analytics}
+\centering
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{2.7cm}>{\raggedright\arraybackslash}p{2.8cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}
+\hline
+\textbf{Nível Analítico} & \textbf{Questão Central} & \textbf{Técnicas e Artefatos Típicos} & \textbf{Materialização no CEDIS / Cognita} \\
+\hline
+\textbf{Descritivo} \cite{siemens_learning_2012, lang_handbook_2017} & O que aconteceu? & Contagens de eventos, funis de navegação, visitantes por dia (\textit{visitor-days}) e distribuição bruta de respostas. & Telemetria operacional já existente no Deck Manager (\textit{DeckEvent}) e resumos de participação do CEDIS Slides. \\
+\hline
+\textbf{Diagnóstico} \cite{gaevic_learning_2015, cao_multi-granularity_2025} & Onde e por que ocorreu a lacuna de aprendizagem? & Reconciliação entre respostas e estrutura semântica do domínio (mapas conceituais e Matriz Q); isolamento de conceitos deficitários. & Cruzamento de respostas (\textit{activity\_responses}) com a Matriz Q do Atlas/Concept Studio para identificar conceitos com baixa absorção e explicar seus motivos. \\
+\hline
+\textbf{Preditivo} \cite{corbett_knowledge_1994, pelanek_bayesian_2017} & Qual é o estado latente de domínio e o desempenho futuro esperado? & Modelos probabilísticos e sequenciais de \textit{Knowledge Tracing} (como o BKT) sobre trajetórias cronológicas $X = \{(q_1, a_1), \ldots, (q_t, a_t)\}$. & Estimação contínua da probabilidade de domínio $P(L_t)$ por estudante e conceito, atualizada recursivamente a cada nova interação no Cognita. \\
+\hline
+\textbf{Prescritivo / Orientador} \cite{clow_learning_2012, liao_naviedu_2026} & Que ação pedagógica ou de estudo priorizar a seguir? & Sistemas de apoio à decisão, priorização de estudo para autorregulação discente e sinalização de materiais críticos ao docente. & Lista priorizada de conceitos a revisar no Atlas (visão discente), ranking de baixa absorção no Analytics e indicação visual de materiais para reforço no Deck Manager. \\
+\hline
+\end{tabularx}
+\legend{Fonte: Elaborado pelos autores com base em \citeonline{clow_learning_2012}, \citeonline{lang_handbook_2017} e \citeonline{liao_naviedu_2026}.}
+\end{table}

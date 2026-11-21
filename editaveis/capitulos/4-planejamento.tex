@@ -851,102 +851,272 @@ Após o marco do MVP, foram posicionados os requisitos classificados como increm
 \section{Arquitetura}
 \label{sec:arquitetura}
 
-A concepção arquitetural do módulo parte do estado atual do Ecossistema CEDIS para estabelecer a forma como o Cognita se integrará aos produtos e à infraestrutura de dados existentes.
+A concepção arquitetural do módulo Cognita parte do levantamento técnico do estado atual do Ecossistema CEDIS (introduzido no Capítulo~3, Seção~\ref{sec:dados-coletados}) para estabelecer como o novo serviço preditivo se acoplará aos componentes, bancos de dados e contratos de comunicação já em operação. Em consonância com os princípios de sistemas distribuídos intensivos em dados \cite{kleppmann_designing_2017, richards_fundamentals_2020}, a análise arquitetural a seguir explicita a topologia física e lógica vigente, o isolamento de persistência entre domínios e as interfaces de programação de aplicações (APIs) que fornecem os insumos necessários ao rastreamento de conhecimento (\textit{Knowledge Tracing}).
 
 \subsection{Arquitetura Atual do Ecossistema}
 \label{subsec:arquitetura-atual}
 
-A Figura~\ref{fig:arquitetura-atual} representa o estado da arte do
-ecossistema: os produtos e os serviços que o compõem, seus fluxos de dados
-e os pontos em que o Cognita poderá obter informação.
+O levantamento técnico realizado sobre o repositório do CEDIS Deck Manager (\textit{commit} \texttt{3bb454ae885aaeef6c3950c98786acc41eda073f}) evidencia que a infraestrutura do ecossistema superou o desenho histórico restrito a um par monolítico de gerenciador de conteúdo e serviço de respostas, consolidando-se como uma arquitetura distribuída orientada a serviços com domínios de dados estritamente delimitados \cite{richards_fundamentals_2020}. A Figura~\ref{fig:arquitetura-atual} representa o estado da arte dessa arquitetura, detalhando os componentes de borda, os microsserviços de aplicação, as instâncias dedicadas de banco de dados, as dependências de contratos compartilhados e os fluxos de comunicação que percorrem o ecossistema.
 
-% Futuramente: diagrama (ex.: C4 nível 1/2) com Navegador, Deck Manager, CEDIS Slides (slides-api),
-% LA Ingest, Identity Suite (Learning Passport), Atlas / Concept Studio, Learning Analytics e cedis-core.
 \begin{figure}[H]
-\caption{Arquitetura atual do Ecossistema CEDIS}
+\caption{Arquitetura atual de serviços e dados do Ecossistema CEDIS}
 \label{fig:arquitetura-atual}
 \centering
-\espacofigura[8cm]{Futuramente será inserido o diagrama da arquitetura atual do ecossistema}
-\legend{Fonte: Dos autores.}
+\includegraphics[width=\textwidth]{figuras/arquiteturaAtual.pdf}
+\legend{Fonte: Elaborado pelos autores a partir do levantamento técnico do repositório CEDIS Deck Manager (\textit{commit} \texttt{3bb454a}, 2026).}
 \end{figure}
+
+Sob a ótica de engenharia de software e de dados, a topologia apresentada na Figura~\ref{fig:arquitetura-atual} estrutura-se em quatro camadas e mecanismos arquiteturais principais:
+
+\begin{enumerate}
+    \item \textbf{Camada cliente e roteamento de borda (\textit{Navegador} e \textit{Nginx / gateway}):} O navegador web, durante a exibição de apresentações e atividades interativas em sala de aula ou em sessões de estudo autônomo, atua como produtor primário de eventos de navegação, interações de atividade, submissões de resposta e contexto de sessão. Em conformidade com as diretrizes de segurança do ecossistema, o cliente opera como um ambiente não confiável (\textit{zero secrets in browser}) e comunica-se exclusivamente com o \textit{gateway} reverso (\textit{Nginx}). Este componente desacopla a borda pública da malha interna e direciona o tráfego para três planos distintos: fluxos administrativos e de publicação seguem para o \textit{manager}; requisições públicas de apresentação e submissão de respostas (\texttt{/r}, \texttt{/s} e \texttt{/api/responses}) são encaminhadas ao \textit{cedis-slides-api}; e eventos padronizados de aprendizagem (\texttt{/la/events}) são roteados para o \textit{cedis-la-ingest}.
+
+    \item \textbf{Segregação de persistência transacional e camada de ingestão analítica:} Em vez de compartilhar um banco de dados monolítico único para todas as operações, a arquitetura isola a persistência transacional em instâncias relacionais PostgreSQL dedicadas por domínio operacional e desacopla o serviço de ingestão analítica:
+    \begin{itemize}
+        \item \textit{PostgreSQL manager:} armazena o plano operacional e administrativo do Deck Manager, incluindo cadastro de usuários (\textit{User}), hierarquia de pastas (\textit{Folder}), \textit{decks} (\textit{Deck}), histórico de versões com verificação por \textit{checksum} (\textit{ContentVersion}), telemetria de acesso (\textit{DeckAccess}) e de eventos (\textit{DeckEvent}), avaliações (\textit{DeckRating}), retroalimentação (\textit{Feedback}) e as tabelas de mapeamento e reconciliação de \textit{Learning Analytics} (\textit{QuestionActivityMap} e \textit{LearningAnalyticsIngestLink});
+        \item \textit{PostgreSQL respostas:} mantido pelo serviço \textit{cedis-slides-api}, isola os registros transacionais de respostas submetidas pelos estudantes às atividades interativas (\textit{activity\_responses}), preservando o código de sessão (\texttt{session\_code}), o identificador pseudonimizado do participante (\texttt{anon\_participant\_hash}) e a carga útil da resposta (\texttt{response\_json});
+        \item \textit{Camada de ingestão (\textit{cedis-la-ingest}) sem banco próprio dedicado:} o componente \textit{cedis-la-ingest} atua como serviço intermediário de recebimento, padronização de eventos de aprendizagem (no estilo xAPI) e orquestração de vínculos, articulando a correlação entre respostas (\textit{cedis-slides-api}), contexto de identidade (\textit{cedis-identity-suite}) e os registros de reconciliação consolidados no \textit{manager} (\textit{LearningAnalyticsIngestLink}).
+    \end{itemize}
+
+    \item \textbf{Serviços de domínio semântico, identidade consentida e contratos compartilhados:} A malha central é complementada por três elementos que sustentam a semântica educacional e a governança de privacidade:
+    \begin{itemize}
+        \item \textit{cedis-atlas (Atlas do Conhecimento e Concept Studio):} gerencia o banco de questões, os mapas conceituais e a estruturação pedagógica do conteúdo, conectando-se logicamente às atividades dos \textit{decks} por meio da entidade \textit{QuestionActivityMap};
+        \item \textit{cedis-identity-suite (CEDIS Learning Passport):} opera como serviço segregado para resolução opcional (\textit{opt-in}) de identidade e contexto (pessoa, grupo e turma/contexto), garantindo que a telemetria operacional padrão permaneça efêmera e que apenas usuários com consentimento ativo tenham suas interações vinculadas longitudinalmente;
+        \item \textit{cedis-core:} pacote de código mantido em repositório externo que centraliza modelos e contratos de conteúdo compartilhados entre o \textit{manager} e o \textit{cedis-atlas}, constituindo uma fronteira de dependência cujo versionamento (\textit{commit}/versão) deve ser fixado para assegurar reprodutibilidade analítica.
+    \end{itemize}
+
+    \item \textbf{Sincronismo na borda, encaminhamento assíncrono e regimes distintos de retenção:} As interações originadas no navegador são processadas de maneira predominantemente síncrona na borda para garantir baixa latência durante a dinâmica em sala de aula. Em contrapartida, o encaminhamento interno de eventos (\textit{forward} de eventos) do \textit{manager} para o \textit{cedis-la-ingest}, a resolução de vínculos de resposta e as rotinas automatizadas de expurgo introduzem estágios adicionais de processamento. Na arquitetura vigente, o \textit{manager} executa rotinas próprias de retenção sobre a tabela \textit{DeckEvent}, o que impõe uma distinção arquitetural estrita entre três ciclos de vida não equivalentes: a retenção de telemetria operacional bruta (\textit{DeckEvent} e \textit{DeckAccess}), a retenção de registros educacionais de resposta (\textit{activity\_responses}) e a retenção analítica consolidada na camada de \textit{Learning Analytics}.
+\end{enumerate}
+
+Uma consequência estrutural direta desse isolamento de bancos de dados entre microsserviços é a distinção entre chaves estrangeiras físicas e referências lógicas entre domínios (\textit{cross-service references}) \cite{kleppmann_designing_2017}. A Figura~\ref{fig:modelo-logico-cross-service} explicita o modelo lógico reconstruído a partir do código-fonte do \textit{manager} (\texttt{manager/app/models.py}), diferenciando as restrições de integridade física garantidas pelo PostgreSQL local (setas contínuas e tracejadas internas) das ligações lógicas que atravessam fronteiras de serviço (setas tracejadas douradas à direita).
+
+\begin{figure}[H]
+\caption{Modelo lógico de entidades do \textit{manager} e referências lógicas \textit{cross-service} com os demais serviços do ecossistema}
+\label{fig:modelo-logico-cross-service}
+\centering
+\includegraphics[width=\textwidth]{figuras/modeloLogicoCrossService.pdf}
+\legend{Fonte: Elaborado pelos autores a partir do levantamento técnico do repositório CEDIS Deck Manager (\textit{commit} \texttt{3bb454a}, 2026).}
+\end{figure}
+
+Conforme ilustrado na Figura~\ref{fig:modelo-logico-cross-service}, enquanto entidades como \textit{DeckAccess}, \textit{DeckEvent}, \textit{DeckRating}, \textit{Feedback}, \textit{ContentVersion} e \textit{ContentTag} possuem integridade referencial física com \textit{Deck} e \textit{User} dentro do mesmo banco relacional, os atributos que viabilizam o rastreamento de conhecimento multi-fonte — especificamente \texttt{question\_id} em \textit{QuestionActivityMap}, e \texttt{response\_id}, \texttt{identity\_person\_id}, \texttt{identity\_group\_id} e \texttt{identity\_context\_id} em \textit{LearningAnalyticsIngestLink} — referenciam registros mantidos nos bancos do \textit{cedis-slides-api}, do \textit{cedis-atlas} e do \textit{cedis-identity-suite}. Por conseguinte, a arquitetura atual define quatro pontos exatos nos quais o módulo Cognita deverá ancorar sua extração de informações:
+\begin{itemize}
+    \item \textbf{Ponto de extração semântica (Matriz Q):} a junção lógica entre \textit{QuestionActivityMap} (no \textit{manager}) e o banco de questões e conceitos do \textit{cedis-atlas} / Concept Studio, que permite mapear cada atividade ou questão $q_i$ aos conceitos de conhecimento (\textit{Knowledge Concepts} -- KC) avaliados;
+    \item \textbf{Ponto de extração de desempenho observado ($a_i$):} os registros de \textit{activity\_\allowbreak responses} no \textit{cedis-slides-api} (bem como respostas a questionários no \textit{cedis-atlas}), cujo campo \texttt{response\_json} contém o resultado observável da tentativa do estudante;
+    \item \textbf{Ponto de reconciliação e ordenação temporal:} a camada \textit{cedis-la-ingest} articulada à tabela \textit{LearningAnalyticsIngestLink}, que reconcilia o identificador único do evento de ingestão (\texttt{ingest\_event\_id}) com a resposta persistida (\texttt{response\_id}) e fornece a marcação cronológica (\texttt{occurred\_at} e \texttt{created\_at}) indispensável para ordenar a sequência histórica $X = \{(q_1, a_1), \ldots, (q_t, a_t)\}$ exigida pelo BKT;
+    \item \textbf{Ponto de resolução longitudinal consentida:} o vínculo com o \textit{cedis-identity-suite} (Learning Passport) via \texttt{identity\_person\_id}, que supera a limitação de rotação diária do identificador efêmero de telemetria (\texttt{anon\_visitor\_hash}) única e exclusivamente para os estudantes com consentimento ativo (\textit{opt-in}), preservando a conformidade com a LGPD.
+\end{itemize}
+
 
 \subsection{APIs do Ecossistema}
 \label{subsec:apis-ecossistema}
 
-A Tabela~\ref{tab:apis-ecossistema} lista as APIs e os serviços do
-ecossistema relevantes para o Cognita, com a responsabilidade de cada um e
-os dados que podem ser consumidos. A integração utiliza os protocolos de
-autenticação e assinatura já adotados no ecossistema (OAuth2, OIDC e HMAC).
+Na ausência de chaves estrangeiras físicas entre os bancos de dados isolados de cada serviço, a coesão operacional e analítica do Ecossistema CEDIS apoia-se integralmente em suas Interfaces de Programação de Aplicações (APIs) e nos contratos de dados que regem a comunicação intercomponencial. Todas as integrações entre os serviços adotam os protocolos padronizados de segurança da plataforma — autenticação e autorização federadas via OAuth2 e \textit{OpenID Connect} (OIDC, indexado pelo atributo \texttt{oidc\_sub} na entidade \textit{User}), autorização por \textit{tokens} entre serviços e assinatura criptográfica de mensagens via HMAC-SHA256.
 
-% Futuramente: APIs e serviços relevantes e seus endpoints/contratos.
-\begin{table}[H]
-\caption{APIs e serviços do ecossistema relevantes para o Cognita}
-\label{tab:apis-ecossistema}
+A arquitetura de APIs atual estabelece uma separação rigorosa entre \textbf{endpoints públicos de borda} (voltados à captura de eventos e à submissão de respostas pelos clientes web) e \textbf{endpoints internos ou administrativos} (voltados à aplicação de políticas de sessão, reconciliação entre serviços, consulta de agregados e exportação de dados). A Figura~\ref{fig:pipeline-coleta-apis} sintetiza o \textit{pipeline} canônico de dez estágios pelo qual as interações transitam através das APIs existentes do ecossistema, desde a captura no navegador até a disponibilização para consumo analítico e para o módulo Cognita.
+
+\begin{figure}[H]
+\caption{\textit{Pipeline} de coleta, validação, anonimização e reconciliação de dados através das APIs do ecossistema}
+\label{fig:pipeline-coleta-apis}
 \centering
-\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{2.8cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{2.4cm}}
+\includegraphics[width=\textwidth]{figuras/pipelineColetaAPIs.pdf}
+\legend{Fonte: Elaborado pelos autores a partir do levantamento técnico do repositório CEDIS Deck Manager (\textit{commit} \texttt{3bb454a}, 2026).}
+\end{figure}
+
+O fluxo retratado na Figura~\ref{fig:pipeline-coleta-apis} materializa-se, na implementação atual do ecossistema, por meio de três trilhas principais de comunicação via API:
+
+\begin{enumerate}
+    \item \textbf{Fluxo de API de telemetria e gestão operacional (\textit{Deck Manager}):} Quando o usuário interage com um \textit{deck} (estágios 1 e 2), a camada de captura envia o evento às rotas do \textit{manager}. O módulo \texttt{manager/app/analytics.py} executa a validação contratual estrita contra a taxonomia \texttt{VALID\_EVENTS} (\textit{deck\_open}, \textit{activity\_impression}, \textit{activity\_started}, \textit{activity\_submitted} e \textit{summary\_view}), verifica a diretiva \textit{Do Not Track} (DNT) e aplica filtragem de tráfego automatizado (\textit{bots}) (estágio 3). Em seguida, realiza a minimização em memória — truncando endereços IPv4 para prefixos \texttt{/24} e IPv6 para \texttt{/48}, classificando o agente de usuário em \texttt{device\_class} e a origem em \texttt{referrer\_class} — e deriva o pseudônimo rotativo diário \texttt{anon\_visitor\_hash} via HMAC-SHA256 (estágio 4). Após a persistência em \textit{DeckEvent} (estágio 6), o \textit{manager} realiza o encaminhamento (\textit{forward}) do evento via chamada interna de API para o serviço \textit{cedis-la-ingest} (estágio 7).
+
+    \item \textbf{Fluxo de API de submissão e agregação de respostas (\textit{cedis-slides-api}):} No decorrer de uma atividade interativa no CEDIS Slides (rotas públicas \texttt{/r} e \texttt{/s}), a submissão de uma resposta atravessa o controle de política de acesso e sessão (\textit{session gate}) e a validação do formato da resposta (questões fechadas, escalas Likert ou texto aberto). A requisição é transmitida via \texttt{POST /api/responses} (estágio 5), gerando um registro em \textit{activity\_responses} com identificador único \texttt{response\_id}, código de sessão (\texttt{session\_code}), identificador do participante (\texttt{anon\_participant\_hash} ou modo identificado conforme política da sessão) e o objeto \texttt{response\_json} (estágio 6). Para consumo docente e administrativo, o \textit{cedis-slides-api} expõe endpoints internos de agregação e exportação consumidos pelo \textit{manager} (estágios 9 e 10), protegidos por controle de acesso e regras de supressão por \textit{k}-anonimato.
+
+    \item \textbf{Fluxo de API de ingestão e reconciliação de \textit{Learning Analytics} (\textit{cedis-la-ingest} e \textit{cedis-identity-suite}):} Os eventos de aprendizagem padronizados (estilo xAPI) são recebidos no endpoint de ingestão \texttt{/v1/learning-events} (exposto na borda pelo \textit{gateway} sob a rota \texttt{/la/events}), mediante validação de esquema e autorização por \textit{token} (estágio 5). Ao processar o evento com seu identificador único \texttt{ingest\_event\_id}, o serviço executa duas integrações \textit{cross-service} (estágio 7): (i) a linkagem lógica com a resposta correspondente no \textit{cedis-slides-api} através do \texttt{response\_id}; e (ii) quando o modo de identidade consentida está habilitado, a resolução opcional de pessoa (\texttt{identity\_person\_id}), grupo (\texttt{identity\_group\_id}) e contexto (\texttt{identity\_context\_id}) junto às APIs do \textit{cedis-identity-suite} (Learning Passport). O vínculo consolidado é persistido na entidade \textit{LearningAnalyticsIngestLink} do \textit{manager} (estágios 6 e 7) e combinado ao mapeamento questão--conceito de \textit{QuestionActivityMap} (estágio 8) para viabilizar análises semânticas (estágios 9 e 10).
+\end{enumerate}
+
+A Tabela~\ref{tab:apis-ecossistema} sistematiza as APIs, os serviços e o pacote de contratos atualmente existentes no Ecossistema CEDIS que são diretamente relevantes para o módulo Cognita, especificando a responsabilidade arquitetural de cada componente, os dados fornecidos ou consumidos pelo \textit{pipeline} de \textit{Knowledge Tracing} e os respectivos endpoints e contratos de integração identificados no levantamento técnico.
+
+{\small
+\begin{longtable}{>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{3.4cm}>{\raggedright\arraybackslash}p{4.3cm}>{\raggedright\arraybackslash}p{3.5cm}}
+\caption{APIs e serviços do ecossistema relevantes para o Cognita}
+\label{tab:apis-ecossistema} \\
 \hline
 \textbf{API / Serviço} & \textbf{Responsabilidade} & \textbf{Dados relevantes ao Cognita} & \textbf{Endpoints / contrato} \\
 \hline
--- & -- & -- & -- \\
+\endfirsthead
+\caption[]{APIs e serviços do ecossistema relevantes para o Cognita (continuação)} \\
 \hline
--- & -- & -- & -- \\
+\textbf{API / Serviço} & \textbf{Responsabilidade} & \textbf{Dados relevantes ao Cognita} & \textbf{Endpoints / contrato} \\
 \hline
--- & -- & -- & -- \\
+\endhead
 \hline
-\end{tabularx}
-\legend{Fonte: Elaborado pelos autores a partir do levantamento técnico realizado.}
-\end{table}
+\multicolumn{4}{r}{\textit{Continua na próxima página}} \\
+\endfoot
+\hline
+\multicolumn{4}{l}{Fonte: Elaborado pelos autores a partir do levantamento técnico realizado.} \\
+\endlastfoot
+\textbf{CEDIS Deck Manager} (\textit{manager}) & Plano operacional, administrativo e analítico; gestão de \textit{decks}, versões, permissões docentes, telemetria (\textit{DeckEvent}), vínculo questão--atividade e reconciliação de LA. & Mapeamento atividade--questão (\textit{QuestionActivityMap}: \textit{deck\_id}, \textit{activity\_id}, \textit{question\_id}); elos de reconciliação (\textit{LearningAnalyticsIngestLink}: \textit{ingest\_event\_id}, \textit{response\_id}, \textit{identity\_*}); metadados e versões de \textit{decks} (\textit{slug}, \textit{version}, \textit{settings}) e permissões de usuários (\textit{User}: \textit{oidc\_sub}, \textit{role}). & Rotas administrativas e de publicação via \textit{gateway}; APIs internas de políticas e \textit{analytics}; \textit{forward} interno de eventos validados (\textit{VALID\_EVENTS}). \\
+\hline
+\textbf{CEDIS Slides API} (\textit{cedis-slides-api}) & Plano público de coleta de respostas às atividades interativas em tempo real e fornecimento interno de agregações e exportações. & Registros de respostas (\textit{activity\_responses}): identificador da resposta (\textit{response\_id}), \textit{deck} (\textit{deck\_slug}), atividade (\textit{activity\_id}), sessão (\textit{session\_code}), participante pseudonimizado (\textit{anon\_participant\_hash}), conteúdo e correção da resposta (\textit{response\_json}) e instante de registro (\textit{created\_at}). & Rotas públicas de apresentação e submissão (\texttt{/r}, \texttt{/s}, \texttt{POST /api/responses}); endpoints administrativos internos de consulta agregada, exportação e linkagem por \textit{response\_id}. \\
+\hline
+\textbf{LA Ingest} (\textit{cedis-la-ingest}) & Camada de ingestão de eventos padronizados de \textit{Learning Analytics} (estilo xAPI) e orquestração da linkagem entre eventos, respostas e identidade. & Eventos padronizados de aprendizagem, carimbos de tempo (\textit{occurred\_at}), metadados de duração e interação (\textit{metadata\_json}), e correlação cruzada entre \textit{ingest\_event\_id}, \textit{response\_id} e identificadores de contexto/pessoa. & Rota de borda \texttt{/la/events} (\textit{gateway}) mapeada para \texttt{POST} \texttt{/v1/learning-\allowbreak events} (por \textit{token}); contratos internos de linkagem com \textit{slides-api} e \textit{identity-suite}. \\
+\hline
+\textbf{Identity Suite / Learning Passport} (\textit{cedis-identity-\allowbreak suite}) & Gestão de identidade persistente pseudonimizada, grupos, contexto acadêmico e controle de consentimento (\textit{opt-in}) e governança de dados pelo estudante (LGPD). & Identificador longitudinal consentido de pessoa (\textit{identity\_person\_id}), grupo/turma (\textit{identity\_group\_id}), contexto (\textit{identity\_context\_id}) e estado ativo de consentimento do titular. & Contrato interno de resolução opcional de identidade/contexto acionado pelo \textit{cedis-la-ingest} sob \textit{opt-in}; autenticação federada e gestão de consentimento. \\
+\hline
+\textbf{Atlas do Conhecimento e Concept Studio} (\textit{cedis-atlas}) & Estruturação semântica de mapas conceituais, manutenção do banco de conceitos e questões, e interface discente de exploração e prática. & Grafo de conceitos (\textit{Knowledge Concepts} -- KC), associação entre questões (\textit{question\_id}) e conceitos (matriz Q), histórico de prática e estrutura de navegação conceitual do estudante. & Integração lógica com o \textit{manager} via \textit{question\_\allowbreak activity\_map} e contratos compartilhados de conteúdo via \textit{cedis-core}. \\
+\hline
+\textbf{CEDIS Learning Analytics} & Consolidação transversal de indicadores pedagógicos, \textit{dashboards} de turmas e correlações analíticas para apoio à decisão docente. & Indicadores agregados por curso, turma e atividade, séries temporais de engajamento e distribuição de respostas sob políticas de supressão por \textit{k}-anonimato. & Consumo das APIs internas de agregação e telemetria autenticadas via OAuth2/OIDC com controle de acesso baseado em papel (\textit{role}). \\
+\hline
+\textbf{Pacote Compartilhado} (\textit{cedis-core}) & Biblioteca externa de modelos de domínio e esquemas compartilhados entre os serviços do ecossistema. & Definições estruturais e contratos de validação para entidades de conteúdo, questões e atividades compartilhadas entre o \textit{manager} e o \textit{cedis-atlas}. & Dependência de pacote em repositório externo; fornece esquemas de modelo de domínio versionados por \textit{commit}. \\
+\hline
+\end{longtable}
+}
+
+Por fim, o levantamento técnico das APIs e contratos vigentes evidenciou quatro características e restrições operacionais da infraestrutura atual que condicionam qualquer consumo analítico sobre os dados do ecossistema:
+\begin{enumerate}
+    \item \textbf{Assimetria entre evento de submissão e resposta persistida:} Como o evento de telemetria \textit{activity\_submitted} (enviado ao \textit{manager}/\textit{cedis-la-ingest}) e a submissão da resposta via \texttt{POST /api/responses} (enviada ao \textit{cedis-slides-api}) trafegam por rotas distintas na borda, falhas parciais de rede ou reenvios podem produzir eventos sem resposta correspondente ou respostas sem evento pareado. Por essa razão, a reconciliação analítica entre as duas trilhas depende do vínculo explícito pelo identificador \textit{response\_id} e de mecanismos de idempotência;
+    \item \textbf{Heterogeneidade estrutural em cargas úteis JSON:} Os atributos \textit{response\_\allowbreak json} (em \textit{activity\_responses}) e \textit{metadata\_json} (em \textit{DeckEvent}) acomodam múltiplos formatos de atividade (múltipla escolha/fechadas, escalas Likert e texto aberto) sem um esquema único rígido no banco relacional. Uma vez que o modelo BKT (Equações~\ref{eq:bkt-correta} a~\ref{eq:bkt-predicao}) opera sobre observações binárias de desempenho $a_t \in \{0, 1\}$, o consumo desses registros requer filtragem e validação de esquema por tipo de atividade para separar itens avaliativos objetivos de interações puramente opinativas ou abertas;
+    \item \textbf{Integridade de referências lógicas \textit{cross-service}:} Dado que os atributos \textit{question\_id}, \textit{response\_id} e \textit{identity\_person\_id} constituem referências lógicas entre serviços independentes sem chaves estrangeiras físicas compartilhadas, o consumo integrado das APIs está sujeito à eventual presença de referências órfãs ou atividades ainda não vinculadas a questões do Atlas do Conhecimento;
+    \item \textbf{Fronteira de versionamento com o pacote \textit{cedis-core} e padronização temporal:} Como os contratos de conteúdo do \textit{cedis-core} residem em repositório separado do \textit{manager}, a reprodutibilidade das extrações analíticas depende da fixação (\textit{pin}) da versão/\textit{commit} desse pacote, aliada à padronização dos carimbos de tempo distribuídos (\textit{occurred\_at} e \textit{created\_at}) em Tempo Universal Coordenado (UTC).
+\end{enumerate}
 
 \subsection{Arquitetura Proposta para o Cognita}
 \label{subsec:arquitetura-proposta}
 
-A Figura~\ref{fig:arquitetura-cognita} apresenta a integração proposta do
-Cognita ao ecossistema: as fontes de dados consumidas, o \textit{pipeline}
-de engenharia de atributos, o componente de estimativa de domínio e as
-interfaces de entrega de \textit{feedback} a alunos e docentes.
+A partir do mapeamento da infraestrutura atual (Seção~\ref{subsec:arquitetura-atual}), dos contratos de comunicação vigentes (Seção~\ref{subsec:apis-ecossistema}) e das funcionalidades e restrições de qualidade elicitadas na Seção~\ref{sec:requisitos}, projeta-se a arquitetura de integração do módulo Cognita. Em conformidade com a delimitação de escopo estabelecida na \textit{Lean Inception} (Seção~\ref{subsubsec:e-nao-e-faz-nao-faz}), o Cognita não é concebido como uma plataforma isolada (\textit{standalone}) nem possui uma aplicação própria de interface com o usuário; trata-se de um serviço preditivo e analítico acoplado à camada do \textbf{CEDIS Learning Analytics}, cujas capacidades manifestam-se diretamente nas interfaces das seis aplicações já existentes do ecossistema (Atlas do Conhecimento, CEDIS Slides, CEDIS Learning Analytics, Concept Studio, CEDIS Deck Manager e CEDIS Learning Passport) por meio de APIs internas seguras.
 
-% Futuramente: diagrama destacando o Cognita (ingestão, feature engineering,
-% modelo de Knowledge Tracing, armazenamento do estado de domínio, API de consulta).
+Para atender simultaneamente às demandas de baixa latência nas consultas e atualizações online e ao processamento intensivo exigido pelo treinamento e retreinamento em lote do modelo, a arquitetura proposta adota a separação clássica de sistemas intensivos em dados entre o caminho de inferência transacional/online e o caminho de treinamento analítico em lote \cite{kleppmann_designing_2017, bass_software_2021}. A Figura~\ref{fig:arquitetura-cognita} apresenta a arquitetura proposta para o módulo Cognita integrada ao Ecossistema CEDIS, destacando as fontes de dados consumidas à esquerda, os seis componentes internos e o banco de dados preditivo ao centro, e as aplicações consumidoras que materializam o ciclo duplo de \textit{feedback} e a governança de dados à direita.
+
 \begin{figure}[H]
 \caption{Arquitetura proposta do Cognita integrada ao ecossistema}
 \label{fig:arquitetura-cognita}
 \centering
-\espacofigura[8cm]{Futuramente será inserido o diagrama da arquitetura proposta do Cognita}
-\legend{Fonte: Dos autores.}
+\includegraphics[width=\textwidth]{figuras/arquiteturaCognita.pdf}
+\legend{Fonte: Elaborado pelos autores.}
 \end{figure}
+
+O funcionamento integrado dos seis subsistemas internos do módulo Cognita representados na Figura~\ref{fig:arquitetura-cognita} foi estruturado da seguinte forma:
+
+\begin{enumerate}
+    \item \textbf{Conector de Ingestão, Validação e Reconciliação:} Atua como fronteira de entrada do módulo, consumindo registros provenientes de cinco fontes do ecossistema: respostas submetidas no \textit{cedis-slides-api} (\textit{activity\_\allowbreak responses}) e nas práticas e expedições do \textit{cedis-atlas}, eventos padronizados no \textit{cedis-la-ingest}, estado de consentimento e identificadores no \textit{cedis-identity-suite}, vínculos operacionais e seleção de \textit{decks} elegíveis no \textit{manager} (\textit{QuestionActivityMap}, \textit{LearningAnalyticsIngestLink} e configuração de uso de \textit{decks} no treino) e a estrutura conceitual no \textit{cedis-atlas} / Concept Studio (apoiada pelos contratos do \textit{cedis-core}). O componente aplica um duplo filtro na entrada: (i) o filtro estrito de privacidade por concepção, processando apenas interações vinculadas a passaportes com consentimento ativo (\textit{opt-in}) sob identificadores pseudonimizados (\textit{identity\_person\_id}); e (ii) o filtro de elegibilidade docente, ignorando respostas de \textit{decks} em construção ou retirados do treinamento pelo professor no Deck Manager. Antes de qualquer persistência ou cálculo, 100\% dos registros passam por rotina de validação contratual: inconsistências passíveis de saneamento (como envios duplicados de \textit{activity\_submitted}, horários fora de ordem reordenados pelo registro da resposta ou respostas sem evento de envio reconciliadas via \textit{LearningAnalyticsIngestLink}) são tratadas automaticamente, enquanto registros irrecuperáveis (como questões sem conceito vinculado em \textit{QuestionActivityMap} ou respostas sem atividade correspondente no \textit{deck}) são descartados e obrigatoriamente registrados com o respectivo motivo em tabela de auditoria exportável.
+
+    \item \textbf{Engenharia de Atributos e Sequenciamento Temporal (Matriz Q e Grafo Conceitual):} Converte os registros reconciliados e validados nas estruturas matemáticas exigidas pelo rastreamento de conhecimento (Seção~\ref{subsec:knowledge-tracing}). Este componente cruza o identificador da atividade/questão (\textit{activity\_id} e \textit{question\_id}) com o banco semântico do \textit{cedis-atlas} e do Concept Studio para construir a Matriz Q de associação questão--conceito e importar as relações estruturais entre conceitos (pré-requisito, hierarquia e correlação). Em seguida, extrai do atributo \textit{response\_json} a variável binária de desempenho observado $a_t \in \{0, 1\}$ (erro ou acerto em itens avaliativos objetivos), identifica a origem da atividade (CEDIS Slides, prática de fixação ou expedição do Atlas) e ordena cronologicamente as interações de cada estudante por conceito segundo o carimbo de tempo em UTC, produzindo as trajetórias sequenciais $X = \{(q_1, a_1), (q_2, a_2), \ldots, (q_t, a_t)\}$.
+
+    \item \textbf{Motor de Treinamento BKT e \textit{Quality Gate}:} Executa o ajuste estatístico de um modelo único do tipo \textit{Bayesian Knowledge Tracing} (BKT) para o ecossistema, estimando quatro parâmetros específicos por conceito — conhecimento inicial $P(L_0)$, aprendizado $P(T)$, chute $P(G)$ e descuido/deslize $P(S)$ — sob restrições de plausibilidade pedagógica ($P(G) < 0{,}5$ e $P(S) < 0{,}5$) para evitar degenerescência paramétrica \cite{pelanek_bayesian_2017}. O motor suporta tanto o treinamento inicial quanto ciclos de retreinamento contínuo em segundo plano, disparados por agendamento periódico ou por gatilho de volume de novas respostas recebidas (em conformidade com a política de treino e com os \textit{decks} habilitados no Deck Manager), com tempo máximo de execução limitado a 6 horas e isolado das consultas online para não degradar seu tempo de resposta em mais de 10\%. A cada ciclo, os dados são particionados por estudante (reservando, por exemplo, 20\% dos passaportes fora do conjunto de treino para teste, prevenindo vazamento de informação) e o modelo candidato é avaliado pelas métricas AUC-ROC, Acurácia (ACC) e RMSE. Um portão automatizado de qualidade (\textit{Quality Gate}) governa a promoção da versão treinada: o novo modelo só entra em operação se atingir simultaneamente AUC $\ge 0{,}65$, ACC $\ge 0{,}70$, RMSE $\le 0{,}45$ e não apresentar queda de AUC superior a $0{,}01$ em relação ao modelo vigente. Caso a execução exceda o tempo limite de 6 horas ou viole esses limiares, o mecanismo de tolerância a falhas (\textit{fallback}) retém a versão anterior em operação sem interrupção de serviço, preservando o histórico completo de versões promovidas e não promovidas para auditoria.
+
+    \item \textbf{Motor de Inferência Bayesiana, Priorização e Explicabilidade:} Opera no caminho crítico de baixa latência para atualizar e fornecer o diagnóstico individual de cada estudante. Sempre que uma nova resposta válida é enviada (seja no Atlas ou em uma atividade prática no CEDIS Slides), o motor recupera os parâmetros BKT ativos dos conceitos vinculados à questão e aplica recursivamente a atualização a posteriori pelo teorema de Bayes (Equações~\ref{eq:bkt-correta} e~\ref{eq:bkt-incorreta}) seguida da transição de aprendizagem (Equação~\ref{eq:bkt-transicao}), concluindo a atualização da probabilidade de domínio $P(L_t)$ em até 60 segundos (frequentemente em poucos segundos para retorno imediato pós-prática no CEDIS Slides) e gravando a variação ocorrida ($P(L_t)$ anterior $\rightarrow$ $P(L_{t+1})$ atual) na série histórica do estudante. Com base na probabilidade atualizada, o conceito é classificado em quatro situações pedagógicas: \textit{dominado} ($P(L_t) \ge 80\%$), \textit{em progresso} ($50\% \le P(L_t) < 80\%$), \textit{a revisar} ($P(L_t) < 50\%$) ou \textit{sem evidências} (quando ainda não há respostas associadas). Para construir a lista \textit{Revise primeiro} no Atlas, o motor combina a menor probabilidade de domínio com a topologia do grafo do Concept Studio, atribuindo maior prioridade aos conceitos que servem de base (pré-requisitos) para os próximos destinos da rota do estudante. Adicionalmente, calcula a faixa provável da estimativa e o grau de confiança individual (classificado como \textit{alta} com 8 ou mais respostas ligadas ao conceito, \textit{média} entre 3 e 7 respostas, e \textit{baixa} com até 2 respostas) e estrutura os motivos da estimativa em linguagem acessível (total de acertos e erros, peso das respostas mais recentes, pico histórico de desempenho e distribuição das respostas por origem).
+
+    \item \textbf{Agregador Analítico de Turma e Controlador de Governança LGPD:} Consolida as estimativas individuais em diagnósticos coletivos voltados ao professor, permitindo filtrar resultados por curso, turma, período e conceito com tempo de resposta inferior a 5 segundos para cursos de até 300 estudantes. Considerando como estudante ``com domínio'' aquele cuja probabilidade estimada no conceito é igual ou superior a 80\%, o componente calcula a proporção da turma com domínio em cada conceito, ordena os conceitos do menor para o maior nível de absorção e sinaliza automaticamente com alerta de \textit{baixa absorção} aqueles nos quais menos de 40\% da turma atingiu o domínio — disponibilizando esses indicadores tanto nas abas do Learning Analytics quanto sobrepostos visualmente aos nós do mapa conceitual no Concept Studio. O agregador também gera a série semanal de evolução da absorção coletiva (comparando o conceito analisado com seus pré-requisitos e dependentes), calcula a amostra ($n$ de estudantes), o intervalo provável em pontos percentuais e a confiança coletiva (\textit{alta} para 60 ou mais estudantes com intervalo $\le \pm 8$~p.p., \textit{média} entre 30 e 59 estudantes, e \textit{baixa} para menos de 30 estudantes ou intervalo largo), e sintetiza a explicação docente em três frentes: as questões ligadas ao conceito que concentram maior taxa de erro, o grau de absorção dos conceitos pré-requisitos no mapa do curso e o impacto dos parâmetros de chute $P(G)$ e deslize $P(S)$ estimados pelo BKT. No apoio direto à revisão de conteúdo no Deck Manager, o componente cruza os conceitos de baixa absorção com \textit{QuestionActivityMap} e sinaliza que um material (\textit{deck}/atividade) \textit{precisa de reforço} quando uma atividade ligada ao conceito registra 50\% ou mais de erro com ao menos 20 respostas. No plano regulatório (LGPD), impõe duas travas automáticas: (i) a supressão de qualquer indicador coletivo cujo grupo filtrado possua menos de 5 estudantes (\textit{k}-anonimato com $k = 5$, exibindo o aviso de supressão em vez de valor zerado); e (ii) o expurgo físico em cascata de todas as estimativas e históricos associados a um passaporte em até 48 horas após solicitação na página \textit{Meus dados} do Learning Passport, sem apagar as respostas brutas ou carimbos operacionais do estudante nos demais produtos do ecossistema.
+
+    \item \textbf{Camada de APIs Internas e Persistência Preditiva (\textit{PostgreSQL Cognita}):} Isola o armazenamento dos estados preditivos, parâmetros e versões de modelo, séries históricas e logs de auditoria em um banco relacional dedicado (\textit{PostgreSQL Cognita}), preservando a independência dos bancos transacionais do \textit{manager} e do \textit{cedis-slides-api}. A comunicação com as seis aplicações do ecossistema que exibem interfaces do módulo é servida por endpoints REST internos com meta de disponibilidade mensal mínima de 99\%, tempo de resposta de até 2 segundos para consultas individuais (95\% das requisições com até 50 usuários simultâneos), cobertura mínima de 80\% em testes automatizados sobre ingestão, validação e inferência, e proteção obrigatória via OAuth2/OIDC (respeitando o compartilhamento de acesso entre docentes de um mesmo curso), assinatura HMAC-SHA256 e transporte HTTPS com TLS 1.2 ou superior.
+\end{enumerate}
 
 
 \section{Modelagem de Dados}
 \label{sec:modelagem-dados}
 
-A modelagem de dados mapeia os registros operacionais e analíticos existentes no ecossistema que alimentarão o Cognita, detalhando as entidades e os atributos envolvidos.
+A modelagem de dados do módulo Cognita compreende duas perspectivas complementares: (i) o mapeamento exato das entidades e atributos já existentes nos componentes do Ecossistema CEDIS que atuam como insumos de entrada para o \textit{pipeline} preditivo; e (ii) a concepção do modelo relacional próprio do Cognita (Diagrama Entidade-Relacionamento -- DER), projetado para armazenar a política e seleção de materiais de treino, os parâmetros e métricas versionados do BKT, as interações reconciliadas, as estimativas atuais e históricas de domínio, os artefatos de explicabilidade e os controles de auditoria e conformidade com a LGPD.
 
 \subsection{Entidades e Atributos Utilizados}
 \label{subsec:entidades-utilizadas}
 
-A Tabela~\ref{tab:entidades-cognita} seleciona, dentre as entidades
-do modelo de dados do ecossistema, aquelas que serão
-consumidas pelo Cognita, indicando o componente de origem, os atributos
-utilizados e a finalidade de cada uma.
+A Tabela~\ref{tab:entidades-cognita} seleciona, a partir do modelo de dados e dos contratos das APIs do ecossistema (detalhados na Seção~\ref{sec:dados-coletados} e na Seção~\ref{subsec:apis-ecossistema}), as entidades consumidas como entrada pelo módulo Cognita, especificando o serviço de origem, os nomes reais dos atributos utilizados e a finalidade de cada conjunto de dados dentro do módulo.
 
-% Futuramente: entidades e nomes reais dos campos de cada componente.
-\begin{table}[H]
+{\small
+\begin{longtable}{>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{2.4cm}>{\raggedright\arraybackslash}p{3.8cm}>{\raggedright\arraybackslash}p{4.6cm}}
 \caption{Entidades do ecossistema utilizadas como entrada do Cognita}
-\label{tab:entidades-cognita}
-\centering
-\begin{tabularx}{\textwidth}{l>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}
+\label{tab:entidades-cognita} \\
 \hline
 \textbf{Entidade} & \textbf{Origem} & \textbf{Atributos utilizados} & \textbf{Finalidade no Cognita} \\
 \hline
--- & -- & -- & -- \\
+\endfirsthead
+\caption[]{Entidades do ecossistema utilizadas como entrada do Cognita (continuação)} \\
 \hline
--- & -- & -- & -- \\
+\textbf{Entidade} & \textbf{Origem} & \textbf{Atributos utilizados} & \textbf{Finalidade no Cognita} \\
 \hline
--- & -- & -- & -- \\
+\endhead
 \hline
-\end{tabularx}
-\legend{Fonte: Elaborado pelos autores a partir do levantamento técnico realizado.}
-\end{table}
+\multicolumn{4}{r}{\textit{Continua na próxima página}} \\
+\endfoot
+\hline
+\multicolumn{4}{l}{Fonte: Elaborado pelos autores a partir do levantamento técnico realizado.} \\
+\endlastfoot
+\textit{activity\_\allowbreak responses} & \textit{cedis-slides-api} & \textit{response\_id}, \textit{deck\_slug}, \textit{activity\_id}, \textit{session\_code}, \textit{anon\_participant\_\allowbreak hash}, \textit{response\_json}, \textit{created\_at} & Fonte primária da evidência observável de desempenho ($a_t \in \{0, 1\}$ extraído de \textit{response\_json}), do instante de submissão e da taxa de erro por atividade para identificação de materiais que precisam de reforço. \\
+\hline
+\textit{LearningAnalytics\allowbreak IngestLink} & \textit{manager} / \textit{cedis-la-ingest} & \textit{id}, \textit{ingest\_event\_id}, \textit{response\_id}, \textit{identity\_person\_id}, \textit{identity\_group\_id}, \textit{identity\_context\_id}, \textit{metadata\_json} & Elo central de reconciliação \textit{cross-service} que vincula o evento de aprendizagem e a resposta persistida ao pseudônimo longitudinal do passaporte do estudante e ao contexto de curso e turma. \\
+\hline
+\textit{QuestionActivity\allowbreak Map} & \textit{manager} & \textit{id}, \textit{deck\_id}, \textit{activity\_id}, \textit{question\_id}, \textit{created\_at} & Mapeia cada atividade interativa de um \textit{deck} à respectiva questão avaliativa (\textit{question\_id}), permitindo verificar se o \textit{deck} possui mapeamento completo ou parcial para o treino e associar erros aos materiais no Deck Manager. \\
+\hline
+\textit{DeckEvent} & \textit{manager} & \textit{id}, \textit{deck\_id}, \textit{event\_type}, \textit{activity\_id}, \textit{session\_code}, \textit{occurred\_at}, \textit{metadata\_json} & Fornece o carimbo temporal da interação (\textit{occurred\_at} para \textit{activity\_started} e \textit{activity\_submitted}), auxiliando na deduplicação de envios repetidos e na reordenação cronológica da sequência $X$. \\
+\hline
+\textit{Deck}, \textit{Folder} e \textit{ContentVersion} & \textit{manager} & \textit{id}, \textit{folder\_id}, \textit{slug}, \textit{title}, \textit{version}, \textit{status}, \textit{owner\_user\_id}, \textit{settings}, \textit{checksum} & Contextualiza a pasta e os \textit{decks} do curso, armazena nas configurações se o \textit{deck} está habilitado para uso no treinamento do Cognita e identifica os materiais que demandam reforço por conceito. \\
+\hline
+\textit{User} & \textit{manager} & \textit{id}, \textit{oidc\_sub}, \textit{role}, \textit{account\_status} & Autenticação e controle de acesso de docentes e administradores às visões do curso no Learning Analytics, no Concept Studio e à seleção de \textit{decks} de treino no Deck Manager. \\
+\hline
+\textit{Questões, Conceitos e Relações (Matriz Q e Grafo)} & \textit{cedis-atlas} / Concept Studio / \textit{cedis-core} & \textit{question\_id}, \textit{concept\_id}, relações entre conceitos (pré-requisito, hierarquia, relacionado), destino da rota e gabarito & Define os conceitos (\textit{Knowledge Concepts} -- KC), a Matriz Q questão--conceito, as práticas/expedições do Atlas e as relações de pré-requisito usadas na priorização de revisão (\textit{Revise primeiro}) e na explicação de baixa absorção. \\
+\hline
+\textit{Passaporte e Consentimento} & \textit{cedis-identity-\allowbreak suite} (Learning Passport) & \textit{identity\_person\_id}, \textit{identity\_group\_id}, \textit{identity\_context\_id}, chave de autorização do Cognita (\textit{opt-in}) e evento de exclusão & Garante que o Cognita processe e exiba estimativas individuais apenas para passaportes com autorização ativa e aciona a exclusão exclusiva dos dados preditivos em até 48 horas. \\
+\hline
+\end{longtable}
+}
+
+\subsection{Modelagem de Entidades e Relacionamentos do Módulo Cognita}
+\label{subsec:der-cognita}
+
+Para sustentar o ciclo completo de operação do módulo Cognita — desde a governança da política de treinamento e dos \textit{decks} elegíveis, o versionamento de parâmetros do BKT e a auditoria de validação de dados até a persistência das probabilidades de domínio, das faixas prováveis, do histórico longitudinal, das justificativas de explicabilidade e do expurgo automatizado em conformidade com a LGPD —, projetou-se o modelo relacional próprio do serviço (\textit{PostgreSQL Cognita}). A Figura~\ref{fig:der-cognita} apresenta o Diagrama Entidade-Relacionamento (DER) do módulo Cognita, destacando as chaves primárias (PK), as chaves estrangeiras físicas internas (FK), as referências lógicas para outros serviços do ecossistema, as cardinalidades e as regras de propagação de exclusão (\texttt{ON DELETE CASCADE}).
+
+\begin{figure}[H]
+\caption{Diagrama Entidade-Relacionamento (DER) do módulo Cognita}
+\label{fig:der-cognita}
+\centering
+\includegraphics[width=\textwidth]{figuras/derCognita.pdf}
+\legend{Fonte: Elaborado pelos autores.}
+\end{figure}
+
+O modelo relacional apresentado na Figura~\ref{fig:der-cognita} é composto por oito entidades coesas, organizadas em dois eixos estruturais: o \textbf{eixo de governança, parâmetros e auditoria do modelo preditivo} (faixa superior do diagrama) e o \textbf{eixo de titularidade consentida, interações reconciliadas e estado/histórico de domínio conceitual} (faixa inferior do diagrama). A Tabela~\ref{tab:der-entidades-cognita} sintetiza as chaves, os relacionamentos e o papel funcional de cada entidade modelada para o Cognita.
+
+{\small
+\begin{longtable}{>{\raggedright\arraybackslash}p{3.4cm}>{\raggedright\arraybackslash}p{4.2cm}>{\raggedright\arraybackslash}p{6.2cm}}
+\caption{Especificação das entidades do modelo de dados do módulo Cognita}
+\label{tab:der-entidades-cognita} \\
+\hline
+\textbf{Entidade do Cognita} & \textbf{Chaves e Relacionamentos} & \textbf{Atributos e Papel Funcional} \\
+\hline
+\endfirsthead
+\caption[]{Especificação das entidades do modelo de dados do módulo Cognita (continuação)} \\
+\hline
+\textbf{Entidade do Cognita} & \textbf{Chaves e Relacionamentos} & \textbf{Atributos e Papel Funcional} \\
+\hline
+\endhead
+\hline
+\multicolumn{3}{r}{\textit{Continua na próxima página}} \\
+\endfoot
+\hline
+\multicolumn{3}{l}{Fonte: Elaborado pelos autores.} \\
+\endlastfoot
+\textit{TrainingPolicy} & \texttt{id} (PK); relaciona-se $1:N$ com \textit{KTModelVersion}; referência lógica ao docente/administrador (\textit{updated\_by\_user\_id}). & Armazena as regras de treinamento e a seleção de materiais configuradas no Deck Manager: agendamento (\textit{cron\_schedule}), gatilho por volume de novas respostas (\textit{volume\_trigger}), relação de \textit{decks} habilitados no treino (\textit{eligible\_deck\_ids}), inclusão automática de novos \textit{decks} (\textit{auto\_include\_new\_decks}), tempo limite de 6 horas e limiares do \textit{Quality Gate} (AUC $\ge 0{,}65$, ACC $\ge 0{,}70$, RMSE $\le 0{,}45$, queda máxima de AUC de $0{,}01$). \\
+\hline
+\textit{KTModelVersion} & \texttt{id} (PK), \textit{version\_tag} (UQ), \textit{policy\_id} (FK); relaciona-se $1:N$ com \textit{ConceptBKTParameter}, \textit{StudentConceptMastery} e \textit{StudentMasteryHistory}. & Registra cada execução do histórico de treinos do modelo BKT: versão (ex.: \texttt{v12}), tipo de gatilho (\texttt{SCHEDULED} ou \texttt{VOLUME}), estado (\texttt{ACTIVE}, \texttt{CANDIDATE} ou \texttt{FAILED} para retenção de \textit{fallback}), período dos dados de treino, \textit{commit} do \textit{cedis-core}, métricas (\textit{auc\_roc}, \textit{accuracy}, \textit{rmse}), total de passaportes/respostas e duração (\textit{duration\_seconds}). \\
+\hline
+\textit{ConceptBKT\allowbreak Parameter} & \texttt{id} (PK), \textit{model\_version\_id} (FK); referência lógica a \textit{concept\_id} (\textit{cedis-atlas}); unicidade por par (versão, conceito). & Mantém os quatro parâmetros probabilísticos estimados por conceito na respectiva versão do modelo: conhecimento inicial $P(L_0)$ (\textit{p\_init}), aprendizado $P(T)$ (\textit{p\_transit}), chute $P(G) < 0{,}5$ (\textit{p\_guess}) e deslize/descuido $P(S) < 0{,}5$ (\textit{p\_slip}), além do limiar de domínio (\textit{mastery\_threshold} $= 0{,}80$) e amostra de respostas utilizada no ajuste. \\
+\hline
+\textit{ValidationAudit\allowbreak Log} & \texttt{id} (PK); indexado por lote (\textit{batch\_date}), serviço de origem (\textit{source\_service}) e referência bruta (\textit{raw\_reference\_id}). & Registra 100\% das ocorrências de saneamento (\texttt{TREATED}, como deduplicação de \textit{activity\_submitted} repetido, reordenação de horário e reconciliação via \textit{LearningAnalyticsIngestLink}) ou descarte (\texttt{DISCARDED}, como ausência de vínculo em \textit{QuestionActivityMap}), permitindo auditoria na tela de qualidade de dados e exportação em CSV. \\
+\hline
+\textit{ConsentSubject} & \textit{identity\_person\_id} (PK lógica oriunda do Learning Passport); relaciona-se $1:N$ com \textit{ReconciledInteraction} e \textit{StudentConceptMastery} com \texttt{ON DELETE CASCADE}. & Entidade âncora de governança LGPD que representa o passaporte pseudonimizado com autorização ativa para o Cognita (\textit{consent\_active}). A exclusão de um registro nesta tabela propaga o expurgo físico imediato, em cascata, apenas dos dados preditivos e históricos no Cognita, preservando os demais dados do aluno no ecossistema. \\
+\hline
+\textit{Reconciled\allowbreak Interaction} & \texttt{id} (PK), \textit{identity\_person\_id} (FK \texttt{CASCADE}), \textit{response\_id} (UQ lógico), \textit{ingest\_event\_id} (UQ lógico); relaciona-se $1:N$ com \textit{StudentMasteryHistory}. & Materializa a resposta validada de um \textit{deck} elegível ou prática do Atlas associada à Matriz Q (\textit{question\_id} e \textit{concept\_id}), registrando o resultado binário $a_t \in \{0, 1\}$ (\textit{is\_correct}), a origem (\textit{interaction\_origin}: CEDIS Slides, prática de fixação ou expedição do Atlas), o curso/turma (\textit{identity\_context\_id}) e o instante em UTC. \\
+\hline
+\textit{StudentConcept\allowbreak Mastery} & \texttt{id} (PK), \textit{identity\_person\_id} (FK \texttt{CASCADE}), \textit{model\_version\_id} (FK); unicidade por (estudante, conceito, contexto); relaciona-se $1:N$ com \textit{StudentMasteryHistory}. & Representa o estado cognitivo atual do estudante em cada conceito: probabilidade $P(L_t)$ (\textit{p\_mastery}), situação (\textit{mastery\_status}: dominado $\ge 80\%$, em progresso $50\%$--$79\%$, a revisar $< 50\%$ ou sem evidências), faixa provável (\textit{prob\_interval\_low/high}), prioridade de revisão ponderada por pré-requisitos (\textit{review\_priority\_score}), confiança (\textit{alta} $\ge 8$, \textit{média} $3$--$7$, \textit{baixa} $\le 2$ evidências), contadores de tentativas/acertos e motivos em JSON (\textit{explanation\_json}). \\
+\hline
+\textit{StudentMastery\allowbreak History} & \texttt{id} (PK), \textit{mastery\_id} (FK \texttt{CASCADE}), \textit{reconciled\_interaction\_id} (FK), \textit{model\_version\_id} (FK). & Armazena a série temporal longitudinal das estimativas a cada resposta processada, registrando a probabilidade anterior $P(L_t)$ (\textit{p\_mastery\_before}), a probabilidade atualizada $P(L_{t+1})$ (\textit{p\_mastery\_after}), a confiança e a data em UTC (\textit{recorded\_at}), alimentando o gráfico individual no Atlas, o quadro pós-prática no Slides e a evolução semanal da turma no Analytics. \\
+\hline
+\end{longtable}
+}
+
+Três decisões de projeto desse modelo relacional merecem destaque pela forma como estruturam a persistência e a governança do módulo:
+\begin{enumerate}
+    \item \textbf{Expurgo atômico por propagação em cascata (Conformidade com a LGPD):} Ao centralizar a chave pseudonimizada do passaporte na entidade \textit{ConsentSubject} e definir restrições de integridade referencial com cláusula \texttt{ON DELETE CASCADE} em direção a \textit{ReconciledInteraction} e \textit{StudentConceptMastery} (e desta última para \textit{StudentMasteryHistory}), qualquer solicitação de exclusão de dados preditivos é atendida por uma única operação transacional de remoção sobre \textit{ConsentSubject}, garantindo ausência de registros órfãos e cumprimento determinístico do prazo máximo de 48 horas;
+    \item \textbf{Desacoplamento entre estado atual (\textit{hot state}) e série histórica (\textit{append-only history}):} A separação entre \textit{StudentConceptMastery} (que mantém apenas uma tupla indexada por par estudante--conceito--contexto com os valores pré-calculados de $P(L_t)$, prioridade de revisão, confiança e explicação) e \textit{StudentMasteryHistory} (que acumula a evolução temporal a cada tentativa) assegura que as consultas frequentes do estudante no Atlas e as agregações de estado atual do professor no Analytics sejam servidas por leituras indexadas diretas sem varredura de histórico completo, viabilizando tempos de resposta inferiores a 2 segundos para consultas individuais e a 5 segundos para agregações de turmas;
+    \item \textbf{Reprodutibilidade científica e resiliência de versão (\textit{fallback}):} A vinculação explícita de \textit{ConceptBKTParameter}, \textit{StudentConceptMastery} e \textit{StudentMasteryHistory} à chave estrangeira \textit{model\_version\_id} de \textit{KTModelVersion} permite coexistirem no banco a versão ativa em produção (\texttt{status = ACTIVE}) e versões candidatas em avaliação durante o retreinamento em lote (\texttt{status = CANDIDATE}). Caso o novo treinamento falhe ou seja reprovado pelo \textit{Quality Gate}, basta descartar ou marcar a versão candidata como \texttt{FAILED}, mantendo as consultas apontadas para a versão \texttt{ACTIVE} anterior com zero tempo de indisponibilidade.
+\end{enumerate}
 
 
 \section{Prototipação das Telas}

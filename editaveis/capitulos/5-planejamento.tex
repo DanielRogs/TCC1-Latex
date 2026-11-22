@@ -1,21 +1,12 @@
 % !TEX root = ../../tcc.tex
 
 \chapter{Proposta do Cognita}
+\label{cap:proposta}
 
 % Evita o espaçamento vertical esticado quando tabelas fixas [H] vão para a página seguinte.
 \raggedbottom
 
-% Macros locais deste capítulo --------------------------------------------
-% Espaço reservado para figuras ainda não produzidas. Para inserir a figura
-% final, troque \espacofigura{...} por \includegraphics[width=\textwidth]{figuras/arquivo}.
-\newcommand{\espacofigura}[2][6cm]{%
-  \fbox{\parbox[c][#1][c]{0.94\textwidth}{\centering\textit{#2}}}}
-
-% Texto ainda a ser escrito (aparece destacado no PDF para não passar despercebido).
-\newcommand{\espacotexto}[1]{\par\noindent\textit{#1}\par}
-% ---------------------------------------------------------------------------
-
-O planejamento do Cognita, módulo de previsão de conhecimento a ser incorporado ao Ecossistema CEDIS, compreende o alinhamento da visão do produto por meio da \textit{Lean Inception}, a especificação dos requisitos funcionais e não funcionais, a definição da arquitetura de integração, a modelagem das entidades e atributos de entrada, a prototipação das interfaces e o cronograma de desenvolvimento em ondas.
+O planejamento do Cognita, módulo de estimativa do domínio de conceitos a ser incorporado ao Ecossistema CEDIS, compreende o alinhamento da visão do produto por meio da \textit{Lean Inception}, a especificação dos requisitos funcionais e não funcionais, a definição da arquitetura de integração, a modelagem das entidades e atributos de entrada, a prototipação das interfaces e o cronograma de desenvolvimento em ondas.
 
 
 \section{Visão do Produto}
@@ -23,7 +14,7 @@ O planejamento do Cognita, módulo de previsão de conhecimento a ser incorporad
 
 Os artefatos de alinhamento estratégico produzidos durante a aplicação adaptada da \textit{Lean Inception} \cite{caroli_lean_2018} sustentam o levantamento e a priorização dos requisitos do módulo Cognita, orientando a definição do Produto Mínimo Viável (MVP) em consonância com as restrições arquiteturais e de privacidade do ecossistema.
 
-O módulo Cognita possui identidade visual própria, apresentada na Figura~\ref{fig:logo-cognita}, composta por um cérebro com nós conectados e por uma peça de quebra-cabeça, acompanhados do nome do módulo e da indicação de que ele integra o Ecossistema CEDIS. A peça de quebra-cabeça foi incorporada ao símbolo para representar que o Cognita é um módulo integrado ao ecossistema, e não um novo software independente a compô-lo.
+A Figura~\ref{fig:logo-cognita} apresenta a logomarca do módulo, na qual a peça de quebra-cabeça representa que o Cognita é um módulo integrado ao Ecossistema CEDIS, e não um software independente.
 
 \begin{figure}[htb]
 \caption{Logomarca do módulo Cognita}
@@ -38,7 +29,7 @@ O módulo Cognita possui identidade visual própria, apresentada na Figura~\ref{
 
 A primeira atividade da \textit{Lean Inception} consistiu na construção colaborativa da Declaração de Visão do Produto. O objetivo desse artefato é estabelecer um entendimento unificado sobre o propósito do módulo Cognita dentro do Ecossistema CEDIS, explicitando os segmentos de usuários atendidos, o problema central de diagnóstico pedagógico, a categoria técnica da solução, os benefícios esperados e o seu diferencial perante soluções de mercado \cite{caroli_lean_2018}.
 
-A partir do mapeamento das limitações analíticas atuais do ecossistema — que se concentra em métricas descritivas de engajamento e carece de rastreamento longitudinal do estado cognitivo —, identificou-se que o problema central manifesta-se em duas frentes complementares: a dificuldade do estudante em reconhecer com precisão suas próprias lacunas conceituais e a dificuldade do docente em diagnosticar quais conceitos específicos apresentam baixa assimilação na turma. A Figura~\ref{fig:visao-produto} apresenta o quadro resultante da dinâmica de Visão do Produto realizada na \textit{Lean Inception}.
+A partir do mapeamento das limitações analíticas atuais do ecossistema, que se concentra em métricas descritivas de engajamento e não acompanha longitudinalmente o domínio dos estudantes, identificou-se que o problema central manifesta-se em duas frentes complementares: a dificuldade do estudante em reconhecer com precisão suas próprias lacunas conceituais e a dificuldade do docente em diagnosticar quais conceitos específicos apresentam baixa absorção na turma. A Figura~\ref{fig:visao-produto} apresenta o quadro resultante da dinâmica de Visão do Produto realizada na \textit{Lean Inception}.
 
 \begin{figure}[htb]
 \caption{Artefato da atividade de Visão do Produto na \textit{Lean Inception}}
@@ -54,14 +45,14 @@ Consolidando os elementos sintetizados na Figura~\ref{fig:visao-produto} no form
 \textbf{Para} professores (preferencialmente do Ecossistema CEDIS) e estudantes, \textbf{cujo} desafio reside na dificuldade de identificar, com precisão, quais conhecimentos de um conteúdo o estudante realmente compreende e quais conhecimentos de um ou mais conteúdos a turma efetivamente assimilou, \textbf{o} Módulo Cognita \textbf{é um} módulo de \textit{Knowledge Tracing} \textbf{que} facilita o reconhecimento de conceitos do que já se sabe e guia a compreensão do que ainda não se domina. \textbf{Diferente de} plataformas alternativas como ALEKS e CENTURY Tech, \textbf{nosso produto} indica individualmente aos alunos os tópicos que ainda não dominam e sinaliza aos professores os conteúdos com menor índice de assimilação pela turma.
 \end{quote}
 
-A definição dessa visão evidencia diretrizes estruturantes para a engenharia de requisitos do projeto. Primeiramente, estabelece-se um ciclo duplo de geração de valor (\textit{dual feedback loop}): no nível micro (individual), o sistema atua como uma ferramenta de autorregulação da aprendizagem para o estudante, apontando vulnerabilidades conceituais específicas a partir de suas interações; no nível macro (coletivo), atua como instrumento de apoio à decisão pedagógica para o professor, destacando gargalos de compreensão na turma sem depender apenas de médias gerais de acerto. Em segundo lugar, o posicionamento do módulo Cognita decorre diretamente da análise comparativa das plataformas educacionais adaptativas elencadas como referência na \textit{Lean Inception}: o \textbf{ALEKS} e a \textbf{CENTURY Tech}.
+Essa visão define duas diretrizes para os requisitos. A primeira é o ciclo duplo de \textit{feedback}: no nível individual, o Cognita apoia a autorregulação do estudante, apontando os conceitos que ele ainda não domina; no nível coletivo, apoia as decisões pedagógicas do professor, destacando as dificuldades da turma sem depender apenas de médias de acerto. A segunda é o posicionamento do módulo em relação às plataformas adaptativas tomadas como referência na \textit{Lean Inception}: o \textbf{ALEKS} e a \textbf{CENTURY Tech}.
 
 \subsubsection{Análise das Alternativas: ALEKS e CENTURY Tech}
 \label{subsubsec:analise-alternativas}
 
-O \textbf{ALEKS}\footnote{Disponível em \url{https://www.aleks.com}} (\textit{Assessment and LEarning in Knowledge Spaces}), originalmente concebido na Universidade da Califórnia em Irvine (UCI) e mantido pela McGraw Hill, é um sistema web de avaliação e tutoria inteligente fundamentado matematicamente na Teoria de Espaços de Conhecimento (\textit{Knowledge Space Theory} -- KST) \cite{falmagne_learning_2011}. Em vez de representar o desempenho discente por uma nota percentual única, o ALEKS modela um domínio curricular (como matemática, química ou estatística) como uma estrutura combinatória de conceitos interdependentes, na qual o ``estado de conhecimento'' do estudante corresponde ao subconjunto exato de conceitos que ele é capaz de resolver. Por meio de avaliações adaptativas estocásticas, a plataforma seleciona dinamicamente questões para localizar o estado atual do aluno no grafo de pré-requisitos, sintetizando seu progresso em um gráfico setorial (\textit{ALEKS Pie}) que distingue o que o estudante já domina daquilo que está pronto para aprender a seguir (\textit{outer fringe}). Contudo, por operar sob um catálogo curricular proprietário e fechado, o ALEKS exige que toda a instrução e avaliação ocorram dentro de seu próprio ambiente, não permitindo a ingestão de telemetria externa nem a adaptação a mapas conceituais customizados de ecossistemas institucionais.
+O \textbf{ALEKS}\footnote{Disponível em \url{https://www.aleks.com}} (\textit{Assessment and LEarning in Knowledge Spaces}) é um sistema de avaliação e tutoria fundamentado na Teoria de Espaços de Conhecimento (\textit{Knowledge Space Theory}, KST) \cite{falmagne_learning_2011}. Nessa teoria, um domínio curricular é modelado como um conjunto de conceitos interdependentes, e o estado de conhecimento do estudante corresponde ao subconjunto de conceitos que ele domina. Por meio de avaliações adaptativas, o sistema seleciona questões para localizar esse estado e indica tanto o que o estudante já domina quanto o que ele está pronto para aprender a seguir. O ALEKS, contudo, opera sobre o seu próprio catálogo de cursos e questões.
 
-A \textbf{CENTURY Tech}\footnote{Disponível em \url{https://www.century.tech}}, por sua vez, constitui uma plataforma comercial de ensino e diagnóstico adaptativo baseada em inteligência artificial e ciência cognitiva. O funcionamento do software estrutura-se em torno de microaulas interativas denominadas \textit{nuggets} — unidades curtas de conteúdo que combinam vídeos ou apresentações com questões avaliativas. À medida que o estudante interage com esses \textit{nuggets}, modelos de rastreamento de conhecimento e recomendação avaliam continuamente suas respostas, taxas de acerto e tempo de dedicação para identificar lacunas de aprendizagem e concepções equivocadas (\textit{misconceptions}). A partir desse processamento, a plataforma atua em duas frentes: para o estudante, atualiza dinamicamente uma trilha recomendada com tópicos de reforço (\textit{Focus on to Improve}) e de aprofundamento (\textit{Stretch With}); para o educador, disponibiliza um painel analítico (\textit{Teacher Dashboard}) com visão granular por turma e por aluno, sinalizando quais estudantes necessitam de intervenção pedagógica imediata. Apesar de sua maturidade analítica no ciclo duplo entre discente e docente, a CENTURY Tech também opera como uma plataforma monolítica fechada (\textit{Software as a Service} proprietário), atrelada ao consumo exclusivo de seus próprios \textit{nuggets} e sem suporte à reconciliação de eventos distribuídos sob governança local de privacidade.
+A \textbf{CENTURY Tech}\footnote{Disponível em \url{https://www.century.tech}} é uma plataforma comercial de ensino adaptativo organizada em torno de microaulas denominadas \textit{nuggets}, que combinam conteúdo e questões avaliativas. A partir das respostas dos estudantes, a plataforma recomenda ao aluno os tópicos que deve reforçar e oferece ao docente um painel com a situação da turma e de cada estudante. Assim como o ALEKS, opera sobre os seus próprios conteúdos.
 
 A Tabela~\ref{tab:comparativo-alternativas} sintetiza a comparação entre o ALEKS, a CENTURY Tech e o módulo Cognita, evidenciando como o estudo dessas duas ferramentas orientou a proposta de valor do produto.
 
@@ -77,25 +68,25 @@ A Tabela~\ref{tab:comparativo-alternativas} sintetiza a comparação entre o ALE
 \hline
 \textbf{Retorno ao estudante} & Mapa visual setorial (\textit{ALEKS Pie}) indicando tópicos dominados e prontos para estudo. & Trilha personalizada destacando conteúdos de revisão imediata e de avanço. & Indicação individualizada dos conceitos e tópicos que o aluno ainda não domina. \\
 \hline
-\textbf{Retorno ao professor} & Relatórios de progresso curricular e domínio por tópico. & \textit{Teacher Dashboard} com alertas de intervenção e análise granular por questão/turma. & Sinalização dos conceitos e conteúdos com menor índice de assimilação pela turma. \\
+\textbf{Retorno ao professor} & Relatórios de progresso curricular e domínio por tópico. & Painel com a situação da turma e de cada estudante. & Sinalização dos conceitos e conteúdos com menor índice de absorção pela turma. \\
 \hline
-\textbf{Acoplamento e conteúdo} & Plataforma proprietária fechada; restrita aos cursos e bancos de itens da McGraw Hill. & Plataforma SaaS fechada; dependente da estrutura proprietária de \textit{nuggets}. & Módulo nativo acoplado ao Ecossistema CEDIS; opera sobre mapas e \textit{decks} criados pelos docentes. \\
+\textbf{Acoplamento e conteúdo} & Opera sobre o catálogo de cursos e questões da própria plataforma. & Opera sobre os \textit{nuggets} da própria plataforma. & Módulo nativo acoplado ao Ecossistema CEDIS; opera sobre mapas e \textit{decks} criados pelos docentes. \\
 \hline
-\textbf{Privacidade e governança} & Dados geridos em nuvem proprietária externa. & Dados centralizados no provedor comercial da plataforma. & Arquitetura \textit{LGPD-first} e \textit{Privacy by Design}, integrada ao consentimento do Learning Passport. \\
+\textbf{Privacidade e governança} & Dados mantidos pelo fornecedor da plataforma. & Dados mantidos pelo fornecedor da plataforma. & Arquitetura \textit{LGPD-first} e \textit{Privacy by Design}, integrada ao consentimento do Learning Passport. \\
 \hline
 \end{tabularx}
 \legend{Fonte: Elaborado pelos autores.}
 \end{table}
 
-Dessa forma, enquanto o ALEKS inspira a representação estruturada do domínio conceitual e a CENTURY Tech referencia a entrega simultânea de diagnósticos acionáveis para estudantes e professores, o módulo Cognita diferencia-se por transpor essas capacidades para a arquitetura distribuída do Ecossistema CEDIS. Em vez de exigir que docentes e alunos migrem para uma ferramenta externa fechada, o Cognita aproveita nativamente os \textit{decks} publicados no Deck Manager, as respostas coletadas em sala pelo CEDIS Slides, a estruturação semântica do Concept Studio e do Atlas do Conhecimento e a gestão de identidade consentida do Learning Passport.
+Dessa forma, enquanto o ALEKS inspira a representação estruturada do domínio conceitual e a CENTURY Tech referencia a entrega simultânea de diagnósticos acionáveis para estudantes e professores, o módulo Cognita diferencia-se por transpor essas capacidades para a arquitetura distribuída do Ecossistema CEDIS. Em vez de exigir que docentes e alunos migrem para uma ferramenta externa, o Cognita aproveita os \textit{decks} publicados no Deck Manager, as respostas coletadas em sala pelo CEDIS Slides, a estruturação semântica do Concept Studio e do Atlas do Conhecimento e a gestão de identidade consentida do Learning Passport.
 
-\subsubsection{Delimitação de Escopo: O Produto É -- Não é -- Faz -- Não faz}
+\subsubsection{Delimitação de Escopo: É/Não é/Faz/Não faz}
 \label{subsubsec:e-nao-e-faz-nao-faz}
 
-Em complemento à Declaração de Visão do Produto, executou-se a segunda dinâmica da \textit{Lean Inception}: a matriz \textbf{É -- Não é -- Faz -- Não faz} \cite{caroli_lean_2018}. Em projetos de engenharia de software que combinam análise de dados educacionais e inteligência artificial, é frequente o surgimento de ambiguidades acerca da autonomia decisória do algoritmo, das fronteiras arquiteturais do componente e das implicações éticas de privacidade. Essa atividade busca eliminar tais interpretações divergentes ao confrontar explicitamente as classificações positivas (identidade e capacidades funcionais do sistema) com as restrições negativas (o que o sistema não representa e as ações que estão expressamente vedadas ou fora de seu escopo). A Figura~\ref{fig:detalhes-modulo} apresenta o artefato visual resultante dessa etapa.
+Em complemento à Declaração de Visão do Produto, executou-se a segunda dinâmica da \textit{Lean Inception}: a matriz \textbf{É/Não é/Faz/Não faz} \cite{caroli_lean_2018}. Em projetos de engenharia de software que combinam análise de dados educacionais e inteligência artificial, é frequente o surgimento de ambiguidades acerca da autonomia decisória do algoritmo, das fronteiras arquiteturais do componente e das implicações éticas de privacidade. Essa atividade busca eliminar tais interpretações divergentes ao confrontar explicitamente as classificações positivas (identidade e capacidades funcionais do sistema) com as restrições negativas (o que o sistema não representa e as ações que estão expressamente vedadas ou fora de seu escopo). A Figura~\ref{fig:detalhes-modulo} apresenta o artefato visual resultante dessa etapa.
 
 \begin{figure}[htb]
-\caption{Artefato da atividade ``É -- Não é -- Faz -- Não faz'' na \textit{Lean Inception}}
+\caption{Artefato da atividade ``É/Não é/Faz/Não faz'' na \textit{Lean Inception}}
 \label{fig:detalhes-modulo}
 \centering
 \includegraphics[width=\textwidth]{figuras/detalhesModulo.png}
@@ -110,14 +101,14 @@ O desdobramento analítico de cada quadrante da Figura~\ref{fig:detalhes-modulo}
         \item \textbf{Apenas um módulo pertencente a um software maior:} O Cognita não constitui um ambiente virtual de aprendizagem autônomo, mas sim um módulo analítico especializado concebido para operar no interior do Ecossistema CEDIS, acoplando-se nativamente à camada do CEDIS Learning Analytics.
         \item \textbf{Componente integrado por API:} Sua comunicação com os demais produtos do ecossistema (Deck Manager, CEDIS Slides, Concept Studio, Atlas do Conhecimento e Learning Passport) ocorre de maneira estritamente desacoplada, mediada por contratos explícitos de API e pelos protocolos de segurança e autenticidade já padronizados na plataforma (OAuth2, OIDC e HMAC).
         \item \textbf{Um modelo preditivo e um serviço de modelagem de conhecimento do estudante:} No plano computacional, a essência do módulo reside na manutenção e atualização contínua de uma representação probabilística do estado cognitivo latente de cada aluno, inferindo o grau de domínio sobre conceitos específicos a partir de evidências observáveis de interação.
-        \item \textbf{Um apoio a decisões pedagógicas:} No plano educacional, o módulo posiciona-se como um Sistema de Apoio à Decisão (\textit{Decision Support System}) voltado a subsidiar tanto a autorregulação de estudo pelo aluno quanto o replanejamento didático pelo docente.
+        \item \textbf{Um apoio a decisões pedagógicas:} No plano educacional, o módulo funciona como um sistema de apoio à decisão (\textit{Decision Support System}), que subsidia tanto a autorregulação do estudo pelo aluno quanto o replanejamento didático pelo docente.
     \end{itemize}
 
     \item \textbf{O software NÃO É (Restrições de identidade do sistema):}
     \begin{itemize}
         \item \textbf{Independente:} O Cognita não opera de forma isolada (\textit{standalone}), dependendo estruturalmente da coleta de respostas no CEDIS Slides, da gestão operacional do Deck Manager e do mapeamento semântico de conceitos realizado no Concept Studio e no Atlas do Conhecimento.
-        \item \textbf{Um sistema que identifica estudantes:} Em conformidade estrita com os princípios de \textit{Privacy by Design} \cite{cavoukian_privacy_2009} e a diretriz \textit{LGPD-first} do ecossistema, o módulo não atua como ferramenta de identificação civil ou vigilância individualizada. A associação longitudinal de interações apoia-se em identificadores pseudonimizados de sessão/passaporte ou no consentimento explícito (\textit{opt-in}) gerido exclusivamente pelo CEDIS Learning Passport.
-        \item \textbf{Um Sistema de Tutor Inteligente (\textit{Intelligent Tutoring System} -- ITS):} Diferentemente de um ITS completo — que controla o fluxo instrucional passo a passo, ministra explicações teóricas automatizadas e gera novos problemas em tempo real —, o Cognita atua especificamente na camada diagnóstica de rastreamento de conhecimento (\textit{Knowledge Tracing}), delegando a autoria e a apresentação de conteúdos aos produtos existentes do ecossistema.
+        \item \textbf{Um sistema que identifica estudantes:} Em conformidade estrita com os princípios de \textit{Privacy by Design} \cite{cavoukian_privacy_2009} e a diretriz \textit{LGPD-first} do ecossistema, o módulo não atua como ferramenta de identificação civil ou vigilância individualizada. A associação longitudinal de interações apoia-se exclusivamente em identificadores pseudonimizados de passaportes com consentimento explícito (\textit{opt-in}), gerido pelo CEDIS Learning Passport.
+        \item \textbf{Um Sistema de Tutor Inteligente (\textit{Intelligent Tutoring System}, ITS):} Diferentemente de um ITS completo, que controla o fluxo instrucional passo a passo, ministra explicações teóricas automatizadas e gera novos problemas em tempo real, o Cognita atua especificamente na camada diagnóstica de rastreamento de conhecimento (\textit{Knowledge Tracing}), delegando a autoria e a apresentação de conteúdos aos produtos existentes do ecossistema.
         \item \textbf{Um avaliador oficial de nota ou aprovação:} O módulo possui caráter estritamente formativo e diagnóstico, não substituindo instrumentos somativos formais nem detendo autoridade acadêmica para atribuir menções ou aprovar/reprovar discentes.
     \end{itemize}
 
@@ -126,14 +117,14 @@ O desdobramento analítico de cada quadrante da Figura~\ref{fig:detalhes-modulo}
         \item \textbf{Processa telemetria histórica:} O módulo consome e reconcilia séries temporais de eventos de aprendizagem e respostas persistidas (vinculadas por entidades como \textit{LearningAnalyticsIngestLink} e \textit{QuestionActivityMap}), transformando registros operacionais brutos em vetores de atributos (\textit{features}) cronologicamente ordenados.
         \item \textbf{Estima o domínio de conceitos do estudante:} Aplicando algoritmos de \textit{Knowledge Tracing} sobre a sequência histórica de acertos, erros e interações, o serviço calcula a probabilidade atualizada de domínio de cada conceito mapeado para o estudante.
         \item \textbf{Orienta individualmente os conceitos recomendáveis para estudo:} A partir das probabilidades inferidas, identifica as lacunas conceituais mais críticas do aluno e disponibiliza indicações individualizadas sobre quais tópicos demandam revisão prioritária.
-        \item \textbf{Agrega dados para o professor visualizar:} Consolida as estimativas individuais de domínio em indicadores coletivos por turma e por conceito — respeitando regras de supressão e \textit{k}-anonimato —, permitindo ao docente visualizar com clareza os conteúdos com menor índice de assimilação.
+        \item \textbf{Agrega dados para o professor visualizar:} Consolida as estimativas individuais de domínio em indicadores coletivos por turma e por conceito, respeitando regras de supressão e \textit{k}-anonimato, permitindo ao docente visualizar com clareza os conteúdos com menor índice de absorção.
         \item \textbf{Retreinamento recorrente com os novos dados (dentro de uma janela temporal):} Para evitar a degradação preditiva decorrente de mudanças no perfil das turmas ou na estrutura dos materiais (\textit{concept drift}), o \textit{pipeline} do módulo executa ciclos periódicos de retreinamento do modelo dentro de janelas temporais predefinidas, incorporando os novos lotes de interações consolidadas no ecossistema.
     \end{itemize}
 
     \item \textbf{O software NÃO FAZ (Fronteiras negativas de comportamento):}
     \begin{itemize}
         \item \textbf{Previsão de notas finais:} O escopo preditivo restringe-se à estimativa de domínio por conceito no curto e médio prazo, não realizando regressão ou classificação voltada a prever a nota ou menção final do estudante na disciplina.
-        \item \textbf{Prescreve metodologias ao professor:} Embora sinalize quais conceitos apresentam déficit de assimilação na turma, o Cognita não impõe nem prescreve qual abordagem pedagógica ou didática o docente deve adotar em sala de aula, preservando integralmente a autonomia e o julgamento profissional do educador.
+        \item \textbf{Prescreve metodologias ao professor:} Embora sinalize quais conceitos apresentam déficit de absorção na turma, o Cognita não impõe nem prescreve qual abordagem pedagógica ou didática o docente deve adotar em sala de aula, preservando integralmente a autonomia e o julgamento profissional do educador.
         \item \textbf{Avalia conceitos não mapeados:} A inferência de domínio exige que as questões e atividades respondidas possuam vínculo explícito com conceitos cadastrados no banco semântico do ecossistema (via \textit{QuestionActivityMap}); interações em atividades sem conceitos previamente associados não são objeto de adivinhação ou inferência arbitrária pelo modelo.
         \item \textbf{Expõe alunos individualmente para a turma ou ecossistema:} É expressamente vedada qualquer funcionalidade de ranqueamento público, comparação nominal ostensiva ou exposição das vulnerabilidades cognitivas de um estudante para seus pares ou para terceiros não autorizados.
         \item \textbf{Proíbe de prosseguir a trilha do estudante:} As recomendações geradas pelo Cognita têm natureza consultiva e orientadora (\textit{soft guidance}); o módulo não aplica bloqueios rígidos (\textit{hard gating}) que impeçam o estudante de navegar livremente pelos \textit{decks} do CEDIS Slides ou explorar novos nós no Atlas do Conhecimento.
@@ -163,8 +154,8 @@ A análise detalhada dos quatro quadrantes da Figura~\ref{fig:persona-1} revela 
 \begin{enumerate}
     \item \textbf{Perfil (Contexto demográfico, acadêmico e dor central):}
     \begin{itemize}
-        \item \textbf{Estudante de graduação da UnB em Engenharia de Software (21 a 26 anos, solteiro/a):} Trata-se de um estudante em fase intermediária ou avançada do curso, submetido a disciplinas cujos conteúdos possuem forte encadeamento de pré-requisitos lógicos e arquiteturais (como estruturas de dados, arquitetura de software, bancos de dados e aprendizagem de máquina).
-        \item \textbf{Vida corrida:} A rotina acadêmica intensa — frequentemente conciliada com estágios, iniciação científica, projetos integradores e deslocamentos — impõe severa escassez de tempo livre para estudo extraclasse.
+        \item \textbf{Estudante de graduação da UnB em Engenharia de Software:} Trata-se de um estudante em fase intermediária ou avançada do curso, submetido a disciplinas cujos conteúdos possuem forte encadeamento de pré-requisitos lógicos e arquiteturais (como estruturas de dados, arquitetura de software, bancos de dados e aprendizagem de máquina).
+        \item \textbf{Vida corrida:} A rotina acadêmica intensa, frequentemente conciliada com estágios, iniciação científica, projetos integradores e deslocamentos, deixa pouco tempo livre para o estudo extraclasse.
         \item \textbf{Familiaridade com o mundo digital:} Por atuar na área de tecnologia, possui alta proficiência no uso de aplicações web e móveis, esperando interfaces intuitivas, modernas e sem fricção operacional.
         \item \textbf{Dificuldade em saber o que estudar para reforçar conteúdos:} Diante de ementas extensas e múltiplos \textit{decks} de aula, o estudante não consegue isolar com precisão qual conceito de base não foi compreendido quando erra um exercício mais complexo, resultando em perda de tempo com revisões amplas e pouco efetivas.
     \end{itemize}
@@ -174,21 +165,21 @@ A análise detalhada dos quatro quadrantes da Figura~\ref{fig:persona-1} revela 
         \item \textbf{Autodidata, estudioso(a), mas com dificuldade em priorizar:} O aluno possui iniciativa e disposição para buscar o conhecimento por conta própria nos materiais do Ecossistema CEDIS (como o Atlas do Conhecimento e os \textit{decks} do CEDIS Slides). Entretanto, sem um diagnóstico externo calibrado, tende a dispersar esforço estudando tópicos que já domina ou tentando avançar sem consolidar lacunas anteriores.
         \item \textbf{Reservado(a) em sala de aula (não tira dúvidas):} Por timidez, receio de exposição perante a turma ou pela própria percepção tardia da dúvida, esse estudante raramente interrompe a aula expositiva para questionar o professor. Esse traço comportamental evidencia uma falha crítica do ensino tradicional presencial e justifica diretamente dois pilares do Cognita: o fornecimento de um canal privado e não estigmatizante de diagnóstico ao aluno e a sinalização agregada ao docente sobre dúvidas silenciosas da turma.
         \item \textbf{Passa horas usando celular e PC e é impaciente com plataformas lentas:} O hábito de alternar entre o dispositivo móvel (utilizado para responder atividades em tempo real no CEDIS Slides durante a aula) e o computador pessoal (utilizado em sessões de estudo focado) exige que o ecossistema e o módulo analítico apresentem alta responsividade e baixa latência no processamento e exibição das estimativas de domínio.
-        \item \textbf{Motivado(a) pelo progresso concreto:} A percepção tangível de evolução — enxergar que um conceito antes deficitário passou ao estado de domínio após a prática — atua como gatilho psicológico fundamental para o engajamento contínuo desse perfil.
+        \item \textbf{Motivado(a) pelo progresso concreto:} Perceber a própria evolução, isto é, ver que um conceito antes deficitário passou ao estado de domínio após a prática, estimula o engajamento contínuo desse perfil.
     \end{itemize}
 
     \item \textbf{Necessidades (Objetivos de valor esperados do módulo Cognita):}
     \begin{itemize}
         \item \textbf{Saber o que estudar de forma rápida:} Dada sua rotina sobrecarregada e a dificuldade de priorização, a persona necessita que o sistema traduza imediatamente seu histórico de interações em um apontamento direto dos conceitos prioritários que requerem reforço, eliminando o tempo gasto procurando o que revisar.
-        \item \textbf{Ter a confiança de ter aprendido ou não os conteúdos:} Mais do que visualizar o gabarito de uma questão isolada, o estudante precisa de um indicador confiável — fundamentado pelo modelo de \textit{Knowledge Tracing} — que valide se sua compreensão do conceito subjacente é sólida ou se o acerto pontual ainda mascara uma fragilidade cognitiva.
+        \item \textbf{Ter a confiança de ter aprendido ou não os conteúdos:} Mais do que visualizar o gabarito de uma questão isolada, o estudante precisa de um indicador confiável, fundamentado pelo modelo de \textit{Knowledge Tracing}, que valide se sua compreensão do conceito subjacente é sólida ou se o acerto pontual ainda mascara uma fragilidade cognitiva.
         \item \textbf{Ser motivado a persistir estudando:} O retorno visual sobre a evolução de seu estado de conhecimento ao longo do semestre deve reforçar sua autoeficácia acadêmica, estimulando a persistência na resolução de atividades e no fechamento progressivo das lacunas identificadas.
     \end{itemize}
 \end{enumerate}
 
-\subsubsection{Persona 2: Docente da UnB Vinculado ao CEDIS (Sérgio Antônio / Patrícia Silva)}
+\subsubsection{Persona 2: Docente da UnB Vinculado ao CEDIS (Marcelo Andrade / Patrícia Silva)}
 \label{subsubsec:persona-2}
 
-A segunda persona, representada pelos arquétipos equivalentes de \textbf{Sérgio Antônio} e \textbf{Patrícia Silva}, personifica o usuário primário da camada de diagnóstico coletivo e apoio à decisão pedagógica do módulo Cognita: o professor universitário que produz materiais didáticos, ministra aulas apoiadas pelo Ecossistema CEDIS e busca aprimorar continuamente o aprendizado de suas turmas. A Figura~\ref{fig:persona-2} apresenta o artefato visual elaborado e validado para esse perfil.
+A segunda persona, representada pelos arquétipos equivalentes de \textbf{Marcelo Andrade} e \textbf{Patrícia Silva}, personifica o usuário primário da camada de diagnóstico coletivo e apoio à decisão pedagógica do módulo Cognita: o professor universitário que produz materiais didáticos, ministra aulas apoiadas pelo Ecossistema CEDIS e busca aprimorar continuamente o aprendizado de suas turmas. A Figura~\ref{fig:persona-2} apresenta o artefato visual elaborado e validado para esse perfil.
 
 \begin{figure}[htb]
 \caption{Artefato da Persona 2 (Docente da UnB vinculado ao CEDIS) na \textit{Lean Inception}}
@@ -203,9 +194,9 @@ O exame pormenorizado dos quatro quadrantes da Figura~\ref{fig:persona-2} explic
 \begin{enumerate}
     \item \textbf{Perfil (Contexto profissional, carga docente e relação com tecnologia):}
     \begin{itemize}
-        \item \textbf{Professor(a) Adjunto(a) da UnB, preferencialmente associado(a) ao CEDIS (40 a 50 anos, casado/a):} Trata-se de um docente pesquisador que concilia atividades de ensino de graduação e pós-graduação, orientação de alunos, extensão e gestão universitária, resultando em uma rotina altamente sobrecarregada (\textbf{muito atarefado/a}).
-        \item \textbf{Graduado(a) em Ciência da Computação, com Doutorado em Informática na Educação:} Possui duplo domínio — técnico e pedagógico —, compreendendo profundamente tanto a estrutura lógica dos conteúdos computacionais quanto os processos cognitivos de ensino-aprendizagem mediados por tecnologia.
-        \item \textbf{Leciona turmas grandes (60 a 100 alunos) em 3 turmas distintas por semestre:} Responsável por acompanhar entre 180 e 300 estudantes simultaneamente a cada período letivo, o docente enfrenta uma barreira de escala intransponível para diagnosticar manualmente o progresso individual ou perceber lacunas silenciosas antes da aplicação das provas formais — especialmente diante de estudantes reservados como os retratados na Persona~1.
+        \item \textbf{Professor(a) Adjunto(a) da UnB, preferencialmente associado(a) ao CEDIS:} Trata-se de um docente pesquisador que concilia atividades de ensino de graduação e pós-graduação, orientação de alunos, extensão e gestão universitária, resultando em uma rotina altamente sobrecarregada (\textbf{muito atarefado/a}).
+        \item \textbf{Graduado(a) em Ciência da Computação, com Doutorado em Informática na Educação:} Possui formação técnica e pedagógica, compreendendo profundamente tanto a estrutura lógica dos conteúdos computacionais quanto os processos cognitivos de ensino-aprendizagem mediados por tecnologia.
+        \item \textbf{Leciona turmas grandes (60 a 100 alunos) em 3 turmas distintas por semestre:} Responsável por acompanhar entre 180 e 300 estudantes simultaneamente a cada período letivo, o docente enfrenta uma limitação de escala para diagnosticar manualmente o progresso individual ou perceber lacunas silenciosas antes da aplicação das provas formais, especialmente diante de estudantes reservados como os retratados na Persona~1.
         \item \textbf{Acostumado(a) com o mundo digital, mas avesso(a) a ferramentas que exigem muita configuração técnica:} Embora utilize cotidianamente os produtos do Ecossistema CEDIS (Deck Manager, CEDIS Slides e Concept Studio), o docente não dispõe de tempo para parametrizar modelos complexos ou exportar e cruzar planilhas manualmente. Isso impõe que o Cognita opere de forma transparente e automatizada sobre os vínculos entre \textit{decks}, atividades e conceitos já cadastrados no fluxo normal de preparação de aula.
     \end{itemize}
 
@@ -218,8 +209,8 @@ O exame pormenorizado dos quatro quadrantes da Figura~\ref{fig:persona-2} explic
 
     \item \textbf{Necessidades (Demandas de suporte à decisão pedagógica):}
     \begin{itemize}
-        \item \textbf{Saber quais são as dificuldades da turma:} O docente necessita de uma visão consolidada e imediata que aponte, dentre todos os conceitos ministrados em um conjunto de \textit{decks} ou unidades curriculares, exatamente aqueles que apresentam o menor índice de assimilação coletiva.
-        \item \textbf{Saber o porquê das dificuldades da turma:} Além de identificar o tópico problemático, o professor precisa compreender a origem estrutural da defasagem — isto é, distinguir se o baixo desempenho decorre da não absorção de um conceito pré-requisito anterior no mapa conceitual ou da complexidade intrínseca de um conceito recém-introduzido.
+        \item \textbf{Saber quais são as dificuldades da turma:} O docente necessita de uma visão consolidada e imediata que aponte, dentre todos os conceitos ministrados em um conjunto de \textit{decks} ou unidades curriculares, exatamente aqueles que apresentam o menor índice de absorção coletiva.
+        \item \textbf{Saber o porquê das dificuldades da turma:} Além de identificar o tópico problemático, o professor precisa compreender a origem estrutural da defasagem, isto é, distinguir se o baixo desempenho decorre da não absorção de um conceito pré-requisito anterior no mapa conceitual ou da complexidade intrínseca de um conceito recém-introduzido.
         \item \textbf{Direcionar qual conteúdo deve se esforçar para aplicar aos alunos:} Com base em evidências diagnósticas precisas por turma, o docente busca otimizar seu escasso tempo de planejamento e de aula presencial, direcionando revisões focadas, exemplos adicionais ou novas atividades interativas especificamente para os conceitos críticos antes das avaliações somativas.
     \end{itemize}
 \end{enumerate}
@@ -242,7 +233,7 @@ O detalhamento dos quatro quadrantes da Figura~\ref{fig:persona-3} evidencia com
 \begin{enumerate}
     \item \textbf{Perfil (Contexto socioeconômico, formativo e disponibilidade):}
     \begin{itemize}
-        \item \textbf{Jovem profissional de TI com Ensino Médio completo (20 a 24 anos, solteiro/a, trabalha):} Diferentemente da Persona~1, este usuário já atua operacionalmente no mercado de tecnologia sem estar matriculado em um curso superior formal. Sua formação técnica deu-se por vias práticas, cursos livres e documentação online.
+        \item \textbf{Jovem profissional de TI com Ensino Médio completo, que trabalha na área:} Diferentemente da Persona~1, este usuário já atua operacionalmente no mercado de tecnologia sem estar matriculado em um curso superior formal. Sua formação técnica deu-se por vias práticas, cursos livres e documentação online.
         \item \textbf{Busca conteúdos para se profissionalizar e dispõe de tempo livre considerável para estudos:} Por não possuir a grade horária rígida de uma graduação presencial e manter rotina pessoal flexível, dedica janelas regulares durante a semana para consumir materiais estruturados que elevem sua qualificação técnica.
         \item \textbf{Familiarizado(a) com o mundo digital:} Apresenta fluência natural na navegação por plataformas web e ecossistemas digitais de aprendizagem.
     \end{itemize}
@@ -251,18 +242,18 @@ O detalhamento dos quatro quadrantes da Figura~\ref{fig:persona-3} evidencia com
     \begin{itemize}
         \item \textbf{Pragmático(a) e sempre voltado(a) ao mercado e à evolução na carreira:} Prioriza conhecimentos que possuam aplicabilidade clara em seu cotidiano de trabalho. Entretanto, o aprendizado puramente prático frequentemente oculta lacunas em fundamentos teóricos de computação e engenharia de software que limitam sua progressão para níveis técnicos mais complexos.
         \item \textbf{Estuda de forma independente e é disciplinado(a) com sua rotina:} Mantém constância de estudo por conta própria e utiliza celular e computador com frequência, mas realiza toda a sua jornada sem o acompanhamento de um professor ou monitor para orientar seus passos.
-        \item \textbf{Sente dificuldade em se autoavaliar:} Na ausência de provas acadêmicas formais e de \textit{feedback} docente, esse perfil enfrenta forte incerteza metacognitiva — muitas vezes acreditando dominar um tópico por conseguir reproduzir um tutorial prático, ou sentindo-se inseguro sobre a solidez de sua base conceitual.
+        \item \textbf{Sente dificuldade em se autoavaliar:} Na ausência de provas acadêmicas formais e de \textit{feedback} docente, esse perfil enfrenta forte incerteza metacognitiva, muitas vezes acreditando dominar um tópico por conseguir reproduzir um tutorial prático, ou sentindo-se inseguro sobre a solidez de sua base conceitual.
     \end{itemize}
 
     \item \textbf{Necessidades (Objetivos de direcionamento e validação autônoma):}
     \begin{itemize}
-        \item \textbf{Receber direcionamento do que estudar, sem entrar em uma faculdade:} Necessita que o próprio ecossistema atue como uma bússola pedagógica estruturada, indicando a sequência lógica de conceitos a serem reforçados sem depender de uma grade curricular universitária tradicional.
-        \item \textbf{Identificar quais conceitos precisa evoluir profissionalmente:} Precisa que o módulo Cognita diagnostique com precisão quais fundamentos e pré-requisitos teóricos ainda estão defasados em sua formação prática, permitindo um estudo cirúrgico voltado ao fechamento dessas lacunas.
-        \item \textbf{Validar se realmente dominou o que aprendeu:} Demanda um indicador objetivo e confiável — provido pelas estimativas de \textit{Knowledge Tracing} vinculadas ao seu histórico no CEDIS Learning Passport — que ateste a efetiva assimilação dos conceitos estudados.
+        \item \textbf{Receber direcionamento do que estudar, sem entrar em uma faculdade:} Necessita que o próprio ecossistema atue como um guia estruturado, indicando a sequência lógica de conceitos a serem reforçados sem depender de uma grade curricular universitária tradicional.
+        \item \textbf{Identificar quais conceitos precisa evoluir profissionalmente:} Precisa que o módulo Cognita diagnostique com precisão quais fundamentos e pré-requisitos teóricos ainda estão defasados em sua formação prática, permitindo um estudo focado ao fechamento dessas lacunas.
+        \item \textbf{Validar se realmente dominou o que aprendeu:} Demanda um indicador objetivo e confiável, provido pelas estimativas de \textit{Knowledge Tracing} vinculadas ao seu histórico no CEDIS Learning Passport, que ateste o efetivo domínio dos conceitos estudados.
     \end{itemize}
 \end{enumerate}
 
-Em conjunto, a tríade de personas validada junto ao cliente do projeto assegura uma cobertura abrangente dos fluxos de valor do módulo Cognita: a \textbf{Persona~1} ancora os requisitos de diagnóstico rápido e priorização para o discente universitário com restrição de tempo; a \textbf{Persona~2} fundamenta a agregação analítica por turma e a rastreabilidade pedagógica para o docente de grandes turmas; e a \textbf{Persona~3} consolida a utilidade do rastreamento individual de conhecimento como ferramenta de autoavaliação e guiamento autônomo para aprendizes externos ao ambiente acadêmico formal.
+Em conjunto, as três personas cobrem os fluxos de valor do Cognita. A \textbf{Persona~1} fundamenta os requisitos de diagnóstico rápido e de priorização para o estudante universitário com pouco tempo; a \textbf{Persona~2}, a agregação por turma e a rastreabilidade dos diagnósticos para o docente de turmas grandes; e a \textbf{Persona~3}, o uso do diagnóstico individual como ferramenta de autoavaliação para estudantes fora do ambiente acadêmico formal.
 
 \subsection{Jornadas do Usuário}
 \label{subsec:jornadas-usuario}
@@ -289,13 +280,15 @@ O desdobramento sequencial da Figura~\ref{fig:jornada-persona-1} compreende as s
     \item \textbf{Apresentação da plataforma:} No início do período letivo, o docente apresenta aos alunos o funcionamento integrado dos produtos do ecossistema para acompanhamento das aulas e realização de exercícios;
     \item \textbf{Interação síncrona em sala de aula:} Durante a exposição teórica, o estudante acompanha os slides pelo próprio celular ou computador no \textbf{CEDIS Slides} e submete respostas às atividades interativas propostas pelo professor (gerando eventos de telemetria e registros de resposta vinculados aos conceitos via \textit{QuestionActivityMap});
     \item \textbf{Emergência do ponto de dor silencioso:} O aluno erra determinadas questões das atividades, mas, por seu perfil reservado em sala de aula, não interrompe o professor para tirar dúvidas e encerra a aula sem saber exatamente qual conceito fundamental deixou de compreender;
-    \item \textbf{Habilitação de identidade persistente:} Para acompanhar seu histórico longitudinal de aprendizagem sob controle próprio e em conformidade com a LGPD, o estudante cria ou vincula seu passaporte no \textbf{CEDIS Learning Passport} (estabelecendo a reconciliação via \textit{LearningAnalyticsIngestLink});
-    \item \textbf{Diagnóstico individual no Módulo Cognita (Ponto de contato central):} Ao iniciar sua sessão de estudos, o aluno acessa o diagnóstico processado pelo \textbf{Módulo Cognita} e visualiza com clareza a separação entre os conceitos que já domina e aqueles nos quais ainda apresenta baixa estimativa de proficiência;
-    \item \textbf{Estudo direcionado no ecossistema:} Guiado pela recomendação prioritária do Cognita — que elimina a indecisão sobre o que estudar em sua rotina corrida —, o estudante navega diretamente para os conceitos vulneráveis no \textbf{Atlas do Conhecimento} e revisa os materiais didáticos correspondentes;
+    \item \textbf{Habilitação de identidade persistente e prática individual:} Para acompanhar seu histórico longitudinal de aprendizagem sob controle próprio e em conformidade com a LGPD, o estudante cria seu passaporte no \textbf{CEDIS Learning Passport} e, a partir dele, responde aos questionários individuais do \textbf{Atlas do Conhecimento} sobre os conceitos da aula (estabelecendo a reconciliação via \textit{LearningAnalyticsIngestLink});
+    \item \textbf{Diagnóstico individual no Módulo Cognita (Ponto de contato central):} Ao iniciar sua sessão de estudos, o aluno acessa o diagnóstico processado pelo \textbf{Módulo Cognita} e visualiza com clareza a separação entre os conceitos que já domina e aqueles nos quais ainda apresenta baixa estimativa de domínio, calculada a partir das respostas registradas desde a criação do passaporte;
+    \item \textbf{Estudo direcionado no ecossistema:} Guiado pela recomendação prioritária do Cognita, que reduz a indecisão sobre o que estudar em sua rotina corrida, o estudante navega diretamente para os conceitos vulneráveis no \textbf{Atlas do Conhecimento} e revisa os materiais didáticos correspondentes;
     \item \textbf{Validação de progresso e reforço motivacional:} Após a revisão, o estudante resolve novas questões associadas aos conceitos estudados e observa a elevação de seu indicador de domínio no Cognita, consolidando sua confiança no aprendizado.
 \end{enumerate}
 
-\subsubsection{Jornada da Persona 2: Docente da UnB Vinculado ao CEDIS (Sérgio Antônio / Patrícia Silva)}
+Caso o estudante já possua passaporte antes da aula, suas respostas às atividades em sala de aula (passo 3) também são consideradas pelo Cognita. Por serem realizadas em formato de jogo entre os estudantes, essas atividades fornecem uma evidência menos confiável do que os questionários individuais, o que é refletido no modelo por meio de parâmetros de chute e descuido próprios para essa origem (Seção~\ref{subsubsec:oe4}).
+
+\subsubsection{Jornada da Persona 2: Docente da UnB Vinculado ao CEDIS (Marcelo Andrade / Patrícia Silva)}
 \label{subsubsec:jornada-persona-2}
 
 A jornada da segunda persona modela o ciclo de trabalho pedagógico do professor universitário responsável por turmas numerosas, demonstrando como o módulo Cognita preenche a lacuna entre a coleta massiva de respostas em sala e o replanejamento didático fundamentado em evidências. A Figura~\ref{fig:jornada-persona-2} ilustra os seis passos desse fluxo.
@@ -314,9 +307,9 @@ As seis etapas representadas na Figura~\ref{fig:jornada-persona-2} articulam-se 
     \item \textbf{Estruturação semântica e publicação do material:} No preparo da disciplina, o docente estrutura e organiza os mapas conceituais e o banco de questões no \textbf{Concept Studio} e publica o \textit{deck} correspondente da aula no \textbf{CEDIS Deck Manager};
     \item \textbf{Mediação em sala e coleta de respostas:} O professor ministra a aula expositiva utilizando o \textbf{CEDIS Slides} para sua turma (de 60 a 100 estudantes) e aplica as atividades interativas ao longo da apresentação;
     \item \textbf{Limitação das métricas puramente descritivas (Ponto de dor):} Ao encerrar o encontro e iniciar o preparo da próxima aula, o docente dispõe apenas de taxas gerais de participação, submissão e distribuição bruta de respostas, sem conseguir identificar com precisão quais conceitos subjacentes a turma efetivamente deixou de assimilar;
-    \item \textbf{Consulta ao diagnóstico coletivo no Módulo Cognita (Ponto de contato central):} O professor acessa o painel do \textbf{Módulo Cognita} integrado ao \textbf{CEDIS Learning Analytics} e visualiza imediatamente — sem necessidade de configurações técnicas adicionais — o ranqueamento dos conceitos com menor índice de assimilação pela turma;
-    \item \textbf{Análise causal das dificuldades da turma:} A partir das evidências consolidadas pelo modelo de \textit{Knowledge Tracing} do Cognita, o docente analisa se o gargalo coletivo reside no tópico recém-introduzido em aula ou na defasagem acumulada em um conceito pré-requisito anterior;
-    \item \textbf{Intervenção pedagógica direcionada:} Munido de comprovação empírica sobre as lacunas da turma, o professor direciona o início da aula seguinte para reforçar exatamente os conceitos críticos apontados pelo Cognita e acompanha a evolução subsequente dos indicadores de assimilação coletiva.
+    \item \textbf{Consulta ao diagnóstico coletivo no Módulo Cognita (Ponto de contato central):} O professor acessa o painel do \textbf{Módulo Cognita} integrado ao \textbf{CEDIS Learning Analytics} e visualiza, sem necessidade de configurações técnicas adicionais, o ranqueamento dos conceitos com menor índice de absorção pela turma;
+    \item \textbf{Análise das possíveis origens das dificuldades da turma:} A partir das evidências consolidadas pelo modelo de \textit{Knowledge Tracing} do Cognita, o docente analisa se o gargalo coletivo reside no tópico recém-introduzido em aula ou na defasagem acumulada em um conceito pré-requisito anterior;
+    \item \textbf{Intervenção pedagógica direcionada:} Munido de comprovação empírica sobre as lacunas da turma, o professor direciona o início da aula seguinte para reforçar exatamente os conceitos críticos apontados pelo Cognita e acompanha a evolução subsequente dos indicadores de absorção coletiva.
 \end{enumerate}
 
 \subsubsection{Jornada da Persona 3: Estudante Autônomo em Profissionalização (Ricardo Gomes / Letícia Carvalho)}
@@ -336,84 +329,22 @@ O fluxo detalhado na Figura~\ref{fig:jornada-persona-3} evidencia o papel do Cog
 
 \begin{enumerate}
     \item \textbf{Atuação no mercado de trabalho:} O usuário encontra-se no exercício regular de suas atividades profissionais na área de tecnologia;
-    \item \textbf{Gatilho de demanda profissional:} Surge no ambiente de trabalho uma necessidade concreta de qualificação — por exemplo, a demanda de sua liderança por profissionais com domínio em qualidade de software;
+    \item \textbf{Gatilho de demanda profissional:} Surge no ambiente de trabalho uma necessidade concreta de qualificação, como a demanda de sua liderança por profissionais com domínio em qualidade de software;
     \item \textbf{Descoberta de conteúdo aberto no ecossistema:} Ao final do expediente, buscando materiais técnicos de referência para estudo independente, o profissional localiza um \textit{deck} público no \textbf{CEDIS Slides} voltado ao tema desejado;
     \item \textbf{Adesão ao passaporte de aprendizagem:} Reconhecendo o valor do ecossistema para sua evolução profissional, cria seu passaporte no \textbf{CEDIS Learning Passport} a fim de manter o registro persistente de sua trajetória de estudos;
     \item \textbf{Exploração autônoma e prática:} Utilizando seu tempo livre semanal, navega pelos mapas conceituais do \textbf{Atlas do Conhecimento} e pelos \textit{decks} públicos, respondendo aos questionários e atividades dos temas que deseja dominar;
     \item \textbf{Barreira na autoavaliação conceitual (Ponto de dor):} Ao deparar-se com questões teóricas mais profundas, comete erros e, por estudar de forma independente sem o suporte de um professor ou orientador acadêmico, não consegue diagnosticar sozinho qual conceito de base está faltando em sua formação prática;
     \item \textbf{Diagnóstico de lacunas no Módulo Cognita (Ponto de contato central):} O estudante consulta o \textbf{Módulo Cognita} para identificar objetivamente quais conceitos fundamentais ainda não domina, distinguindo com nitidez o conhecimento prático já consolidado das lacunas teóricas ocultas;
-    \item \textbf{Guiamento como bússola de estudos:} Utiliza a recomendação do Cognita como uma bússola pedagógica substitutiva a uma grade curricular, dirigindo-se diretamente aos materiais dos conceitos pré-requisitos indicados no \textbf{Atlas do Conhecimento};
+    \item \textbf{Estudo orientado pelo Cognita:} Utiliza a recomendação do Cognita como um guia de estudos, na ausência de uma grade curricular, dirigindo-se diretamente aos materiais dos conceitos pré-requisitos indicados no \textbf{Atlas do Conhecimento};
     \item \textbf{Consolidação e validação autônoma de domínio:} Após o estudo focado, pratica novamente as atividades vinculadas aos conceitos revisados e valida, por meio da atualização do indicador de domínio no Cognita, que efetivamente assimilou a base teórica necessária para progredir em sua carreira.
 \end{enumerate}
-
-\subsection{MVP Canvas}
-\label{subsec:mvp-canvas}
-
-Como etapa de fechamento do alinhamento estratégico da \textit{Lean Inception}, construiu-se o \textbf{Canvas MVP} (\textit{Minimum Viable Product Canvas}) do módulo Cognita \cite{caroli_lean_2018}. Esse artefato de engenharia de requisitos sintetiza, em um quadro visual integrado de sete blocos, a estratégia de validação da primeira entrega funcional do produto, conectando os segmentos de usuários e suas jornadas à proposta central de valor, ao conjunto de funcionalidades selecionadas para o MVP, ao cronograma de execução, aos resultados esperados e às métricas empíricas de validação das hipóteses de negócio. A Figura~\ref{fig:mvp-canvas} apresenta o Canvas MVP consolidado para o projeto.
-
-\begin{figure}[htb]
-\caption{Artefato do Canvas MVP do módulo Cognita na \textit{Lean Inception}}
-\label{fig:mvp-canvas}
-\centering
-\includegraphics[width=\textwidth]{figuras/CanvasMVP.png}
-\legend{Fonte: Elaborado pelos autores.}
-\end{figure}
-
-A estruturação dos sete quadrantes da Figura~\ref{fig:mvp-canvas} amarra de forma coesa as decisões de produto e de engenharia adotadas para o Cognita:
-
-\begin{enumerate}
-    \item \textbf{Proposta do MVP (Núcleo central de valor):} Define a essência da entrega mínima viável como a disponibilização de um módulo de \textit{Knowledge Tracing} nativamente integrado ao Ecossistema CEDIS, capaz de diagnosticar individualmente para o estudante os conceitos que ele ainda não domina e sinalizar para o professor os conteúdos com menor índice de assimilação pela turma.
-
-    \item \textbf{Personas Segmentadas (Público de validação do MVP):} Delimita os três segmentos que utilizarão e validarão o incremento inicial:
-    \begin{itemize}
-        \item \textit{Segmento Discente Universitário (Foco primário):} Estudantes de graduação da UnB (representados por João Guilherme e Marina Silva) matriculados em turmas que utilizam o CEDIS Slides e o Learning Passport;
-        \item \textit{Segmento Docente (Foco primário):} Professores da UnB vinculados ao CEDIS (representados por Sérgio Antônio e Patrícia Silva) que lecionam turmas numerosas com materiais e questões mapeados no Concept Studio;
-        \item \textit{Segmento Aprendiz Autônomo (Foco complementar):} Profissionais e estudantes independentes de TI (representados por Ricardo Gomes e Letícia Carvalho) que estudam pelos materiais públicos do ecossistema e pelo Atlas do Conhecimento.
-    \end{itemize}
-
-    \item \textbf{Jornadas (Fluxos atendidos pelo MVP):} Sintetiza os três macrofluxos habilitados pelo módulo, identificados pelas etiquetas de perfil no quadro:
-    \begin{itemize}
-        \item \textit{Discente UnB:} Responder às atividades da aula no CEDIS Slides $\rightarrow$ consultar no Cognita os conceitos ainda não dominados $\rightarrow$ revisar os tópicos prioritários no Atlas do Conhecimento;
-        \item \textit{Docente CEDIS:} Aplicar atividades na turma $\rightarrow$ visualizar no Cognita os conceitos com menor assimilação coletiva e a causa estrutural do gargalo $\rightarrow$ direcionar a revisão pedagógica na aula seguinte;
-        \item \textit{Aluno Externo:} Praticar questionários públicos com o Learning Passport $\rightarrow$ descobrir lacunas teóricas no Cognita $\rightarrow$ estudar os conceitos indicados e validar autonomamente a evolução do domínio.
-    \end{itemize}
-
-    \item \textbf{Funcionalidades (Escopo funcional enxuto do MVP):} Agrupa os blocos de capacidades que compõem as oito ondas do MVP:
-    \begin{itemize}
-        \item Validação de dados recebidos, treinamento inicial e retreinamento contínuo do modelo de \textit{Knowledge Tracing} baseado em BKT, configuração da política de treino no Deck Manager e registro de métricas preditivas;
-        \item Exibição da probabilidade de domínio por conceito no Atlas do Conhecimento, atualização das estimativas a cada nova interação e listagem de conceitos priorizados para revisão;
-        \item Armazenamento do histórico individual das estimativas no Atlas e visualização da evolução temporal da absorção dos conceitos no Learning Analytics;
-        \item Estimativa da proporção de alunos com domínio, identificação e ranqueamento de conceitos com baixa absorção e filtragem de resultados;
-        \item Transparência e explicabilidade algorítmica por meio da exibição do grau de confiança, tamanho da amostra e explicação dos motivos das estimativas tanto no Atlas quanto no Analytics;
-        \item Indicação visual no Deck Manager dos materiais que necessitam de reforço dentro de um conceito e garantia de privacidade mediante exclusão de dados preditivos vinculados ao passaporte em conformidade com a LGPD.
-    \end{itemize}
-
-    \item \textbf{Cronograma (Planejamento temporal das entregas):} Estrutura o horizonte de implementação em 11 \textit{Sprints} de aproximadamente 10 dias cada (de 15/02/2027 a 22/06/2027), compreendendo 8 ondas de desenvolvimento para os 20 requisitos do MVP (respeitando o teto de 5 pontos de esforço \textit{E} por onda) e 3 \textit{sprints} finais de estabilização:
-    \begin{itemize}
-        \item \textit{Sprints 1 a 3 (15/02 a 20/03/2027):} Base e retreinamento do modelo KT, probabilidade, confiança e explicação de domínio no Atlas e identificação de baixa absorção no Analytics;
-        \item \textit{Sprints 4 a 6 (22/03 a 24/04/2027):} Priorização, atualização por interação e histórico no Atlas, ranqueamento e explicação de estimativas no Analytics e registro de métricas de treino;
-        \item \textit{Sprints 7 e 8 (26/04 a 18/05/2027 -- Entrega do MVP):} Proporção de domínio, evolução temporal, filtros, indicação de materiais para reforço no Deck Manager e exclusão de dados preditivos (LGPD);
-        \item \textit{Sprint 9 (19/05 a 29/05/2027):} Bateria de testes integrados e correções de defeitos;
-        \item \textit{Sprints 10 e 11 (31/05 a 22/06/2027):} Congelamento de código (\textit{code freeze}) e encerramento.
-    \end{itemize}
-
-    \item \textbf{Resultado Esperado (Hipóteses qualitativas de valor):} Explicita as quatro transformações esperadas no ecossistema: (i) estudantes capazes de priorizar seus estudos no Atlas do Conhecimento com rapidez e recuperar o domínio de conceitos defasados; (ii) professores identificando precocemente conceitos com baixa absorção na turma para direcionar revisões e materiais antes das avaliações formais; (iii) transição efetiva do Ecossistema CEDIS de métricas puramente descritivas de uso para diagnósticos preditivos de domínio cognitivo via \textit{Knowledge Tracing}; e (iv) adoção confiável do diagnóstico por discentes e docentes — amparada pela explicabilidade das estimativas — mantendo estrita conformidade com a LGPD.
-
-    \item \textbf{Métricas para Validar as Hipóteses de Negócio (Indicadores quantitativos):} Define três métricas objetivas de avaliação do modelo de \textit{Knowledge Tracing} para comprovar a qualidade preditiva e a confiabilidade do MVP:
-    \begin{itemize}
-        \item \textit{AUC-ROC do modelo KT:} Mede a capacidade do modelo de distinguir respostas corretas de incorretas (ordenação), independentemente de um limiar de decisão;
-        \item \textit{Acurácia (ACC) do modelo KT:} Avalia a proporção de respostas previstas corretamente (considerando o limiar padrão de 0,5) como referência geral de acerto;
-        \item \textit{RMSE do modelo KT:} Mede o erro quadrático médio entre a probabilidade prevista e a resposta observada, validando a calibração das estimativas de domínio exibidas aos usuários.
-    \end{itemize}
-\end{enumerate}
-
 
 \section{Requisitos}
 \label{sec:requisitos}
 
 A especificação dos requisitos do módulo Cognita decorreu diretamente dos artefatos produzidos na Seção~\ref{sec:visao-produto}, em especial das jornadas de usuário descritas na Seção~\ref{subsec:jornadas-usuario}, que evidenciaram os pontos de contato nos quais o módulo deve intervir. A partir desse mapeamento, conduziu-se a atividade de \textit{Brainstorming} de Funcionalidades da \textit{Lean Inception} \cite{caroli_lean_2018}, cujo objetivo é traduzir as necessidades e os pontos de dor das personas em funcionalidades candidatas. A atividade foi conduzida de modo a contemplar o fluxo completo das jornadas dos usuários, resultando no conjunto de requisitos funcionais do módulo.
 
-Os requisitos resultantes foram submetidos a \textit{feedbacks} de Sérgio Freitas, dono do Ecossistema CEDIS e cliente do projeto, e, em seguida, à atividade de Revisão Técnica, de Negócio e de UX da \textit{Lean Inception} (Seção~\ref{subsubsec:lean-inception}). Nessa atividade, cada requisito é avaliado quanto a quatro atributos: a dificuldade de aplicabilidade, o esforço de implementação, o valor agregado ao produto e a contribuição para a experiência do usuário. A Figura~\ref{fig:requisitos-priorizacao} apresenta o artefato resultante, no qual cada cartão representa um requisito: a cor indica a dificuldade de aplicabilidade, e as quantidades de símbolos \textit{E}, \$ e $\heartsuit$ indicam, respectivamente, as pontuações de esforço, de valor agregado e de experiência do usuário. Os atributos de cada requisito são detalhados na Tabela~\ref{tab:atributos-requisitos}.
+Os requisitos resultantes foram submetidos a \textit{feedbacks} de Sérgio Freitas, responsável pelo Ecossistema CEDIS e cliente do projeto, e, em seguida, à atividade de Revisão Técnica, de Negócio e de UX da \textit{Lean Inception} (Seção~\ref{subsubsec:lean-inception}). Nessa atividade, cada requisito é avaliado quanto a quatro atributos: a dificuldade de aplicabilidade, o esforço de implementação, o valor agregado ao produto e a contribuição para a experiência do usuário. A Figura~\ref{fig:requisitos-priorizacao} apresenta o artefato resultante, no qual cada cartão representa um requisito: a cor indica a dificuldade de aplicabilidade, e as quantidades de símbolos \textit{E}, \$ e $\heartsuit$ indicam, respectivamente, as pontuações de esforço, de valor agregado e de experiência do usuário. Os atributos de cada requisito são detalhados na Tabela~\ref{tab:atributos-requisitos}.
 
 \begin{figure}[H]
 \caption{Artefato da atividade de Revisão Técnica, de Negócio e de UX na \textit{Lean Inception}}
@@ -434,21 +365,21 @@ Os atributos avaliados e os significados de seus possíveis valores são os segu
     \end{itemize}
     \item \textbf{Pontuação de esforço (\textit{E}):} indica o esforço necessário para implementar o requisito:
     \begin{itemize}
-        \item 1 -- Baixo esforço para implementar;
-        \item 2 -- Médio esforço para implementar;
-        \item 3 -- Alto esforço para implementar.
+        \item 1: Baixo esforço para implementar;
+        \item 2: Médio esforço para implementar;
+        \item 3: Alto esforço para implementar.
     \end{itemize}
     \item \textbf{Pontuação de valor agregado (\$):} indica o valor que o requisito agrega ao produto:
     \begin{itemize}
-        \item 1 -- Baixo valor agregado ao produto;
-        \item 2 -- Médio valor agregado ao produto;
-        \item 3 -- Alto valor agregado ao produto.
+        \item 1: Baixo valor agregado ao produto;
+        \item 2: Médio valor agregado ao produto;
+        \item 3: Alto valor agregado ao produto.
     \end{itemize}
     \item \textbf{Pontuação de experiência do usuário ($\heartsuit$):} indica a contribuição do requisito para a experiência do usuário (\textit{UX}):
     \begin{itemize}
-        \item 1 -- Baixa contribuição para a experiência do usuário;
-        \item 2 -- Média contribuição para a experiência do usuário;
-        \item 3 -- Alta contribuição para a experiência do usuário.
+        \item 1: Baixa contribuição para a experiência do usuário;
+        \item 2: Média contribuição para a experiência do usuário;
+        \item 3: Alta contribuição para a experiência do usuário.
     \end{itemize}
 \end{itemize}
 
@@ -542,7 +473,7 @@ Concluído o detalhamento, Sérgio Freitas validou novamente os requisitos, aval
 \hline
 \textbf{Código} & \textbf{Título} & \textbf{Descrição} \\
 \hline
-TM01 & Módulo Cognita & Módulo de previsão de conhecimento incorporado ao Ecossistema CEDIS, que estima o domínio conceitual dos estudantes e entrega diagnósticos acionáveis a eles e aos docentes. \\
+TM01 & Módulo Cognita & Módulo de estimativa do domínio de conceitos incorporado ao Ecossistema CEDIS, que estima o domínio conceitual dos estudantes e entrega diagnósticos acionáveis a eles e aos docentes. \\
 \hline
 \end{tabularx}
 \legend{Fonte: Elaborado pelos autores.}
@@ -611,7 +542,7 @@ RF02 & EP01 & Retreinamento contínuo do modelo & O sistema deverá retreinar co
 \hline
 RF03 & EP01 & Validação dos dados recebidos & O sistema deverá validar os dados recebidos, tratando os dados inconsistentes, para que o treinamento e as estimativas não sejam prejudicados por informações incorretas. \\
 \hline
-RF04 & EP01 & Configuração da política de treino & O professor deverá definir, no Deck Manager, quais de seus decks serão considerados no treinamento do modelo preditivo, para que materiais em construção ou com mapeamento provisório não afetem as estimativas. \\
+RF04 & EP01 & Configuração da política de treino & O professor deverá definir, no Deck Manager, quais de seus \textit{decks} serão considerados no treinamento do modelo preditivo, para que materiais em construção ou com mapeamento provisório não afetem as estimativas. \\
 \hline
 RF05 & EP01 & Registro de métricas de predição & O sistema deverá registrar as métricas de predição (AUC, acurácia e RMSE) a cada novo treinamento, para que seja possível monitorar e comparar a qualidade do modelo ao longo do tempo. \\
 \hline
@@ -696,7 +627,7 @@ Os requisitos não funcionais foram construídos primeiramente por introspecçã
 \hline
 RNF01 & Um estudante deve conseguir identificar, no Atlas, os conceitos que precisa revisar em até 3 interações (cliques) a partir da tela inicial de um curso. \\
 \hline
-RNF02 & As telas do Cognita devem obter pontuação mínima de 68 pontos na escala \textit{System Usability Scale} (SUS) em teste de usabilidade com estudantes e professores. \\
+RNF02 & As telas do Cognita devem obter pontuação mínima de 68 pontos na escala \textit{System Usability Scale} (SUS) \cite{brooke_sus_1996} em avaliação de usabilidade realizada com o cliente do projeto e especialistas. \\
 \hline
 RNF03 & As telas do Cognita devem ser utilizáveis em dispositivos móveis e computadores, sem rolagem horizontal em larguras de tela a partir de 360 pixels. \\
 \hline
@@ -704,7 +635,7 @@ RNF03 & As telas do Cognita devem ser utilizáveis em dispositivos móveis e com
 \hline
 RNF04 & O serviço de consulta às estimativas de domínio deve ter disponibilidade mensal mínima de 99\%. \\
 \hline
-RNF05 & A cada treinamento, o modelo preditivo deve atingir, sobre o conjunto de teste e com divisão dos dados por estudante, AUC mínima de 0,65, acurácia (ACC) mínima de 0,70 e RMSE máximo de 0,45, e só deve substituir o modelo em uso se sua AUC não for inferior à do modelo vigente em mais de 0,01. \\
+RNF05 & A cada treinamento, o modelo candidato, avaliado por validação cruzada com divisão dos dados por estudante, só deve substituir o modelo em uso se obtiver AUC superior e RMSE inferior aos do modelo de referência (\textit{baseline}) e se sua AUC não for inferior à do modelo vigente em mais de 0,01. \\
 \hline
 RNF06 & Em caso de falha no retreinamento, o último modelo válido deve permanecer em operação, sem interrupção do serviço de consulta às estimativas. \\
 \hline
@@ -787,47 +718,47 @@ Considerando as regras do sequenciador, os requisitos do MVP foram distribuídos
 \begin{itemize}
     \item \textbf{Primeira onda}
     \begin{itemize}
-        \item RF01 -- Treinamento inicial do modelo KT;
-        \item RF03 -- Validação dos dados recebidos;
-        \item RF06 -- Probabilidade de domínio por conceito.
+        \item RF01: Treinamento inicial do modelo KT;
+        \item RF03: Validação dos dados recebidos;
+        \item RF06: Probabilidade de domínio por conceito.
     \end{itemize}
     \item \textbf{Segunda onda}
     \begin{itemize}
-        \item RF02 -- Retreinamento contínuo do modelo;
-        \item RF04 -- Configuração da política de treino;
-        \item RF16 -- Grau de confiança das estimativas no Atlas.
+        \item RF02: Retreinamento contínuo do modelo;
+        \item RF04: Configuração da política de treino;
+        \item RF16: Grau de confiança das estimativas no Atlas.
     \end{itemize}
     \item \textbf{Terceira onda}
     \begin{itemize}
-        \item RF12 -- Identificação de conceitos com baixa absorção;
-        \item RF17 -- Explicação da estimativa no Atlas.
+        \item RF12: Identificação de conceitos com baixa absorção;
+        \item RF17: Explicação da estimativa no Atlas.
     \end{itemize}
     \item \textbf{Quarta onda}
     \begin{itemize}
-        \item RF08 -- Conceitos priorizados para revisão;
-        \item RF13 -- Listagem de conceitos por nível de absorção;
-        \item RF18 -- Confiança e amostra das estimativas no Analytics.
+        \item RF08: Conceitos priorizados para revisão;
+        \item RF13: Listagem de conceitos por nível de absorção;
+        \item RF18: Confiança e amostra das estimativas no Analytics.
     \end{itemize}
     \item \textbf{Quinta onda}
     \begin{itemize}
-        \item RF07 -- Atualização das estimativas por interação;
-        \item RF09 -- Histórico das estimativas por conceito.
+        \item RF07: Atualização das estimativas por interação;
+        \item RF09: Histórico das estimativas por conceito.
     \end{itemize}
     \item \textbf{Sexta onda}
     \begin{itemize}
-        \item RF05 -- Registro de métricas de predição;
-        \item RF19 -- Explicação da estimativa no Analytics.
+        \item RF05: Registro de métricas de predição;
+        \item RF19: Explicação da estimativa no Analytics.
     \end{itemize}
     \item \textbf{Sétima onda}
     \begin{itemize}
-        \item RF11 -- Proporção de estudantes com domínio;
-        \item RF20 -- Indicação visual de materiais para reforço;
-        \item RF24 -- Exclusão de dados preditivos de um passaporte.
+        \item RF11: Proporção de estudantes com domínio;
+        \item RF20: Indicação visual de materiais para reforço;
+        \item RF24: Exclusão de dados preditivos de um passaporte.
     \end{itemize}
     \item \textbf{Oitava onda}
     \begin{itemize}
-        \item RF10 -- Evolução da absorção ao longo do tempo;
-        \item RF15 -- Filtragem dos resultados estimados.
+        \item RF10: Evolução da absorção ao longo do tempo;
+        \item RF15: Filtragem dos resultados estimados.
     \end{itemize}
 \end{itemize}
 
@@ -836,26 +767,90 @@ Após o marco do MVP, foram posicionados os requisitos classificados como increm
 \begin{itemize}
     \item \textbf{Nona onda}
     \begin{itemize}
-        \item RF14 -- Comparativo entre relações conceituais;
-        \item RF23 -- Recomendação de materiais de reforço.
+        \item RF14: Comparativo entre relações conceituais;
+        \item RF23: Recomendação de materiais de reforço.
     \end{itemize}
     \item \textbf{Décima onda}
     \begin{itemize}
-        \item RF21 -- Notificação para criação de novas questões;
-        \item RF22 -- Rastreabilidade de missões de reforço;
-        \item RF25 -- Controle de acesso às consultas do Analytics.
+        \item RF21: Notificação para criação de novas questões;
+        \item RF22: Rastreabilidade de missões de reforço;
+        \item RF25: Controle de acesso às consultas do Analytics.
     \end{itemize}
 \end{itemize}
+
+Destaca-se que, embora alguns requisitos utilizem resultados de requisitos posicionados em ondas posteriores, essa ordenação não viola a regra de dependências. O RF12 (identificação de conceitos com baixa absorção) e o RF13 (listagem de conceitos por nível de absorção) dependem da proporção de estudantes com domínio em cada conceito, mas o cálculo dessa proporção faz parte da implementação do próprio RF12; o RF11, posicionado na sétima onda, corresponde apenas à exibição dessa proporção ao docente. De forma análoga, o RF02 (retreinamento contínuo) calcula, a cada ciclo, as métricas necessárias ao \textit{Quality Gate}, enquanto o RF05, posicionado na sexta onda, corresponde ao registro histórico dessas métricas para consulta e comparação ao longo do tempo.
+
+\subsection{Canvas MVP}
+\label{subsec:mvp-canvas}
+
+Após a validação do Sequenciador pelo cliente, os autores construíram o \textbf{Canvas MVP} (\textit{Minimum Viable Product Canvas}) do módulo Cognita, como etapa de fechamento da \textit{Lean Inception} \cite{caroli_lean_2018}. Esse artefato sintetiza, em sete blocos, a estratégia de validação da primeira entrega do produto, relacionando as personas e as jornadas à proposta de valor, às funcionalidades do MVP, ao cronograma, aos resultados esperados e às métricas de validação. A Figura~\ref{fig:mvp-canvas} apresenta o Canvas MVP do projeto.
+
+\begin{figure}[htb]
+\caption{Artefato do Canvas MVP do módulo Cognita na \textit{Lean Inception}}
+\label{fig:mvp-canvas}
+\centering
+\includegraphics[width=\textwidth]{figuras/CanvasMVP.png}
+\legend{Fonte: Elaborado pelos autores.}
+\end{figure}
+
+A estruturação dos sete quadrantes da Figura~\ref{fig:mvp-canvas} amarra de forma coesa as decisões de produto e de engenharia adotadas para o Cognita:
+
+\begin{enumerate}
+    \item \textbf{Proposta do MVP (Núcleo central de valor):} Define a essência da entrega mínima viável como a disponibilização de um módulo de \textit{Knowledge Tracing} nativamente integrado ao Ecossistema CEDIS, capaz de diagnosticar individualmente para o estudante os conceitos que ele ainda não domina e sinalizar para o professor os conteúdos com menor índice de absorção pela turma.
+
+    \item \textbf{Personas Segmentadas (Público de validação do MVP):} Delimita os três segmentos que utilizarão e validarão o incremento inicial:
+    \begin{itemize}
+        \item \textit{Segmento Discente Universitário (Foco primário):} Estudantes de graduação da UnB (representados por João Guilherme e Marina Silva) matriculados em turmas que utilizam o CEDIS Slides e o Learning Passport;
+        \item \textit{Segmento Docente (Foco primário):} Professores da UnB vinculados ao CEDIS (representados por Marcelo Andrade e Patrícia Silva) que lecionam turmas numerosas com materiais e questões mapeados no Concept Studio;
+        \item \textit{Segmento Aprendiz Autônomo (Foco complementar):} Profissionais e estudantes independentes de TI (representados por Ricardo Gomes e Letícia Carvalho) que estudam pelos materiais públicos do ecossistema e pelo Atlas do Conhecimento.
+    \end{itemize}
+
+    \item \textbf{Jornadas (Fluxos atendidos pelo MVP):} Sintetiza os três macrofluxos habilitados pelo módulo, identificados pelas etiquetas de perfil no quadro:
+    \begin{itemize}
+        \item \textit{Discente UnB:} Responder às atividades e aos questionários com o Learning Passport $\rightarrow$ consultar no Cognita os conceitos ainda não dominados $\rightarrow$ revisar os tópicos prioritários no Atlas do Conhecimento;
+        \item \textit{Docente CEDIS:} Aplicar atividades na turma $\rightarrow$ visualizar no Cognita os conceitos com menor absorção coletiva e as possíveis origens do gargalo $\rightarrow$ direcionar a revisão pedagógica na aula seguinte;
+        \item \textit{Aluno Externo:} Praticar questionários públicos com o Learning Passport $\rightarrow$ descobrir lacunas teóricas no Cognita $\rightarrow$ estudar os conceitos indicados e validar autonomamente a evolução do domínio.
+    \end{itemize}
+
+    \item \textbf{Funcionalidades (Escopo funcional enxuto do MVP):} Agrupa os blocos de capacidades que compõem as oito ondas do MVP:
+    \begin{itemize}
+        \item Validação de dados recebidos, treinamento inicial e retreinamento contínuo do modelo de \textit{Knowledge Tracing} baseado em BKT, configuração da política de treino no Deck Manager e registro de métricas preditivas;
+        \item Exibição da probabilidade de domínio por conceito no Atlas do Conhecimento, atualização das estimativas a cada nova interação e listagem de conceitos priorizados para revisão;
+        \item Armazenamento do histórico individual das estimativas no Atlas e visualização da evolução temporal da absorção dos conceitos no Learning Analytics;
+        \item Estimativa da proporção de alunos com domínio, identificação e ranqueamento de conceitos com baixa absorção e filtragem de resultados;
+        \item Transparência e explicabilidade algorítmica por meio da exibição do grau de confiança, tamanho da amostra e explicação dos motivos das estimativas tanto no Atlas quanto no Analytics;
+        \item Indicação visual no Deck Manager dos materiais que necessitam de reforço dentro de um conceito e garantia de privacidade mediante exclusão de dados preditivos vinculados ao passaporte em conformidade com a LGPD.
+    \end{itemize}
+
+    \item \textbf{Cronograma (Planejamento temporal das entregas):} Estrutura o horizonte de implementação em 11 \textit{Sprints} de aproximadamente 10 dias cada (de 15/02/2027 a 22/06/2027), compreendendo 8 ondas de desenvolvimento para os 20 requisitos do MVP (respeitando o teto de 5 pontos de esforço \textit{E} por onda) e 3 \textit{Sprints} finais de estabilização:
+    \begin{itemize}
+        \item \textit{Sprints 1 a 3 (15/02 a 20/03/2027):} Base e retreinamento do modelo KT, probabilidade, confiança e explicação de domínio no Atlas e identificação de baixa absorção no Analytics;
+        \item \textit{Sprints 4 a 6 (22/03 a 24/04/2027):} Priorização, atualização por interação e histórico no Atlas, ranqueamento e explicação de estimativas no Analytics e registro de métricas de treino;
+        \item \textit{Sprints 7 e 8 (26/04 a 18/05/2027, entrega do MVP):} Proporção de domínio, evolução temporal, filtros, indicação de materiais para reforço no Deck Manager e exclusão de dados preditivos (LGPD);
+        \item \textit{Sprint 9 (19/05 a 29/05/2027):} Bateria de testes integrados e correções de defeitos;
+        \item \textit{Sprints 10 e 11 (31/05 a 22/06/2027):} Congelamento de código (\textit{code freeze}) e encerramento.
+    \end{itemize}
+
+    \item \textbf{Resultado Esperado (Hipóteses qualitativas de valor):} Explicita quatro hipóteses de valor: (i) os estudantes priorizam os seus estudos no Atlas do Conhecimento e recuperam o domínio de conceitos defasados; (ii) os professores identificam cedo os conceitos com baixa absorção e direcionam revisões antes das avaliações; (iii) o ecossistema passa de métricas descritivas de uso ao diagnóstico do domínio de conceitos; e (iv) estudantes e docentes adotam o diagnóstico com confiança, apoiados pela explicação das estimativas e pela conformidade com a LGPD.
+
+    \item \textbf{Métricas para Validar as Hipóteses de Negócio (Indicadores quantitativos):} Define as métricas que serão utilizadas para validar as hipóteses do MVP (Seção~\ref{subsec:fase2}):
+    \begin{itemize}
+        \item \textit{Qualidade preditiva do modelo KT:} AUC-ROC, que mede a capacidade do modelo de distinguir respostas corretas de incorretas independentemente de um limiar de decisão; acurácia (ACC), que avalia a proporção de respostas previstas corretamente; e RMSE, que mede o erro entre a probabilidade prevista e a resposta observada, refletindo a calibração das estimativas. As três métricas são comparadas às de um modelo de referência (\textit{baseline});
+        \item \textit{Concordância dos diagnósticos:} correlação entre a absorção dos conceitos estimada pelo Cognita e a absorção percebida pelo docente, que verifica a hipótese (ii);
+        \item \textit{Usabilidade:} pontuação na escala SUS, que verifica a hipótese (iv) quanto à facilidade de adoção das telas do módulo.
+    \end{itemize}
+\end{enumerate}
+
 
 \section{Arquitetura}
 \label{sec:arquitetura}
 
-A concepção arquitetural do módulo Cognita parte do levantamento técnico do estado atual do Ecossistema CEDIS (introduzido no Capítulo~3, Seção~\ref{sec:dados-coletados}) para estabelecer como o novo serviço preditivo se acoplará aos componentes, bancos de dados e contratos de comunicação já em operação. Em consonância com os princípios de sistemas distribuídos intensivos em dados \cite{kleppmann_designing_2017, richards_fundamentals_2020}, a análise arquitetural a seguir explicita a topologia física e lógica vigente, o isolamento de persistência entre domínios e as interfaces de programação de aplicações (APIs) que fornecem os insumos necessários ao rastreamento de conhecimento (\textit{Knowledge Tracing}).
+A arquitetura do módulo Cognita parte do levantamento técnico do Ecossistema CEDIS (Seção~\ref{sec:dados-coletados}) e define como o novo serviço se integra aos componentes, aos bancos de dados e aos contratos de comunicação já em operação \cite{kleppmann_designing_2017, richards_fundamentals_2020}. Esta seção apresenta a arquitetura atual do ecossistema, as APIs que fornecem os dados necessários ao rastreamento de conhecimento e a arquitetura proposta para o módulo.
 
 \subsection{Arquitetura Atual do Ecossistema}
 \label{subsec:arquitetura-atual}
 
-O levantamento técnico realizado sobre o repositório do CEDIS Deck Manager (\textit{commit} \texttt{3bb454ae885aaeef6c3950c98786acc41eda073f}) evidencia que a infraestrutura do ecossistema superou o desenho histórico restrito a um par monolítico de gerenciador de conteúdo e serviço de respostas, consolidando-se como uma arquitetura distribuída orientada a serviços com domínios de dados estritamente delimitados \cite{richards_fundamentals_2020}. A Figura~\ref{fig:arquitetura-atual} representa o estado da arte dessa arquitetura, detalhando os componentes de borda, os microsserviços de aplicação, as instâncias dedicadas de banco de dados, as dependências de contratos compartilhados e os fluxos de comunicação que percorrem o ecossistema.
+A Figura~\ref{fig:arquitetura-atual} representa a arquitetura atual do ecossistema, reconstruída a partir do levantamento técnico do repositório do CEDIS Deck Manager. Trata-se de uma arquitetura distribuída orientada a serviços, na qual cada serviço possui o seu próprio domínio de dados \cite{richards_fundamentals_2020}. O papel de cada componente foi descrito na Tabela~\ref{tab:componentes-cedis}.
 
 \begin{figure}[H]
 \caption{Arquitetura atual de serviços e dados do Ecossistema CEDIS}
@@ -865,29 +860,9 @@ O levantamento técnico realizado sobre o repositório do CEDIS Deck Manager (\t
 \legend{Fonte: Elaborado pelos autores a partir do levantamento técnico do repositório CEDIS Deck Manager (\textit{commit} \texttt{3bb454a}, 2026).}
 \end{figure}
 
-Sob a ótica de engenharia de software e de dados, a topologia apresentada na Figura~\ref{fig:arquitetura-atual} estrutura-se em quatro camadas e mecanismos arquiteturais principais:
+Para o projeto do Cognita, três características dessa arquitetura são determinantes. A primeira é a separação dos fluxos na borda: o navegador comunica-se apenas com o \textit{gateway}, que encaminha os fluxos administrativos ao \textit{manager}, as respostas às atividades ao \textit{cedis-slides-api} e os eventos de aprendizagem ao \textit{cedis-la-ingest}. A segunda é o isolamento da persistência: o \textit{manager} e o \textit{cedis-slides-api} mantêm bancos PostgreSQL próprios, enquanto o \textit{cedis-la-ingest} não possui banco dedicado e apenas articula os vínculos entre respostas, identidade e eventos. A terceira é a existência de ciclos de retenção distintos para a telemetria operacional, para as respostas e para os dados analíticos, o que impede tratar esses registros como equivalentes.
 
-\begin{enumerate}
-    \item \textbf{Camada cliente e roteamento de borda (\textit{Navegador} e \textit{Nginx / gateway}):} O navegador web, durante a exibição de apresentações e atividades interativas em sala de aula ou em sessões de estudo autônomo, atua como produtor primário de eventos de navegação, interações de atividade, submissões de resposta e contexto de sessão. Em conformidade com as diretrizes de segurança do ecossistema, o cliente opera como um ambiente não confiável (\textit{zero secrets in browser}) e comunica-se exclusivamente com o \textit{gateway} reverso (\textit{Nginx}). Este componente desacopla a borda pública da malha interna e direciona o tráfego para três planos distintos: fluxos administrativos e de publicação seguem para o \textit{manager}; requisições públicas de apresentação e submissão de respostas (\texttt{/r}, \texttt{/s} e \texttt{/api/responses}) são encaminhadas ao \textit{cedis-slides-api}; e eventos padronizados de aprendizagem (\texttt{/la/events}) são roteados para o \textit{cedis-la-ingest}.
-
-    \item \textbf{Segregação de persistência transacional e camada de ingestão analítica:} Em vez de compartilhar um banco de dados monolítico único para todas as operações, a arquitetura isola a persistência transacional em instâncias relacionais PostgreSQL dedicadas por domínio operacional e desacopla o serviço de ingestão analítica:
-    \begin{itemize}
-        \item \textit{PostgreSQL manager:} armazena o plano operacional e administrativo do Deck Manager, incluindo cadastro de usuários (\textit{User}), hierarquia de pastas (\textit{Folder}), \textit{decks} (\textit{Deck}), histórico de versões com verificação por \textit{checksum} (\textit{ContentVersion}), telemetria de acesso (\textit{DeckAccess}) e de eventos (\textit{DeckEvent}), avaliações (\textit{DeckRating}), retroalimentação (\textit{Feedback}) e as tabelas de mapeamento e reconciliação de \textit{Learning Analytics} (\textit{QuestionActivityMap} e \textit{LearningAnalyticsIngestLink});
-        \item \textit{PostgreSQL respostas:} mantido pelo serviço \textit{cedis-slides-api}, isola os registros transacionais de respostas submetidas pelos estudantes às atividades interativas (\textit{activity\_responses}), preservando o código de sessão (\texttt{session\_code}), o identificador pseudonimizado do participante (\texttt{anon\_participant\_hash}) e a carga útil da resposta (\texttt{response\_json});
-        \item \textit{Camada de ingestão (\textit{cedis-la-ingest}) sem banco próprio dedicado:} o componente \textit{cedis-la-ingest} atua como serviço intermediário de recebimento, padronização de eventos de aprendizagem (no estilo xAPI) e orquestração de vínculos, articulando a correlação entre respostas (\textit{cedis-slides-api}), contexto de identidade (\textit{cedis-identity-suite}) e os registros de reconciliação consolidados no \textit{manager} (\textit{LearningAnalyticsIngestLink}).
-    \end{itemize}
-
-    \item \textbf{Serviços de domínio semântico, identidade consentida e contratos compartilhados:} A malha central é complementada por três elementos que sustentam a semântica educacional e a governança de privacidade:
-    \begin{itemize}
-        \item \textit{cedis-atlas (Atlas do Conhecimento e Concept Studio):} gerencia o banco de questões, os mapas conceituais e a estruturação pedagógica do conteúdo, conectando-se logicamente às atividades dos \textit{decks} por meio da entidade \textit{QuestionActivityMap};
-        \item \textit{cedis-identity-suite (CEDIS Learning Passport):} opera como serviço segregado para resolução opcional (\textit{opt-in}) de identidade e contexto (pessoa, grupo e turma/contexto), garantindo que a telemetria operacional padrão permaneça efêmera e que apenas usuários com consentimento ativo tenham suas interações vinculadas longitudinalmente;
-        \item \textit{cedis-core:} pacote de código mantido em repositório externo que centraliza modelos e contratos de conteúdo compartilhados entre o \textit{manager} e o \textit{cedis-atlas}, constituindo uma fronteira de dependência cujo versionamento (\textit{commit}/versão) deve ser fixado para assegurar reprodutibilidade analítica.
-    \end{itemize}
-
-    \item \textbf{Sincronismo na borda, encaminhamento assíncrono e regimes distintos de retenção:} As interações originadas no navegador são processadas de maneira predominantemente síncrona na borda para garantir baixa latência durante a dinâmica em sala de aula. Em contrapartida, o encaminhamento interno de eventos (\textit{forward} de eventos) do \textit{manager} para o \textit{cedis-la-ingest}, a resolução de vínculos de resposta e as rotinas automatizadas de expurgo introduzem estágios adicionais de processamento. Na arquitetura vigente, o \textit{manager} executa rotinas próprias de retenção sobre a tabela \textit{DeckEvent}, o que impõe uma distinção arquitetural estrita entre três ciclos de vida não equivalentes: a retenção de telemetria operacional bruta (\textit{DeckEvent} e \textit{DeckAccess}), a retenção de registros educacionais de resposta (\textit{activity\_responses}) e a retenção analítica consolidada na camada de \textit{Learning Analytics}.
-\end{enumerate}
-
-Uma consequência estrutural direta desse isolamento de bancos de dados entre microsserviços é a distinção entre chaves estrangeiras físicas e referências lógicas entre domínios (\textit{cross-service references}) \cite{kleppmann_designing_2017}. A Figura~\ref{fig:modelo-logico-cross-service} explicita o modelo lógico relacional reconstruído a partir do código-fonte do \textit{manager} (\texttt{manager/app/models.py}), detalhando os tipos de dados, a obrigatoriedade dos atributos (\texttt{NN} para \textit{not null}) e as multiplicidades (\texttt{1}, \texttt{0..1} e \texttt{0..*}) tanto das relações internas quanto das ligações lógicas com os domínios externos do ecossistema.
+Como cada serviço mantém o seu próprio banco, as relações entre domínios de serviços diferentes não são chaves estrangeiras físicas, mas referências lógicas \cite{kleppmann_designing_2017}. A Figura~\ref{fig:modelo-logico-cross-service} apresenta o modelo lógico do \textit{manager}, reconstruído a partir do código-fonte, com os tipos de dados, a obrigatoriedade dos atributos (\texttt{NN}, \textit{not null}) e as multiplicidades das relações.
 
 \begin{figure}[H]
 \caption{Modelo lógico de entidades do \textit{manager} e referências lógicas \textit{cross-service} com os demais serviços do ecossistema}
@@ -897,21 +872,19 @@ Uma consequência estrutural direta desse isolamento de bancos de dados entre mi
 \legend{Fonte: Elaborado pelos autores a partir do levantamento técnico do repositório CEDIS Deck Manager (\textit{commit} \texttt{3bb454a}, 2026).}
 \end{figure}
 
-Conforme ilustrado na Figura~\ref{fig:modelo-logico-cross-service}, as entidades internas \textit{DeckAccess}, \textit{DeckEvent}, \textit{DeckRating}, \textit{Feedback}, \textit{ContentVersion} e \textit{ContentTag} mantêm integridade referencial física dentro do mesmo banco relacional com \textit{Deck} (cardinalidade \texttt{1} obrigatória), com \textit{Folder} (incluindo seu auto-relacionamento hierárquico opcional \texttt{0..1} via \texttt{parent\_id}) e com a entidade de usuários \textit{Person} (correspondente à tabela \textit{User} do esquema operacional, com cardinalidade \texttt{1} obrigatória para proprietários e avaliações em \textit{Deck}, \textit{Folder} e \textit{DeckRating}, e \texttt{0..1} opcional para acessos, eventos e retroalimentações anônimas em \textit{DeckAccess}, \textit{DeckEvent} e \textit{Feedback}). Em contrapartida, na porção direita do diagrama, as entidades \textit{QuestionActivityMap} e \textit{LearningAnalyticsIngestLink} materializam a integração entre serviços independentes ao referenciarem logicamente três domínios externos: \textit{Dominio\_Atlas\_Questao} (que associa cada \texttt{question\_id} obrigatório \texttt{1} ao respectivo \texttt{concept\_id} no \textit{cedis-atlas}), \textit{Dominio\_Identity\_Suite} (que resolve opcionalmente \texttt{0..1} os identificadores \texttt{identity\_person\_id}, \texttt{identity\_group\_id} e \texttt{identity\_context\_id} no Learning Passport) e \textit{activity\_responses} (que armazena no \textit{cedis-slides-api} o registro da resposta referenciado opcionalmente \texttt{0..1} por \texttt{response\_id}). Por conseguinte, essa estrutura lógica define quatro pontos exatos nos quais o módulo Cognita deverá ancorar sua extração de informações:
-\begin{itemize}
-    \item \textbf{Ponto de extração semântica (Matriz Q):} a associação lógica entre \textit{QuestionActivityMap} (no \textit{manager}) e o domínio \textit{Dominio\_Atlas\_Questao} (\textit{cedis-atlas} / Concept Studio), que permite vincular cada atividade (\texttt{activity\_id}) e questão (\texttt{question\_id}) aos conceitos de conhecimento (\texttt{concept\_id} -- KC) avaliados;
-    \item \textbf{Ponto de extração de desempenho observado ($a_i$):} os registros de \textit{activity\_\allowbreak responses} no \textit{cedis-slides-api} (bem como respostas a questionários no \textit{cedis-atlas}), cujo campo \texttt{response\_json} contém o resultado observável da tentativa do estudante;
-    \item \textbf{Ponto de reconciliação e ordenação temporal:} a camada \textit{cedis-la-ingest} articulada à tabela \textit{LearningAnalyticsIngestLink}, que reconcilia o identificador único do evento de ingestão (\texttt{ingest\_event\_id}) com a resposta persistida (\texttt{response\_id}) e fornece a marcação cronológica (\texttt{occurred\_at} e \texttt{created\_at}) indispensável para ordenar a sequência histórica $X = \{(q_1, a_1), \ldots, (q_t, a_t)\}$ exigida pelo BKT;
-    \item \textbf{Ponto de resolução longitudinal consentida:} o vínculo de \textit{LearningAnalyticsIngestLink} com o domínio \textit{Dominio\_Identity\_Suite} (Learning Passport) via \texttt{identity\_person\_id} (multiplicidade \texttt{0..1}), que supera a limitação de rotação diária do identificador efêmero de telemetria (\texttt{anon\_visitor\_hash}) única e exclusivamente para os estudantes com consentimento ativo (\textit{opt-in}), preservando a conformidade com a LGPD.
-\end{itemize}
+As entidades internas do \textit{manager}, como \textit{DeckEvent}, \textit{DeckAccess} e \textit{ContentVersion}, relacionam-se fisicamente com \textit{Deck}, \textit{Folder} e com a entidade de usuários (\textit{Person}). Já as entidades \textit{QuestionActivityMap} e \textit{LearningAnalyticsIngestLink}, na porção direita do diagrama, referenciam logicamente três domínios externos: as questões e conceitos do \textit{cedis-atlas} (\textit{Dominio\_Atlas\_Questao}), a identidade consentida do Learning Passport (\textit{Dominio\_Identity\_Suite}) e as respostas do \textit{cedis-slides-api} (\textit{activity\_responses}). Essa estrutura define quatro pontos nos quais o Cognita deve buscar os seus dados:
 
+\begin{itemize}
+    \item \textbf{Matriz Q:} o vínculo entre \textit{QuestionActivityMap} e as questões do \textit{cedis-atlas}, que associa cada atividade e questão ao conceito avaliado (\texttt{concept\_id});
+    \item \textbf{Desempenho observado:} as respostas registradas em \textit{activity\_responses} e nos questionários do \textit{cedis-atlas}, das quais se extrai a observação $a_t$;
+    \item \textbf{Reconciliação e ordenação temporal:} a entidade \textit{LearningAnalyticsIngestLink}, que vincula o evento de aprendizagem à resposta persistida e fornece os carimbos de tempo necessários para ordenar a sequência $X = \{(q_1, a_1), \ldots, (q_t, a_t)\}$;
+    \item \textbf{Identidade longitudinal consentida:} o vínculo de \textit{LearningAnalyticsIngestLink} com o Learning Passport (\texttt{identity\_person\_id}), que permite acompanhar o estudante ao longo do tempo apenas quando há consentimento ativo, superando a rotação diária do identificador de telemetria.
+\end{itemize}
 
 \subsection{APIs do Ecossistema}
 \label{subsec:apis-ecossistema}
 
-Na ausência de chaves estrangeiras físicas entre os bancos de dados isolados de cada serviço, a coesão operacional e analítica do Ecossistema CEDIS apoia-se integralmente em suas Interfaces de Programação de Aplicações (APIs) e nos contratos de dados que regem a comunicação intercomponencial. Todas as integrações entre os serviços adotam os protocolos padronizados de segurança da plataforma — autenticação e autorização federadas via OAuth2 e \textit{OpenID Connect} (OIDC, indexado pelo atributo \texttt{oidc\_sub} na entidade \textit{User}), autorização por \textit{tokens} entre serviços e assinatura criptográfica de mensagens via HMAC-SHA256.
-
-A arquitetura de APIs atual estabelece uma separação rigorosa entre \textbf{endpoints públicos de borda} (voltados à captura de eventos e à submissão de respostas pelos clientes web) e \textbf{endpoints internos ou administrativos} (voltados à aplicação de políticas de sessão, reconciliação entre serviços, consulta de agregados e exportação de dados). A Figura~\ref{fig:pipeline-coleta-apis} sintetiza o \textit{pipeline} canônico de dez estágios pelo qual as interações transitam através das APIs existentes do ecossistema, desde a captura no navegador até a disponibilização para consumo analítico e para o módulo Cognita.
+Na ausência de chaves estrangeiras entre os bancos dos serviços, a integração do ecossistema depende das suas APIs e dos contratos de dados entre os serviços. Essas integrações utilizam autenticação e autorização via OAuth2 e \textit{OpenID Connect} (OIDC), autorização por \textit{tokens} entre serviços e assinatura de mensagens via HMAC-SHA256. A Figura~\ref{fig:pipeline-coleta-apis} sintetiza os dez estágios pelos quais uma interação passa, desde a captura no navegador até o consumo analítico.
 
 \begin{figure}[H]
 \caption{\textit{Pipeline} de coleta, validação, anonimização e reconciliação de dados através das APIs do ecossistema}
@@ -921,17 +894,15 @@ A arquitetura de APIs atual estabelece uma separação rigorosa entre \textbf{en
 \legend{Fonte: Elaborado pelos autores a partir do levantamento técnico do repositório CEDIS Deck Manager (\textit{commit} \texttt{3bb454a}, 2026).}
 \end{figure}
 
-O fluxo retratado na Figura~\ref{fig:pipeline-coleta-apis} materializa-se, na implementação atual do ecossistema, por meio de três trilhas principais de comunicação via API:
+Esse \textit{pipeline} é percorrido por três fluxos principais:
 
 \begin{enumerate}
-    \item \textbf{Fluxo de API de telemetria e gestão operacional (\textit{Deck Manager}):} Quando o usuário interage com um \textit{deck} (estágios 1 e 2), a camada de captura envia o evento às rotas do \textit{manager}. O módulo \texttt{manager/app/analytics.py} executa a validação contratual estrita contra a taxonomia \texttt{VALID\_EVENTS} (\textit{deck\_open}, \textit{activity\_impression}, \textit{activity\_started}, \textit{activity\_submitted} e \textit{summary\_view}), verifica a diretiva \textit{Do Not Track} (DNT) e aplica filtragem de tráfego automatizado (\textit{bots}) (estágio 3). Em seguida, realiza a minimização em memória — truncando endereços IPv4 para prefixos \texttt{/24} e IPv6 para \texttt{/48}, classificando o agente de usuário em \texttt{device\_class} e a origem em \texttt{referrer\_class} — e deriva o pseudônimo rotativo diário \texttt{anon\_visitor\_hash} via HMAC-SHA256 (estágio 4). Após a persistência em \textit{DeckEvent} (estágio 6), o \textit{manager} realiza o encaminhamento (\textit{forward}) do evento via chamada interna de API para o serviço \textit{cedis-la-ingest} (estágio 7).
-
-    \item \textbf{Fluxo de API de submissão e agregação de respostas (\textit{cedis-slides-api}):} No decorrer de uma atividade interativa no CEDIS Slides (rotas públicas \texttt{/r} e \texttt{/s}), a submissão de uma resposta atravessa o controle de política de acesso e sessão (\textit{session gate}) e a validação do formato da resposta (questões fechadas, escalas Likert ou texto aberto). A requisição é transmitida via \texttt{POST /api/responses} (estágio 5), gerando um registro em \textit{activity\_responses} com identificador único \texttt{response\_id}, código de sessão (\texttt{session\_code}), identificador do participante (\texttt{anon\_participant\_hash} ou modo identificado conforme política da sessão) e o objeto \texttt{response\_json} (estágio 6). Para consumo docente e administrativo, o \textit{cedis-slides-api} expõe endpoints internos de agregação e exportação consumidos pelo \textit{manager} (estágios 9 e 10), protegidos por controle de acesso e regras de supressão por \textit{k}-anonimato.
-
-    \item \textbf{Fluxo de API de ingestão e reconciliação de \textit{Learning Analytics} (\textit{cedis-la-ingest} e \textit{cedis-identity-suite}):} Os eventos de aprendizagem padronizados (estilo xAPI) são recebidos no endpoint de ingestão \texttt{/v1/learning-events} (exposto na borda pelo \textit{gateway} sob a rota \texttt{/la/events}), mediante validação de esquema e autorização por \textit{token} (estágio 5). Ao processar o evento com seu identificador único \texttt{ingest\_event\_id}, o serviço executa duas integrações \textit{cross-service} (estágio 7): (i) a linkagem lógica com a resposta correspondente no \textit{cedis-slides-api} através do \texttt{response\_id}; e (ii) quando o modo de identidade consentida está habilitado, a resolução opcional de pessoa (\texttt{identity\_person\_id}), grupo (\texttt{identity\_group\_id}) e contexto (\texttt{identity\_context\_id}) junto às APIs do \textit{cedis-identity-suite} (Learning Passport). O vínculo consolidado é persistido na entidade \textit{LearningAnalyticsIngestLink} do \textit{manager} (estágios 6 e 7) e combinado ao mapeamento questão--conceito de \textit{QuestionActivityMap} (estágio 8) para viabilizar análises semânticas (estágios 9 e 10).
+    \item \textbf{Telemetria (\textit{manager}):} os eventos de navegação são validados contra a taxonomia de eventos (estágios 1 a 3), minimizados e pseudonimizados conforme descrito na Seção~\ref{subsec:privacidade} (estágio 4), persistidos em \textit{DeckEvent} (estágio 6) e encaminhados ao \textit{cedis-la-ingest} (estágio 7). Para o Cognita, esse fluxo interessa apenas como fonte auxiliar de carimbos de tempo;
+    \item \textbf{Respostas (\textit{cedis-slides-api}):} cada resposta submetida no CEDIS Slides passa pelo controle de acesso da sessão e pela validação do formato (estágios 2 e 3) e é registrada em \textit{activity\_responses}, com o seu identificador (\texttt{response\_id}) e o conteúdo da resposta (\texttt{response\_json}) (estágios 5 e 6). É desse fluxo que provém a evidência de desempenho das atividades em sala de aula;
+    \item \textbf{Ingestão de \textit{Learning Analytics} (\textit{cedis-la-ingest}):} os eventos de aprendizagem são recebidos e validados (estágio 5) e vinculados à resposta correspondente e, quando há consentimento, à identidade do estudante no Learning Passport (estágio 7). O vínculo é registrado em \textit{LearningAnalyticsIngestLink} e combinado ao mapeamento questão-conceito de \textit{QuestionActivityMap} (estágio 8).
 \end{enumerate}
 
-A Tabela~\ref{tab:apis-ecossistema} sistematiza as APIs, os serviços e o pacote de contratos atualmente existentes no Ecossistema CEDIS que são diretamente relevantes para o módulo Cognita, especificando a responsabilidade arquitetural de cada componente, os dados fornecidos ou consumidos pelo \textit{pipeline} de \textit{Knowledge Tracing} e os respectivos endpoints e contratos de integração identificados no levantamento técnico.
+A Tabela~\ref{tab:apis-ecossistema} sistematiza as APIs e os serviços relevantes para o Cognita, com a responsabilidade de cada um, os dados que fornecem ao módulo e os respectivos \textit{endpoints} e contratos.
 
 {\small
 \begin{longtable}{>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{3.4cm}>{\raggedright\arraybackslash}p{4.3cm}>{\raggedright\arraybackslash}p{3.5cm}}
@@ -952,15 +923,15 @@ A Tabela~\ref{tab:apis-ecossistema} sistematiza as APIs, os serviços e o pacote
 \hline
 \multicolumn{4}{l}{Fonte: Elaborado pelos autores a partir do levantamento técnico realizado.} \\
 \endlastfoot
-\textbf{CEDIS Deck Manager} (\textit{manager}) & Plano operacional, administrativo e analítico; gestão de \textit{decks}, versões, permissões docentes, telemetria (\textit{DeckEvent}), vínculo questão--atividade e reconciliação de LA. & Mapeamento atividade--questão (\textit{QuestionActivityMap}: \textit{deck\_id}, \textit{activity\_id}, \textit{question\_id}); elos de reconciliação (\textit{LearningAnalyticsIngestLink}: \textit{ingest\_event\_id}, \textit{response\_id}, \textit{identity\_*}); metadados e versões de \textit{decks} (\textit{slug}, \textit{version}, \textit{settings}) e permissões de usuários (\textit{User}: \textit{oidc\_sub}, \textit{role}). & Rotas administrativas e de publicação via \textit{gateway}; APIs internas de políticas e \textit{analytics}; \textit{forward} interno de eventos validados (\textit{VALID\_EVENTS}). \\
+\textbf{CEDIS Deck Manager} (\textit{manager}) & Plano operacional, administrativo e analítico; gestão de \textit{decks}, versões, permissões docentes, telemetria (\textit{DeckEvent}), vínculo questão-atividade e reconciliação de LA. & Mapeamento atividade-questão (\textit{QuestionActivityMap}: \textit{deck\_id}, \textit{activity\_id}, \textit{question\_id}); elos de reconciliação (\textit{LearningAnalyticsIngestLink}: \textit{ingest\_event\_id}, \textit{response\_id}, \textit{identity\_*}); metadados e versões de \textit{decks} (\textit{slug}, \textit{version}, \textit{settings}) e permissões de usuários (\textit{User}: \textit{oidc\_sub}, \textit{role}). & Rotas administrativas e de publicação via \textit{gateway}; APIs internas de políticas e \textit{analytics}; \textit{forward} interno de eventos validados (\textit{VALID\_EVENTS}). \\
 \hline
-\textbf{CEDIS Slides API} (\textit{cedis-slides-api}) & Plano público de coleta de respostas às atividades interativas em tempo real e fornecimento interno de agregações e exportações. & Registros de respostas (\textit{activity\_responses}): identificador da resposta (\textit{response\_id}), \textit{deck} (\textit{deck\_slug}), atividade (\textit{activity\_id}), sessão (\textit{session\_code}), participante pseudonimizado (\textit{anon\_participant\_hash}), conteúdo e correção da resposta (\textit{response\_json}) e instante de registro (\textit{created\_at}). & Rotas públicas de apresentação e submissão (\texttt{/r}, \texttt{/s}, \texttt{POST /api/responses}); endpoints administrativos internos de consulta agregada, exportação e linkagem por \textit{response\_id}. \\
+\textbf{CEDIS Slides API} (\textit{cedis-slides-api}) & Plano público de coleta de respostas às atividades interativas em tempo real e fornecimento interno de agregações e exportações. & Registros de respostas (\textit{activity\_responses}): identificador da resposta (\textit{response\_id}), \textit{deck} (\textit{deck\_slug}), atividade (\textit{activity\_id}), sessão (\textit{session\_code}), participante pseudonimizado (\textit{anon\_participant\_\allowbreak hash}), conteúdo e correção da resposta (\textit{response\_json}) e instante de registro (\textit{created\_at}). & Rotas públicas de apresentação e submissão (\texttt{/r}, \texttt{/s}, \texttt{POST /api/responses}); endpoints administrativos internos de consulta agregada, exportação e vinculação por \textit{response\_id}. \\
 \hline
-\textbf{LA Ingest} (\textit{cedis-la-ingest}) & Camada de ingestão de eventos padronizados de \textit{Learning Analytics} (estilo xAPI) e orquestração da linkagem entre eventos, respostas e identidade. & Eventos padronizados de aprendizagem, carimbos de tempo (\textit{occurred\_at}), metadados de duração e interação (\textit{metadata\_json}), e correlação cruzada entre \textit{ingest\_event\_id}, \textit{response\_id} e identificadores de contexto/pessoa. & Rota de borda \texttt{/la/events} (\textit{gateway}) mapeada para \texttt{POST} \texttt{/v1/learning-\allowbreak events} (por \textit{token}); contratos internos de linkagem com \textit{slides-api} e \textit{identity-suite}. \\
+\textbf{LA Ingest} (\textit{cedis-la-ingest}) & Camada de ingestão de eventos padronizados de \textit{Learning Analytics} (estilo xAPI) e orquestração da vinculação entre eventos, respostas e identidade. & Eventos padronizados de aprendizagem, carimbos de tempo (\textit{occurred\_at}), metadados de duração e interação (\textit{metadata\_json}), e correlação cruzada entre \textit{ingest\_event\_id}, \textit{response\_id} e identificadores de contexto/pessoa. & Rota de borda \texttt{/la/events} (\textit{gateway}) mapeada para \texttt{POST} \texttt{/v1/learning-\allowbreak events} (por \textit{token}); contratos internos de vinculação com \textit{slides-api} e \textit{identity-suite}. \\
 \hline
 \textbf{Identity Suite / Learning Passport} (\textit{cedis-identity-\allowbreak suite}) & Gestão de identidade persistente pseudonimizada, grupos, contexto acadêmico e controle de consentimento (\textit{opt-in}) e governança de dados pelo estudante (LGPD). & Identificador longitudinal consentido de pessoa (\textit{identity\_person\_id}), grupo/turma (\textit{identity\_group\_id}), contexto (\textit{identity\_context\_id}) e estado ativo de consentimento do titular. & Contrato interno de resolução opcional de identidade/contexto acionado pelo \textit{cedis-la-ingest} sob \textit{opt-in}; autenticação federada e gestão de consentimento. \\
 \hline
-\textbf{Atlas do Conhecimento e Concept Studio} (\textit{cedis-atlas}) & Estruturação semântica de mapas conceituais, manutenção do banco de conceitos e questões, e interface discente de exploração e prática. & Grafo de conceitos (\textit{Knowledge Concepts} -- KC), associação entre questões (\textit{question\_id}) e conceitos (matriz Q), histórico de prática e estrutura de navegação conceitual do estudante. & Integração lógica com o \textit{manager} via \textit{question\_\allowbreak activity\_map} e contratos compartilhados de conteúdo via \textit{cedis-core}. \\
+\textbf{Atlas do Conhecimento e Concept Studio} (\textit{cedis-atlas}) & Estruturação semântica de mapas conceituais, manutenção do banco de conceitos e questões, e interface discente de exploração e prática. & Grafo de conceitos (\textit{Knowledge Concepts}, KC), associação entre questões (\textit{question\_id}) e conceitos (matriz Q), histórico de prática e estrutura de navegação conceitual do estudante. & Integração lógica com o \textit{manager} via \textit{question\_\allowbreak activity\_map} e contratos compartilhados de conteúdo via \textit{cedis-core}. \\
 \hline
 \textbf{CEDIS Learning Analytics} & Consolidação transversal de indicadores pedagógicos, \textit{dashboards} de turmas e correlações analíticas para apoio à decisão docente. & Indicadores agregados por curso, turma e atividade, séries temporais de engajamento e distribuição de respostas sob políticas de supressão por \textit{k}-anonimato. & Consumo das APIs internas de agregação e telemetria autenticadas via OAuth2/OIDC com controle de acesso baseado em papel (\textit{role}). \\
 \hline
@@ -969,20 +940,19 @@ A Tabela~\ref{tab:apis-ecossistema} sistematiza as APIs, os serviços e o pacote
 \end{longtable}
 }
 
-Por fim, o levantamento técnico das APIs e contratos vigentes evidenciou quatro características e restrições operacionais da infraestrutura atual que condicionam qualquer consumo analítico sobre os dados do ecossistema:
+O levantamento das APIs evidenciou ainda quatro restrições que condicionam o consumo desses dados pelo Cognita:
+
 \begin{enumerate}
-    \item \textbf{Assimetria entre evento de submissão e resposta persistida:} Como o evento de telemetria \textit{activity\_submitted} (enviado ao \textit{manager}/\textit{cedis-la-ingest}) e a submissão da resposta via \texttt{POST /api/responses} (enviada ao \textit{cedis-slides-api}) trafegam por rotas distintas na borda, falhas parciais de rede ou reenvios podem produzir eventos sem resposta correspondente ou respostas sem evento pareado. Por essa razão, a reconciliação analítica entre as duas trilhas depende do vínculo explícito pelo identificador \textit{response\_id} e de mecanismos de idempotência;
-    \item \textbf{Heterogeneidade estrutural em cargas úteis JSON:} Os atributos \textit{response\_\allowbreak json} (em \textit{activity\_responses}) e \textit{metadata\_json} (em \textit{DeckEvent}) acomodam múltiplos formatos de atividade (múltipla escolha/fechadas, escalas Likert e texto aberto) sem um esquema único rígido no banco relacional. Uma vez que o modelo BKT (Equações~\ref{eq:bkt-correta} a~\ref{eq:bkt-predicao}) opera sobre observações binárias de desempenho $a_t \in \{0, 1\}$, o consumo desses registros requer filtragem e validação de esquema por tipo de atividade para separar itens avaliativos objetivos de interações puramente opinativas ou abertas;
-    \item \textbf{Integridade de referências lógicas \textit{cross-service}:} Dado que os atributos \textit{question\_id}, \textit{response\_id} e \textit{identity\_person\_id} constituem referências lógicas entre serviços independentes sem chaves estrangeiras físicas compartilhadas, o consumo integrado das APIs está sujeito à eventual presença de referências órfãs ou atividades ainda não vinculadas a questões do Atlas do Conhecimento;
-    \item \textbf{Fronteira de versionamento com o pacote \textit{cedis-core} e padronização temporal:} Como os contratos de conteúdo do \textit{cedis-core} residem em repositório separado do \textit{manager}, a reprodutibilidade das extrações analíticas depende da fixação (\textit{pin}) da versão/\textit{commit} desse pacote, aliada à padronização dos carimbos de tempo distribuídos (\textit{occurred\_at} e \textit{created\_at}) em Tempo Universal Coordenado (UTC).
+    \item \textbf{Assimetria entre evento e resposta:} o evento \textit{activity\_submitted} e a resposta persistida trafegam por rotas distintas, de modo que falhas de rede podem gerar eventos sem resposta ou respostas sem evento. A reconciliação depende, portanto, do identificador \texttt{response\_id} e de mecanismos de idempotência;
+    \item \textbf{Heterogeneidade das respostas:} o campo \texttt{response\_json} acomoda formatos diferentes (múltipla escolha, Likert e texto aberto), o que exige filtrar apenas as atividades objetivas antes de extrair $a_t$ (Seção~\ref{subsubsec:oe4});
+    \item \textbf{Referências órfãs:} por serem referências lógicas, \texttt{question\_id}, \texttt{response\_id} e \texttt{identity\_person\_id} podem apontar para registros inexistentes, e algumas atividades podem ainda não estar vinculadas a questões;
+    \item \textbf{Reprodutibilidade:} como os contratos do \textit{cedis-core} ficam em um repositório separado, cada extração deve registrar a versão desse pacote utilizada, e os carimbos de tempo dos diferentes serviços devem ser normalizados em UTC.
 \end{enumerate}
 
 \subsection{Arquitetura Proposta para o Cognita}
 \label{subsec:arquitetura-proposta}
 
-A partir do mapeamento da infraestrutura atual (Seção~\ref{subsec:arquitetura-atual}), dos contratos de comunicação vigentes (Seção~\ref{subsec:apis-ecossistema}) e das funcionalidades e restrições de qualidade elicitadas na Seção~\ref{sec:requisitos}, projeta-se a arquitetura de integração do módulo Cognita. Em conformidade com a delimitação de escopo estabelecida na \textit{Lean Inception} (Seção~\ref{subsubsec:e-nao-e-faz-nao-faz}), o Cognita não é concebido como uma plataforma isolada (\textit{standalone}) nem possui uma aplicação própria de interface com o usuário; trata-se de um serviço preditivo e analítico acoplado à camada do \textbf{CEDIS Learning Analytics}, cujas capacidades manifestam-se diretamente nas interfaces das seis aplicações já existentes do ecossistema (Atlas do Conhecimento, CEDIS Slides, CEDIS Learning Analytics, Concept Studio, CEDIS Deck Manager e CEDIS Learning Passport) por meio de APIs internas seguras.
-
-Para atender simultaneamente às demandas de baixa latência nas consultas e atualizações online e ao processamento intensivo exigido pelo treinamento e retreinamento em lote do modelo, a arquitetura proposta adota a separação clássica de sistemas intensivos em dados entre o caminho de inferência transacional/online e o caminho de treinamento analítico em lote \cite{kleppmann_designing_2017, bass_software_2021}. A Figura~\ref{fig:arquitetura-cognita} apresenta a arquitetura proposta para o módulo Cognita integrada ao Ecossistema CEDIS, destacando as fontes de dados consumidas à esquerda, os seis componentes internos e o banco de dados preditivo ao centro, e as aplicações consumidoras que materializam o ciclo duplo de \textit{feedback} e a governança de dados à direita.
+A arquitetura do Cognita foi projetada a partir da arquitetura atual, das APIs existentes e dos requisitos da Seção~\ref{sec:requisitos}. Conforme a delimitação de escopo (Seção~\ref{subsubsec:e-nao-e-faz-nao-faz}), o Cognita não possui interface própria: trata-se de um serviço acoplado ao CEDIS Learning Analytics, cujas funcionalidades aparecem nas interfaces das seis aplicações existentes do ecossistema por meio de APIs internas. Para conciliar consultas de baixa latência com o treinamento em lote do modelo, a arquitetura separa o caminho de inferência, executado a cada nova resposta, do caminho de treinamento, executado periodicamente \cite{kleppmann_designing_2017, bass_software_2021}. A Figura~\ref{fig:arquitetura-cognita} apresenta as fontes de dados consumidas (à esquerda), os seis componentes internos e o banco de dados do módulo (ao centro) e as aplicações que exibem os resultados (à direita).
 
 \begin{figure}[H]
 \caption{Arquitetura proposta do Cognita integrada ao ecossistema}
@@ -992,27 +962,22 @@ Para atender simultaneamente às demandas de baixa latência nas consultas e atu
 \legend{Fonte: Elaborado pelos autores.}
 \end{figure}
 
-O funcionamento integrado dos seis subsistemas internos do módulo Cognita representados na Figura~\ref{fig:arquitetura-cognita} foi estruturado da seguinte forma:
+Os seis componentes representados na Figura~\ref{fig:arquitetura-cognita} têm as seguintes responsabilidades:
 
 \begin{enumerate}
-    \item \textbf{Conector de Ingestão, Validação e Reconciliação:} Atua como fronteira de entrada do módulo, consumindo registros provenientes de cinco fontes do ecossistema: respostas submetidas no \textit{cedis-slides-api} (\textit{activity\_\allowbreak responses}) e nas práticas e expedições do \textit{cedis-atlas}, eventos padronizados no \textit{cedis-la-ingest}, estado de consentimento e identificadores no \textit{cedis-identity-suite}, vínculos operacionais e seleção de \textit{decks} elegíveis no \textit{manager} (\textit{QuestionActivityMap}, \textit{LearningAnalyticsIngestLink} e configuração de uso de \textit{decks} no treino) e a estrutura conceitual no \textit{cedis-atlas} / Concept Studio (apoiada pelos contratos do \textit{cedis-core}). O componente aplica um duplo filtro na entrada: (i) o filtro estrito de privacidade por concepção, processando apenas interações vinculadas a passaportes com consentimento ativo (\textit{opt-in}) sob identificadores pseudonimizados (\textit{identity\_person\_id}); e (ii) o filtro de elegibilidade docente, ignorando respostas de \textit{decks} em construção ou retirados do treinamento pelo professor no Deck Manager. Antes de qualquer persistência ou cálculo, 100\% dos registros passam por rotina de validação contratual: inconsistências passíveis de saneamento (como envios duplicados de \textit{activity\_submitted}, horários fora de ordem reordenados pelo registro da resposta ou respostas sem evento de envio reconciliadas via \textit{LearningAnalyticsIngestLink}) são tratadas automaticamente, enquanto registros irrecuperáveis (como questões sem conceito vinculado em \textit{QuestionActivityMap} ou respostas sem atividade correspondente no \textit{deck}) são descartados e obrigatoriamente registrados com o respectivo motivo em tabela de auditoria exportável.
-
-    \item \textbf{Engenharia de Atributos e Sequenciamento Temporal (Matriz Q e Grafo Conceitual):} Converte os registros reconciliados e validados nas estruturas matemáticas exigidas pelo rastreamento de conhecimento (Seção~\ref{subsec:knowledge-tracing}). Este componente cruza o identificador da atividade/questão (\textit{activity\_id} e \textit{question\_id}) com o banco semântico do \textit{cedis-atlas} e do Concept Studio para construir a Matriz Q de associação questão--conceito e importar as relações estruturais entre conceitos (pré-requisito, hierarquia e correlação). Em seguida, extrai do atributo \textit{response\_json} a variável binária de desempenho observado $a_t \in \{0, 1\}$ (erro ou acerto em itens avaliativos objetivos), identifica a origem da atividade (CEDIS Slides, prática de fixação ou expedição do Atlas) e ordena cronologicamente as interações de cada estudante por conceito segundo o carimbo de tempo em UTC, produzindo as trajetórias sequenciais $X = \{(q_1, a_1), (q_2, a_2), \ldots, (q_t, a_t)\}$.
-
-    \item \textbf{Motor de Treinamento BKT e \textit{Quality Gate}:} Executa o ajuste estatístico de um modelo único do tipo \textit{Bayesian Knowledge Tracing} (BKT) para o ecossistema, estimando quatro parâmetros específicos por conceito — conhecimento inicial $P(L_0)$, aprendizado $P(T)$, chute $P(G)$ e descuido/deslize $P(S)$ — sob restrições de plausibilidade pedagógica ($P(G) < 0{,}5$ e $P(S) < 0{,}5$) para evitar degenerescência paramétrica \cite{pelanek_bayesian_2017}. O motor suporta tanto o treinamento inicial quanto ciclos de retreinamento contínuo em segundo plano, disparados por agendamento periódico ou por gatilho de volume de novas respostas recebidas (em conformidade com a política de treino e com os \textit{decks} habilitados no Deck Manager), com tempo máximo de execução limitado a 6 horas e isolado das consultas online para não degradar seu tempo de resposta em mais de 10\%. A cada ciclo, os dados são particionados por estudante (reservando, por exemplo, 20\% dos passaportes fora do conjunto de treino para teste, prevenindo vazamento de informação) e o modelo candidato é avaliado pelas métricas AUC-ROC, Acurácia (ACC) e RMSE. Um portão automatizado de qualidade (\textit{Quality Gate}) governa a promoção da versão treinada: o novo modelo só entra em operação se atingir simultaneamente AUC $\ge 0{,}65$, ACC $\ge 0{,}70$, RMSE $\le 0{,}45$ e não apresentar queda de AUC superior a $0{,}01$ em relação ao modelo vigente. Caso a execução exceda o tempo limite de 6 horas ou viole esses limiares, o mecanismo de tolerância a falhas (\textit{fallback}) retém a versão anterior em operação sem interrupção de serviço, preservando o histórico completo de versões promovidas e não promovidas para auditoria.
-
-    \item \textbf{Motor de Inferência Bayesiana, Priorização e Explicabilidade:} Opera no caminho crítico de baixa latência para atualizar e fornecer o diagnóstico individual de cada estudante. Sempre que uma nova resposta válida é enviada (seja no Atlas ou em uma atividade prática no CEDIS Slides), o motor recupera os parâmetros BKT ativos dos conceitos vinculados à questão e aplica recursivamente a atualização a posteriori pelo teorema de Bayes (Equações~\ref{eq:bkt-correta} e~\ref{eq:bkt-incorreta}) seguida da transição de aprendizagem (Equação~\ref{eq:bkt-transicao}), concluindo a atualização da probabilidade de domínio $P(L_t)$ em até 60 segundos (frequentemente em poucos segundos para retorno imediato pós-prática no CEDIS Slides) e gravando a variação ocorrida ($P(L_t)$ anterior $\rightarrow$ $P(L_{t+1})$ atual) na série histórica do estudante. Com base na probabilidade atualizada, o conceito é classificado em quatro situações pedagógicas: \textit{dominado} ($P(L_t) \ge 80\%$), \textit{em progresso} ($50\% \le P(L_t) < 80\%$), \textit{a revisar} ($P(L_t) < 50\%$) ou \textit{sem evidências} (quando ainda não há respostas associadas). Para construir a lista \textit{Revise primeiro} no Atlas, o motor combina a menor probabilidade de domínio com a topologia do grafo do Concept Studio, atribuindo maior prioridade aos conceitos que servem de base (pré-requisitos) para os próximos destinos da rota do estudante. Adicionalmente, calcula a faixa provável da estimativa e o grau de confiança individual (classificado como \textit{alta} com 8 ou mais respostas ligadas ao conceito, \textit{média} entre 3 e 7 respostas, e \textit{baixa} com até 2 respostas) e estrutura os motivos da estimativa em linguagem acessível (total de acertos e erros, peso das respostas mais recentes, pico histórico de desempenho e distribuição das respostas por origem).
-
-    \item \textbf{Agregador Analítico de Turma e Controlador de Governança LGPD:} Consolida as estimativas individuais em diagnósticos coletivos voltados ao professor, permitindo filtrar resultados por curso, turma, período e conceito com tempo de resposta inferior a 5 segundos para cursos de até 300 estudantes. Considerando como estudante ``com domínio'' aquele cuja probabilidade estimada no conceito é igual ou superior a 80\%, o componente calcula a proporção da turma com domínio em cada conceito, ordena os conceitos do menor para o maior nível de absorção e sinaliza automaticamente com alerta de \textit{baixa absorção} aqueles nos quais menos de 40\% da turma atingiu o domínio — disponibilizando esses indicadores tanto nas abas do Learning Analytics quanto sobrepostos visualmente aos nós do mapa conceitual no Concept Studio. O agregador também gera a série semanal de evolução da absorção coletiva (comparando o conceito analisado com seus pré-requisitos e dependentes), calcula a amostra ($n$ de estudantes), o intervalo provável em pontos percentuais e a confiança coletiva (\textit{alta} para 60 ou mais estudantes com intervalo $\le \pm 8$~p.p., \textit{média} entre 30 e 59 estudantes, e \textit{baixa} para menos de 30 estudantes ou intervalo largo), e sintetiza a explicação docente em três frentes: as questões ligadas ao conceito que concentram maior taxa de erro, o grau de absorção dos conceitos pré-requisitos no mapa do curso e o impacto dos parâmetros de chute $P(G)$ e deslize $P(S)$ estimados pelo BKT. No apoio direto à revisão de conteúdo no Deck Manager, o componente cruza os conceitos de baixa absorção com \textit{QuestionActivityMap} e sinaliza que um material (\textit{deck}/atividade) \textit{precisa de reforço} quando uma atividade ligada ao conceito registra 50\% ou mais de erro com ao menos 20 respostas. No plano regulatório (LGPD), impõe duas travas automáticas: (i) a supressão de qualquer indicador coletivo cujo grupo filtrado possua menos de 5 estudantes (\textit{k}-anonimato com $k = 5$, exibindo o aviso de supressão em vez de valor zerado); e (ii) o expurgo físico em cascata de todas as estimativas e históricos associados a um passaporte em até 48 horas após solicitação na página \textit{Meus dados} do Learning Passport, sem apagar as respostas brutas ou carimbos operacionais do estudante nos demais produtos do ecossistema.
-
-    \item \textbf{Camada de APIs Internas e Persistência Preditiva (\textit{PostgreSQL Cognita}):} Isola o armazenamento dos estados preditivos, parâmetros e versões de modelo, séries históricas e logs de auditoria em um banco relacional dedicado (\textit{PostgreSQL Cognita}), preservando a independência dos bancos transacionais do \textit{manager} e do \textit{cedis-slides-api}. A comunicação com as seis aplicações do ecossistema que exibem interfaces do módulo é servida por endpoints REST internos com meta de disponibilidade mensal mínima de 99\%, tempo de resposta de até 2 segundos para consultas individuais (95\% das requisições com até 50 usuários simultâneos), cobertura mínima de 80\% em testes automatizados sobre ingestão, validação e inferência, e proteção obrigatória via OAuth2/OIDC (respeitando o compartilhamento de acesso entre docentes de um mesmo curso), assinatura HMAC-SHA256 e transporte HTTPS com TLS 1.2 ou superior.
+    \item \textbf{Conector de Ingestão, Validação e Reconciliação:} consome as respostas do CEDIS Slides e do Atlas do Conhecimento, os eventos do \textit{cedis-la-ingest}, o estado de consentimento do Learning Passport, os vínculos e a seleção de \textit{decks} do \textit{manager} e a estrutura de conceitos do \textit{cedis-atlas}. Aplica os critérios de inclusão descritos na Seção~\ref{subsubsec:oe4}, entre eles o consentimento ativo (RNF14) e a habilitação do \textit{deck} pelo docente (RF04), trata as inconsistências recuperáveis, como envios duplicados, e registra os descartes com o respectivo motivo em uma tabela de auditoria (RF03 e RNF07);
+    \item \textbf{Engenharia de Atributos e Sequenciamento:} constrói a Matriz Q a partir dos vínculos entre questões e conceitos, importa as relações de pré-requisito do Concept Studio, extrai a observação $a_t$ da primeira tentativa de cada resposta, registra a sua origem (atividade em sala de aula ou questionário individual) e ordena as respostas de cada estudante por conceito, produzindo as sequências consumidas pelo BKT;
+    \item \textbf{Motor de Treinamento BKT e \textit{Quality Gate}:} estima os parâmetros do BKT por conceito, com chute e descuido distintos por origem e parâmetros globais para os conceitos com poucas respostas (Seção~\ref{subsubsec:oe4}). O treinamento é disparado por agendamento ou por volume de novas respostas, conforme a política de treino (RF02 e RF04), e é executado em segundo plano, com duração máxima de 6 horas (RNF11). Cada versão candidata é avaliada por validação cruzada agrupada por estudante e só é promovida se superar o modelo de referência e não reduzir a AUC do modelo vigente em mais de 0,01 (RNF05). Caso contrário, a versão anterior permanece em operação (RNF06);
+    \item \textbf{Motor de Inferência, Priorização e Explicabilidade:} a cada nova resposta válida, atualiza a probabilidade de domínio do estudante no conceito correspondente por meio das Equações~\ref{eq:bkt-correta} a~\ref{eq:bkt-transicao}, em até 60 segundos (RNF10), e registra a variação na série histórica. Com base nessa probabilidade e nos limiares da Tabela~\ref{tab:limiares}, classifica o conceito como dominado, em progresso, a revisar ou sem evidências, calcula o grau de confiança da estimativa e gera a lista \textit{Revise primeiro}, que prioriza os conceitos de menor domínio que servem de pré-requisito para os próximos destinos da rota do estudante. Também estrutura os motivos da estimativa em linguagem acessível, como o total de acertos e erros e a origem das respostas;
+    \item \textbf{Agregador de Turma e Governança LGPD:} consolida as estimativas individuais em indicadores por curso, turma, período e conceito (RF11 a RF15), como a proporção de estudantes com domínio, o ranqueamento dos conceitos por nível de absorção e a evolução semanal dessa absorção. Calcula também a confiança e a amostra das estimativas coletivas (RF18), as explicações para o docente (RF19) e a indicação dos materiais que precisam de reforço (RF20), segundo os limiares da Tabela~\ref{tab:limiares}. No plano da privacidade, suprime os indicadores de grupos com menos de cinco estudantes (RNF15) e executa a exclusão dos dados preditivos de um passaporte em até 48 horas após a solicitação (RF24 e RNF16), sem apagar os dados do estudante nos demais produtos do ecossistema;
+    \item \textbf{Camada de APIs Internas:} expõe os resultados às aplicações do ecossistema por meio de \textit{endpoints} REST internos, protegidos por OAuth2/OIDC, assinatura HMAC-SHA256 e transporte HTTPS (RNF17), e atende às metas de disponibilidade e de tempo de resposta definidas nos RNF04, RNF08 e RNF09. Os estados preditivos, as versões do modelo, as séries históricas e os registros de auditoria são armazenados em um banco PostgreSQL próprio, isolado dos bancos dos demais serviços (Seção~\ref{sec:modelagem-dados}).
 \end{enumerate}
 
 
 \section{Modelagem de Dados}
 \label{sec:modelagem-dados}
 
-A modelagem de dados do módulo Cognita compreende duas perspectivas complementares: (i) o mapeamento exato das entidades e atributos já existentes nos componentes do Ecossistema CEDIS que atuam como insumos de entrada para o \textit{pipeline} preditivo; e (ii) a concepção do modelo lógico relacional próprio do Cognita, projetado para armazenar a política e seleção de materiais de treino, os parâmetros e métricas versionados do BKT, as interações reconciliadas, as estimativas atuais e históricas de domínio, os artefatos de explicabilidade e os controles de auditoria e conformidade com a LGPD.
+A modelagem de dados do Cognita compreende duas partes: as entidades e os atributos já existentes no Ecossistema CEDIS que servem de entrada para o módulo e o modelo lógico próprio do Cognita, que armazena a política de treino, as versões e os parâmetros do modelo, as interações reconciliadas, as estimativas de domínio e os registros de auditoria.
 
 \subsection{Entidades e Atributos Utilizados}
 \label{subsec:entidades-utilizadas}
@@ -1050,7 +1015,7 @@ A Tabela~\ref{tab:entidades-cognita} seleciona, a partir do modelo de dados e do
 \hline
 \textit{User} (\textit{Person}) & \textit{manager} & \textit{id}, \textit{oidc\_sub}, \textit{role}, \textit{account\_status} & Autenticação e controle de acesso de docentes e administradores às visões do curso no Learning Analytics, no Concept Studio e à seleção de \textit{decks} de treino no Deck Manager. \\
 \hline
-\textit{Questões, Conceitos e Relações} (\textit{Dominio\_\allowbreak Atlas\_Questao}) & \textit{cedis-atlas} / Concept Studio / \textit{cedis-core} & \textit{question\_id}, \textit{concept\_id}, relações entre conceitos (pré-requisito, hierarquia, relacionado), destino da rota e gabarito & Define os conceitos (\textit{Knowledge Concepts} -- KC), a Matriz Q questão--conceito, as práticas/expedições do Atlas e as relações de pré-requisito usadas na priorização de revisão (\textit{Revise primeiro}) e na explicação de baixa absorção. \\
+\textit{Questões, Conceitos e Relações} (\textit{Dominio\_\allowbreak Atlas\_Questao}) & \textit{cedis-atlas} / Concept Studio / \textit{cedis-core} & \textit{question\_id}, \textit{concept\_id}, relações entre conceitos (pré-requisito, hierarquia, relacionado), destino da rota e gabarito & Define os conceitos (\textit{Knowledge Concepts}, KC), a Matriz Q questão-conceito, as práticas/expedições do Atlas e as relações de pré-requisito usadas na priorização de revisão (\textit{Revise primeiro}) e na explicação de baixa absorção. \\
 \hline
 \textit{Passaporte e Consentimento} (\textit{Dominio\_\allowbreak Identity\_Suite}) & \textit{cedis-identity-\allowbreak suite} (Learning Passport) & \textit{identity\_person\_id}, \textit{identity\_group\_id}, \textit{identity\_context\_id}, chave de autorização do Cognita (\textit{opt-in}) e evento de exclusão & Garante que o Cognita processe e exiba estimativas individuais apenas para passaportes com autorização ativa e aciona a exclusão exclusiva dos dados preditivos em até 48 horas. \\
 \hline
@@ -1060,7 +1025,7 @@ A Tabela~\ref{tab:entidades-cognita} seleciona, a partir do modelo de dados e do
 \subsection{Modelo Lógico de Dados do Módulo Cognita}
 \label{subsec:der-cognita}
 
-Para sustentar o ciclo completo de operação do módulo Cognita — desde a governança da política de treinamento e dos \textit{decks} elegíveis, o versionamento de parâmetros do BKT e a auditoria de validação de dados até a persistência das probabilidades de domínio, das faixas prováveis, do histórico longitudinal, das justificativas de explicabilidade e do expurgo automatizado em conformidade com a LGPD —, projetou-se o modelo lógico relacional próprio do serviço (\textit{PostgreSQL Cognita}). A Figura~\ref{fig:der-cognita} apresenta o modelo lógico de dados do módulo Cognita, explicitando as tabelas, os tipos físicos de dados (\texttt{INT}, \texttt{VARCHAR}, \texttt{DECIMAL}, \texttt{BOOLEAN} e \texttt{TIMESTAMP}), as restrições de obrigatoriedade (\texttt{NN} para \textit{not null}) e de unicidade (\texttt{@} para \textit{unique}), as chaves primárias (PK) e estrangeiras (FK), e as cardinalidades em notação \textit{Crow's Foot} (\textit{Pé de Galinha}, onde o traço vertical representa \texttt{1} obrigatório e o símbolo bifurcado com círculo representa \texttt{0..*}).
+O modelo lógico relacional do Cognita, apresentado na Figura~\ref{fig:der-cognita}, cobre todo o ciclo de operação do módulo: a política de treino, as versões e os parâmetros do BKT, a auditoria da validação de dados, as estimativas de domínio e o seu histórico, as explicações e a exclusão de dados exigida pela LGPD. A figura indica os tipos de dados, a obrigatoriedade (\texttt{NN}, \textit{not null}) e a unicidade dos atributos, as chaves primárias e estrangeiras e as cardinalidades, em notação \textit{Crow's Foot}.
 
 \begin{figure}[H]
 \caption{Modelo lógico de dados do módulo Cognita}
@@ -1070,7 +1035,7 @@ Para sustentar o ciclo completo de operação do módulo Cognita — desde a gov
 \legend{Fonte: Elaborado pelos autores.}
 \end{figure}
 
-O modelo lógico apresentado na Figura~\ref{fig:der-cognita} é composto por oito tabelas relacionais, dispostas da esquerda para a direita segundo o fluxo de processamento do módulo: à extrema esquerda, a tabela independente \textit{ValidationAuditLog} registra as ocorrências de saneamento e descarte na borda de ingestão; no eixo superior, encadeiam-se as tabelas de governança e calibração do modelo preditivo (\textit{TrainingPolicy} $1 \rightarrow 0..*$ \textit{KTModelVersion} $1 \rightarrow 0..*$ \textit{ConceptBKTParameter}); no eixo inferior, articulam-se as tabelas de titularidade consentida, interações reconciliadas e estado atual de domínio (\textit{ConsentSubject} $1 \rightarrow 0..*$ \textit{ReconciledInteraction} e $1 \rightarrow 0..*$ \textit{StudentConceptMastery}, sendo esta última também vinculada à versão do modelo em \textit{KTModelVersion}); e, à extrema direita, a tabela \textit{StudentMasteryHistory} consolida a série histórica longitudinal ao convergir as chaves estrangeiras de \textit{StudentConceptMastery} (\texttt{mastery\_id}), \textit{ReconciledInteraction} (\texttt{reconciled\_interaction\_id}) e \textit{KTModelVersion} (\texttt{model\_version\_id}). A Tabela~\ref{tab:der-entidades-cognita} sintetiza as chaves, os relacionamentos e o papel funcional de cada tabela modelada para o Cognita.
+O modelo é composto por oito tabelas, dispostas da esquerda para a direita segundo o fluxo de processamento do módulo. À esquerda, a tabela \textit{ValidationAuditLog} registra os dados tratados e descartados na ingestão. Na parte superior, encadeiam-se as tabelas do modelo preditivo: cada política de treino (\textit{TrainingPolicy}) gera versões do modelo (\textit{KTModelVersion}), e cada versão possui os parâmetros dos conceitos (\textit{ConceptBKTParameter}). Na parte inferior, cada estudante com consentimento (\textit{ConsentSubject}) possui as suas respostas reconciliadas (\textit{ReconciledInteraction}) e o seu estado atual de domínio em cada conceito (\textit{StudentConceptMastery}). À direita, a tabela \textit{StudentMasteryHistory} guarda a série histórica das estimativas, ligando cada atualização à resposta que a causou e à versão do modelo utilizada. A Tabela~\ref{tab:der-entidades-cognita} sintetiza as chaves, os relacionamentos e o papel funcional de cada tabela modelada para o Cognita.
 
 {\small
 \begin{longtable}{>{\raggedright\arraybackslash}p{3.4cm}>{\raggedright\arraybackslash}p{4.2cm}>{\raggedright\arraybackslash}p{6.2cm}}
@@ -1091,11 +1056,11 @@ O modelo lógico apresentado na Figura~\ref{fig:der-cognita} é composto por oit
 \hline
 \multicolumn{3}{l}{Fonte: Elaborado pelos autores.} \\
 \endlastfoot
-\textit{TrainingPolicy} & \texttt{id} (PK); relaciona-se $1:N$ com \textit{KTModelVersion}; referência lógica ao docente/administrador (\textit{updated\_by\_user\_id}). & Armazena as regras de treinamento e a seleção de materiais configuradas no Deck Manager: agendamento (\textit{cron\_schedule}), gatilho por volume de novas respostas (\textit{volume\_trigger}), relação de \textit{decks} habilitados no treino (\textit{eligible\_deck\_ids}), inclusão automática de novos \textit{decks} (\textit{auto\_include\_new\_decks}), tempo limite de 6 horas e limiares do \textit{Quality Gate} (AUC $\ge 0{,}65$, ACC $\ge 0{,}70$, RMSE $\le 0{,}45$, queda máxima de AUC de $0{,}01$). \\
+\textit{TrainingPolicy} & \texttt{id} (PK); relaciona-se $1:N$ com \textit{KTModelVersion}; referência lógica ao docente/administrador (\textit{updated\_by\_user\_id}). & Armazena as regras de treinamento e a seleção de materiais configuradas no Deck Manager: agendamento (\textit{cron\_schedule}), gatilho por volume de novas respostas (\textit{volume\_trigger}), relação de \textit{decks} habilitados no treino (\textit{eligible\_deck\_ids}), inclusão automática de novos \textit{decks} (\textit{auto\_include\_new\_decks}), número mínimo de respostas para a estimação de parâmetros próprios de um conceito (\textit{min\_interactions\_concept}), número de partições da validação cruzada (\textit{cv\_folds}), tempo limite de 6 horas (\textit{max\_duration\_h}) e critérios do \textit{Quality Gate}: exigência de superar o modelo de referência em AUC e RMSE (\textit{require\_beat\_baseline}) e queda máxima de AUC de $0{,}01$ em relação ao modelo vigente (\textit{max\_auc\_drop}). \\
 \hline
-\textit{KTModelVersion} & \texttt{id} (PK), \textit{version\_tag} (UQ), \textit{policy\_id} (FK); relaciona-se $1:N$ com \textit{ConceptBKTParameter}, \textit{StudentConceptMastery} e \textit{StudentMasteryHistory}. & Registra cada execução do histórico de treinos do modelo BKT: versão (ex.: \texttt{v12}), tipo de gatilho (\texttt{SCHEDULED} ou \texttt{VOLUME}), estado (\texttt{ACTIVE}, \texttt{CANDIDATE} ou \texttt{FAILED} para retenção de \textit{fallback}), período dos dados de treino, \textit{commit} do \textit{cedis-core}, métricas (\textit{auc\_roc}, \textit{accuracy}, \textit{rmse}), total de passaportes/respostas e duração (\textit{duration\_seconds}). \\
+\textit{KTModelVersion} & \texttt{id} (PK), \textit{version\_tag} (UQ), \textit{policy\_id} (FK); relaciona-se $1:N$ com \textit{ConceptBKTParameter}, \textit{StudentConceptMastery} e \textit{StudentMasteryHistory}. & Registra cada execução do histórico de treinos do modelo BKT: versão (ex.: \texttt{v12}), tipo de gatilho (\texttt{SCHEDULED} ou \texttt{VOLUME}), estado (\texttt{ACTIVE}, \texttt{CANDIDATE} ou \texttt{FAILED} para retenção de \textit{fallback}), período dos dados de treino, \textit{commit} do \textit{cedis-core}, métricas médias da validação cruzada do modelo (\textit{auc\_roc}, \textit{accuracy}, \textit{rmse}) e do modelo de referência (\textit{baseline\_auc}, \textit{baseline\_accuracy}, \textit{baseline\_rmse}), total de passaportes/respostas e duração (\textit{duration\_seconds}). \\
 \hline
-\textit{ConceptBKT\allowbreak Parameter} & \texttt{id} (PK), \textit{model\_version\_id} (FK); referência lógica a \textit{concept\_id} (\textit{cedis-atlas}); unicidade por par (versão, conceito). & Mantém os quatro parâmetros probabilísticos estimados por conceito na respectiva versão do modelo: conhecimento inicial $P(L_0)$ (\textit{p\_init}), aprendizado $P(T)$ (\textit{p\_transit}), chute $P(G) < 0{,}5$ (\textit{p\_guess}) e deslize/descuido $P(S) < 0{,}5$ (\textit{p\_slip}), além do limiar de domínio (\textit{mastery\_threshold} $= 0{,}80$) e amostra de respostas utilizada no ajuste. \\
+\textit{ConceptBKT\allowbreak Parameter} & \texttt{id} (PK), \textit{model\_version\_id} (FK); referência lógica a \textit{concept\_id} (\textit{cedis-atlas}); unicidade por par (versão, conceito). & Mantém os quatro parâmetros probabilísticos estimados por conceito na respectiva versão do modelo: conhecimento inicial $P(L_0)$ (\textit{p\_init}), aprendizado $P(T)$ (\textit{p\_transit}), chute $P(G) < 0{,}5$ e descuido $P(S) < 0{,}5$, estimados separadamente para os questionários individuais (\textit{p\_guess\_individual} e \textit{p\_slip\_individual}) e para as atividades em sala de aula (\textit{p\_guess\_classroom} e \textit{p\_slip\_classroom}), além do limiar de domínio (\textit{mastery\_threshold} $= 0{,}80$) e amostra de respostas utilizada no ajuste. \\
 \hline
 \textit{ValidationAudit\allowbreak Log} & \texttt{id} (PK); indexado por lote (\textit{batch\_date}), serviço de origem (\textit{source\_service}) e referência bruta (\textit{raw\_reference\_id}). & Registra 100\% das ocorrências de saneamento (\texttt{TREATED}, como deduplicação de \textit{activity\_submitted} repetido, reordenação de horário e reconciliação via \textit{LearningAnalyticsIngestLink}) ou descarte (\texttt{DISCARDED}, como ausência de vínculo em \textit{QuestionActivityMap}), permitindo auditoria na tela de qualidade de dados e exportação em CSV. \\
 \hline
@@ -1103,18 +1068,18 @@ O modelo lógico apresentado na Figura~\ref{fig:der-cognita} é composto por oit
 \hline
 \textit{Reconciled\allowbreak Interaction} & \texttt{id} (PK), \textit{identity\_person\_id} (FK \texttt{CASCADE}), \textit{response\_id} (UQ lógico), \textit{ingest\_event\_id} (UQ lógico); relaciona-se $1:N$ com \textit{StudentMasteryHistory}. & Materializa a resposta validada de um \textit{deck} elegível ou prática do Atlas associada à Matriz Q (\textit{question\_id} e \textit{concept\_id}), registrando o resultado binário $a_t \in \{0, 1\}$ (\textit{is\_correct}), a origem (\textit{interaction\_origin}: CEDIS Slides, prática de fixação ou expedição do Atlas), o curso/turma (\textit{identity\_context\_id}) e o instante em UTC. \\
 \hline
-\textit{StudentConcept\allowbreak Mastery} & \texttt{id} (PK), \textit{identity\_person\_id} (FK \texttt{CASCADE}), \textit{model\_version\_id} (FK); unicidade por (estudante, conceito, contexto); relaciona-se $1:N$ com \textit{StudentMasteryHistory}. & Representa o estado cognitivo atual do estudante em cada conceito: probabilidade $P(L_t)$ (\textit{p\_mastery}), situação (\textit{mastery\_status}: dominado $\ge 80\%$, em progresso $50\%$--$79\%$, a revisar $< 50\%$ ou sem evidências), faixa provável (\textit{prob\_interval\_low/high}), prioridade de revisão ponderada por pré-requisitos (\textit{review\_priority\_score}), confiança (\textit{alta} $\ge 8$, \textit{média} $3$--$7$, \textit{baixa} $\le 2$ evidências), contadores de tentativas/acertos e motivos em JSON (\textit{explanation\_json}). \\
+\textit{StudentConcept\allowbreak Mastery} & \texttt{id} (PK), \textit{identity\_person\_id} (FK \texttt{CASCADE}), \textit{model\_version\_id} (FK); unicidade por (estudante, conceito, contexto); relaciona-se $1:N$ com \textit{StudentMasteryHistory}. & Representa o estado cognitivo atual do estudante em cada conceito: probabilidade $P(L_t)$ (\textit{p\_mastery}), situação (\textit{mastery\_status}: dominado $\ge 80\%$, em progresso $50\%$ a $79\%$, a revisar $< 50\%$ ou sem evidências), faixa provável (\textit{prob\_interval\_low/high}), prioridade de revisão ponderada por pré-requisitos (\textit{review\_priority\_score}), confiança (\textit{alta} $\ge 8$, \textit{média} $3$ a $7$, \textit{baixa} $\le 2$ evidências), contadores de tentativas/acertos e motivos em JSON (\textit{explanation\_json}). \\
 \hline
 \textit{StudentMastery\allowbreak History} & \texttt{id} (PK), \textit{mastery\_id} (FK \texttt{CASCADE}), \textit{reconciled\_interaction\_id} (FK), \textit{model\_version\_id} (FK). & Armazena a série temporal longitudinal das estimativas a cada resposta processada, registrando a probabilidade anterior $P(L_t)$ (\textit{p\_mastery\_before}), a probabilidade atualizada $P(L_{t+1})$ (\textit{p\_mastery\_after}), a confiança e a data em UTC (\textit{recorded\_at}), alimentando o gráfico individual no Atlas, o quadro pós-prática no Slides e a evolução semanal da turma no Analytics. \\
 \hline
 \end{longtable}
 }
 
-Três decisões de projeto desse modelo relacional merecem destaque pela forma como estruturam a persistência e a governança do módulo:
+Três decisões de projeto desse modelo merecem destaque:
 \begin{enumerate}
-    \item \textbf{Expurgo atômico por propagação em cascata (Conformidade com a LGPD):} Ao centralizar a chave pseudonimizada do passaporte na entidade \textit{ConsentSubject} e definir restrições de integridade referencial com cláusula \texttt{ON DELETE CASCADE} em direção a \textit{ReconciledInteraction} e \textit{StudentConceptMastery} (e desta última para \textit{StudentMasteryHistory}), qualquer solicitação de exclusão de dados preditivos é atendida por uma única operação transacional de remoção sobre \textit{ConsentSubject}, garantindo ausência de registros órfãos e cumprimento determinístico do prazo máximo de 48 horas;
-    \item \textbf{Desacoplamento entre estado atual (\textit{hot state}) e série histórica (\textit{append-only history}):} A separação entre \textit{StudentConceptMastery} (que mantém apenas uma tupla indexada por par estudante--conceito--contexto com os valores pré-calculados de $P(L_t)$, prioridade de revisão, confiança e explicação) e \textit{StudentMasteryHistory} (que acumula a evolução temporal a cada tentativa) assegura que as consultas frequentes do estudante no Atlas e as agregações de estado atual do professor no Analytics sejam servidas por leituras indexadas diretas sem varredura de histórico completo, viabilizando tempos de resposta inferiores a 2 segundos para consultas individuais e a 5 segundos para agregações de turmas;
-    \item \textbf{Reprodutibilidade científica e resiliência de versão (\textit{fallback}):} A vinculação explícita de \textit{ConceptBKTParameter}, \textit{StudentConceptMastery} e \textit{StudentMasteryHistory} à chave estrangeira \textit{model\_version\_id} de \textit{KTModelVersion} permite coexistirem no banco a versão ativa em produção (\texttt{status = ACTIVE}) e versões candidatas em avaliação durante o retreinamento em lote (\texttt{status = CANDIDATE}). Caso o novo treinamento falhe ou seja reprovado pelo \textit{Quality Gate}, basta descartar ou marcar a versão candidata como \texttt{FAILED}, mantendo as consultas apontadas para a versão \texttt{ACTIVE} anterior com zero tempo de indisponibilidade.
+    \item \textbf{Exclusão em cascata (LGPD):} o identificador pseudonimizado do passaporte fica centralizado em \textit{ConsentSubject}, e as tabelas dependentes são removidas em cascata (\texttt{ON DELETE CASCADE}). Assim, a exclusão dos dados preditivos de um estudante é feita por uma única operação, sem deixar registros órfãos, o que permite cumprir o prazo de 48 horas (RNF16);
+    \item \textbf{Separação entre estado atual e histórico:} \textit{StudentConceptMastery} mantém apenas um registro por estudante, conceito e contexto, com os valores já calculados, enquanto \textit{StudentMasteryHistory} acumula a evolução a cada resposta. Assim, as consultas frequentes do estudante e as agregações do docente não precisam percorrer o histórico, o que contribui para os tempos de resposta dos RNF08 e RNF09;
+    \item \textbf{Versionamento do modelo:} como os parâmetros e as estimativas estão ligados à versão do modelo (\textit{model\_version\_id}), a versão em operação (\texttt{ACTIVE}) e uma versão candidata (\texttt{CANDIDATE}) podem coexistir durante o retreinamento. Se a candidata falhar ou for reprovada pelo \textit{Quality Gate}, ela é marcada como \texttt{FAILED}, e as consultas continuam a usar a versão anterior, sem interrupção do serviço (RNF06).
 \end{enumerate}
 
 
@@ -1171,7 +1136,7 @@ No Learning Analytics, o Cognita é apresentado na aba \textit{Domínio da turma
 \legend{Fonte: Elaborado pelos autores.}
 \end{figure}
 
-Ao selecionar \textit{Ver por quê} em um conceito, o professor acessa a tela da Figura~\ref{fig:prototipo-analytics-conceito}. Nela, o gráfico \textit{Evolução da absorção} mostra a proporção da turma com domínio ao longo das semanas (RF10), permitindo comparar o conceito com seus pré-requisitos e dependentes e marcar eventos pedagógicos, como uma aula de revisão. O quadro superior informa a amostra, as respostas utilizadas, o intervalo provável e a confiança da estimativa (RF18), enquanto o bloco \textit{Por que o Cognita estimou 27\%?} explica os motivos da estimativa, como as questões com mais erros, a baixa absorção do pré-requisito e os parâmetros de chute e deslize estimados pelo BKT (RF19).
+Ao selecionar \textit{Ver por quê} em um conceito, o professor acessa a tela da Figura~\ref{fig:prototipo-analytics-conceito}. Nela, o gráfico \textit{Evolução da absorção} mostra a proporção da turma com domínio ao longo das semanas (RF10), permitindo comparar o conceito com seus pré-requisitos e dependentes e marcar eventos pedagógicos, como uma aula de revisão. O quadro superior informa a amostra, as respostas utilizadas, o intervalo provável e a confiança da estimativa (RF18), enquanto o bloco \textit{Por que o Cognita estimou 27\%?} explica os motivos da estimativa, como as questões com mais erros, a baixa absorção do pré-requisito e os parâmetros de chute e descuido estimados pelo BKT (RF19).
 
 \begin{figure}[H]
 \caption{Protótipo do detalhe de um conceito no Learning Analytics (RF10, RF18 e RF19)}
@@ -1201,7 +1166,7 @@ No Concept Studio, a absorção da turma é sobreposta ao mapa conceitual do cur
 \legend{Fonte: Elaborado pelos autores.}
 \end{figure}
 
-No Deck Manager, o Cognita ocupa duas abas. A aba \textit{Reforço por conceito}, apresentada na Figura~\ref{fig:prototipo-deck-reforco}, lista os conceitos com menor absorção e, para o conceito selecionado, indica visualmente os decks e atividades que precisam de reforço, a partir da taxa de erro das atividades ligadas ao conceito (RF20).
+No Deck Manager, o Cognita ocupa duas abas. A aba \textit{Reforço por conceito}, apresentada na Figura~\ref{fig:prototipo-deck-reforco}, lista os conceitos com menor absorção e, para o conceito selecionado, indica visualmente os \textit{decks} e atividades que precisam de reforço, a partir da taxa de erro das atividades ligadas ao conceito (RF20).
 
 \begin{figure}[H]
 \caption{Protótipo dos materiais que precisam de reforço no Deck Manager (RF20)}
@@ -1211,10 +1176,10 @@ No Deck Manager, o Cognita ocupa duas abas. A aba \textit{Reforço por conceito}
 \legend{Fonte: Elaborado pelos autores.}
 \end{figure}
 
-Já a aba \textit{Uso no Cognita}, apresentada na Figura~\ref{fig:prototipo-deck-treino}, permite que o professor defina quais decks da sua pasta serão considerados no treinamento do modelo (RF04). Decks sem atividades vinculadas a conceitos ficam indisponíveis, e decks com mapeamento parcial podem ser retirados do treino até que o mapeamento seja concluído, evitando que materiais em construção afetem as estimativas.
+Já a aba \textit{Uso no Cognita}, apresentada na Figura~\ref{fig:prototipo-deck-treino}, permite que o professor defina quais \textit{decks} da sua pasta serão considerados no treinamento do modelo (RF04). \textit{Decks} sem atividades vinculadas a conceitos ficam indisponíveis, e \textit{decks} com mapeamento parcial podem ser retirados do treino até que o mapeamento seja concluído, evitando que materiais em construção afetem as estimativas.
 
 \begin{figure}[H]
-\caption{Protótipo da seleção dos decks considerados no treinamento no Deck Manager (RF04)}
+\caption{Protótipo da seleção dos \textit{decks} considerados no treinamento no Deck Manager (RF04)}
 \label{fig:prototipo-deck-treino}
 \centering
 \includegraphics[width=\textwidth,height=0.72\textheight,keepaspectratio]{figuras/prototipo/deck-manager-uso-decks-rf04.png}
@@ -1238,24 +1203,24 @@ Por fim, a Figura~\ref{fig:prototipo-passport} apresenta a página \textit{Meus 
 \section{Cronograma de Desenvolvimento}
 \label{sec:cronograma}
 
-O desenvolvimento do Cognita será conduzido em onze \textit{sprints}. As
+O desenvolvimento do Cognita será conduzido em onze \textit{Sprints}. As
 oito primeiras correspondem às ondas do MVP definidas no sequenciador da
 \textit{Lean Inception}; os incrementos
-não serão entregues no desenvolvimento. A nona \textit{sprint} é
+não serão entregues no desenvolvimento. A nona \textit{Sprint} é
 reservada para testes e correções, e as duas últimas, para o congelamento de código
 (\textit{code freeze}). A Tabela~\ref{tab:cronograma-ondas} associa cada
-\textit{sprint} aos requisitos entregues, ao escopo da entrega e ao período
+\textit{Sprint} aos requisitos entregues, ao escopo da entrega e ao período
 de execução.
 
 {\small
 \begin{longtable}{c>{\raggedright\arraybackslash}p{2.3cm}>{\raggedright\arraybackslash}p{6.3cm}cc}
-\caption{Cronograma de desenvolvimento por \textit{sprints}}
+\caption{Cronograma de desenvolvimento por \textit{Sprints}}
 \label{tab:cronograma-ondas} \\
 \hline
 \textbf{\textit{Sprint}} & \textbf{Requisitos (código)} & \textbf{Escopo da entrega} & \textbf{Início} & \textbf{Término} \\
 \hline
 \endfirsthead
-\caption[]{Cronograma de desenvolvimento por \textit{sprints} (continuação)} \\
+\caption[]{Cronograma de desenvolvimento por \textit{Sprints} (continuação)} \\
 \hline
 \textbf{\textit{Sprint}} & \textbf{Requisitos (código)} & \textbf{Escopo da entrega} & \textbf{Início} & \textbf{Término} \\
 \hline
@@ -1264,7 +1229,7 @@ de execução.
 \multicolumn{5}{r}{\textit{Continua na próxima página}} \\
 \endfoot
 \hline
-\multicolumn{5}{l}{Fonte: Dos autores.} \\
+\multicolumn{5}{l}{Fonte: Elaborado pelos autores.} \\
 \endlastfoot
 1 & RF01, RF03, RF06 & Validação dos dados, treinamento inicial do modelo e probabilidade de domínio no Atlas. & 15/02/2027 & 25/02/2027 \\
 \hline
@@ -1282,11 +1247,11 @@ de execução.
 \hline
 8 & RF10, RF15 & Evolução da absorção ao longo do tempo e filtros de resultados no Analytics, concluindo o MVP. & 07/05/2027 & 18/05/2027 \\
 \hline
-9 & -- & Reservada para testes e correções. & 19/05/2027 & 29/05/2027 \\
+9 & Nenhum & Reservada para testes e correções. & 19/05/2027 & 29/05/2027 \\
 \hline
-10 & -- & \textit{Code freeze}. & 31/05/2027 & 10/06/2027 \\
+10 & Nenhum & \textit{Code freeze}. & 31/05/2027 & 10/06/2027 \\
 \hline
-11 & -- & \textit{Code freeze}. & 11/06/2027 & 22/06/2027 \\
+11 & Nenhum & \textit{Code freeze}. & 11/06/2027 & 22/06/2027 \\
 \hline
 \end{longtable}
 }

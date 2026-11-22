@@ -1,0 +1,326 @@
+% !TEX root = ../../tcc.tex
+
+\chapter[Metodologia]{Metodologia}
+\label{cap:metodologia}
+
+\section{Classificação da Pesquisa}
+\label{sec:classificacao-pesquisa}
+
+\subsection{Natureza}
+\label{subsec:natureza}
+
+Quanto à natureza, trata-se de uma pesquisa aplicada, uma vez que busca solucionar um problema concreto de diagnóstico pedagógico em um ambiente educacional real, o Ecossistema CEDIS \cite{gil_como_2022, wazlawick_metodologia_2020}.
+
+\subsection{Abordagem}
+\label{subsec:abordagem}
+
+Quanto à abordagem, o estudo é quali-quantitativo: qualitativo na elicitação de requisitos, na análise arquitetural e na avaliação da usabilidade; e quantitativo na modelagem estatística e na avaliação preditiva do rastreamento de conhecimento.
+
+\subsection{Objetivos}
+\label{subsec:classificacao-objetivos}
+
+Quanto aos objetivos, a pesquisa é exploratória, pois investiga a viabilidade de estimar o domínio de conceitos com o BKT a partir dos dados de um ecossistema educacional no qual essa abordagem ainda não foi aplicada, buscando proporcionar maior familiaridade com o problema \cite{gil_como_2022}.
+
+\subsection{Procedimentos}
+\label{subsec:procedimentos}
+
+Como procedimentos técnicos, combinam-se a pesquisa bibliográfica, a análise técnica direta do código-fonte do ecossistema, o estudo de caso no Ecossistema CEDIS e o desenvolvimento experimental de software \cite{wazlawick_metodologia_2020}.
+
+\section{Fases de Trabalho}
+\label{sec:fases-trabalho}
+
+O trabalho está dividido em duas fases, alinhadas aos dois semestres letivos do Trabalho de Conclusão de Curso. A \textbf{Fase 1: Concepção e Planejamento} (Tabela~\ref{tab:fase1}), executada no TCC~1, tem como objetivo compreender os dados disponíveis no ecossistema e planejar o módulo Cognita, e seus resultados são apresentados nos Capítulos~\ref{cap:ecossistema} e~\ref{cap:proposta}. A \textbf{Fase 2: Desenvolvimento e Avaliação} (Tabela~\ref{tab:fase2}), a ser executada no TCC~2, tem como objetivo implementar o módulo, treinar o modelo BKT e avaliar a sua qualidade preditiva, a concordância dos diagnósticos com o julgamento do docente e a usabilidade das interfaces. Em cada tabela, são descritos, para cada objetivo específico, as atividades, o método de pesquisa utilizado e os resultados esperados.
+
+\subsection{Fase 1: Concepção e Planejamento}
+\label{subsec:fase1}
+
+{\small
+\begin{longtable}{>{\raggedright\arraybackslash}p{2.3cm}>{\raggedright\arraybackslash}p{3.7cm}>{\raggedright\arraybackslash}p{3.8cm}>{\raggedright\arraybackslash}p{4.2cm}}
+\caption{Fase 1: Concepção e Planejamento}
+\label{tab:fase1} \\
+\hline
+\multicolumn{4}{c}{\textbf{Fase 1: Concepção e Planejamento (TCC~1)}} \\
+\hline
+\textbf{Objetivo específico} & \textbf{Atividade} & \textbf{Método de pesquisa} & \textbf{Resultados esperados} \\
+\hline
+\endfirsthead
+\caption[]{Fase 1: Concepção e Planejamento (continuação)} \\
+\hline
+\textbf{Objetivo específico} & \textbf{Atividade} & \textbf{Método de pesquisa} & \textbf{Resultados esperados} \\
+\hline
+\endhead
+\hline
+\multicolumn{4}{r}{\textit{Continua na próxima página}} \\
+\endfoot
+\hline
+\multicolumn{4}{l}{Fonte: Elaborado pelos autores.} \\
+\endlastfoot
+\textbf{OE1}: Caracterizar o Ecossistema CEDIS
+& \textbf{A1:} Revisão da literatura nas áreas de Engenharia de Software, \textit{Learning Analytics} e \textit{Knowledge Tracing}
+& Pesquisa bibliográfica
+& Referencial teórico (Capítulo~\ref{cap:referencial}) e justificativa para a adoção do BKT \\
+\cline{2-4}
+& \textbf{A2:} Levantamento técnico do ecossistema
+& Análise técnica direta do código-fonte do CEDIS Deck Manager (estudo de caso)
+& Caracterização da arquitetura, do modelo de dados, da taxonomia de eventos e dos mecanismos de privacidade (Capítulo~\ref{cap:ecossistema}) \\
+\cline{2-4}
+& \textbf{A3:} Identificação das entidades e atributos de entrada
+& Análise do modelo de dados e dos contratos de API
+& Entidades e atributos do ecossistema consumidos pelo Cognita (Seção~\ref{subsec:entidades-utilizadas}) \\
+\hline
+\textbf{OE2}: Elicitar, especificar e priorizar os requisitos
+& \textbf{A4:} Alinhamento da visão do produto
+& \textit{Lean Inception} adaptada, com validação assíncrona junto ao cliente
+& Visão do produto, matriz É/Não é/Faz/Não faz, personas e jornadas validadas (Seção~\ref{sec:visao-produto}) \\
+\cline{2-4}
+& \textbf{A5:} Levantamento e priorização dos requisitos funcionais
+& \textit{Brainstorming} de funcionalidades e Revisão Técnica, de Negócio e de UX; formulário de valor agregado respondido pelo cliente
+& Requisitos funcionais com dificuldade, esforço, valor agregado e UX atribuídos (Seção~\ref{sec:requisitos}) \\
+\cline{2-4}
+& \textbf{A6:} Especificação dos requisitos funcionais e não funcionais
+& Temas, épicos e histórias de usuário; modelo URPS+
+& Requisitos funcionais e não funcionais mensuráveis, validados pelo cliente (Seções~\ref{subsec:requisitos-funcionais} e~\ref{subsec:requisitos-nao-funcionais}) \\
+\cline{2-4}
+& \textbf{A7:} Definição do MVP e do cronograma de desenvolvimento
+& Sequenciador e \textit{Canvas} MVP; planejamento em \textit{Sprints}
+& MVP, incrementos e cronograma de desenvolvimento (Seções~\ref{subsec:mvp-incrementos} e~\ref{sec:cronograma}) \\
+\cline{2-4}
+& \textbf{A8:} Prototipação das telas
+& Prototipação de alta fidelidade
+& Protótipos que cobrem todos os requisitos funcionais do MVP (Seção~\ref{sec:prototipacao}) \\
+\hline
+\textbf{OE3}: Projetar a arquitetura e o modelo de dados
+& \textbf{A9:} Projeto da arquitetura de integração
+& Padrões de aplicações intensivas em dados
+& Arquitetura de integração do Cognita ao ecossistema (Seção~\ref{subsec:arquitetura-proposta}) \\
+\cline{2-4}
+& \textbf{A10:} Modelagem dos dados do Cognita
+& Modelagem lógica relacional
+& Modelo lógico de dados do Cognita, com expurgo em cascata em conformidade com a LGPD (Seção~\ref{subsec:der-cognita}) \\
+\end{longtable}
+}
+
+\subsubsection{OE1: Caracterizar o Ecossistema CEDIS}
+\label{subsubsec:oe1}
+
+\textbf{Atividade 1 (A1): Revisão da literatura.} A revisão da literatura foi conduzida por meio de um protocolo simplificado de busca na base Web of Science, considerando as publicações dos últimos 15 anos, com a seguinte expressão de busca:
+
+\begin{quote}
+\small\ttfamily\raggedright
+( ( \textquotedbl knowledge tracing\textquotedbl{} OR \textquotedbl student model*\textquotedbl{} OR \textquotedbl BKT\textquotedbl{} OR \textquotedbl DKT\textquotedbl{} OR \textquotedbl GKT\textquotedbl{} ) AND ( \textquotedbl concept mastery\textquotedbl{} OR \textquotedbl knowledge state*\textquotedbl{} OR \textquotedbl concept graph*\textquotedbl{} OR \textquotedbl prerequisite*\textquotedbl{} OR \textquotedbl knowledge representation\textquotedbl{} ) AND ( \textquotedbl time on task\textquotedbl{} OR \textquotedbl dwell time\textquotedbl{} OR \textquotedbl metacogniti*\textquotedbl{} OR \textquotedbl calibration\textquotedbl{} OR \textquotedbl gamification\textquotedbl{} OR \textquotedbl badge*\textquotedbl{} OR \textquotedbl engagement\textquotedbl{} OR \textquotedbl interaction log*\textquotedbl{} ) )
+\end{quote}
+
+O primeiro grupo de termos delimita os modelos de rastreamento de conhecimento; o segundo, a representação do domínio e dos conceitos; e o terceiro, os sinais de interação e engajamento disponíveis em plataformas educacionais como as do Ecossistema CEDIS. Não foram definidos critérios formais de inclusão e exclusão: os artigos foram selecionados a partir de uma leitura inicial, considerando a sua aderência ao contexto da pesquisa. Os trabalhos selecionados foram complementados por obras de referência das áreas de Engenharia de Software, \textit{Learning Analytics} e Aprendizagem de Máquina, incluindo trabalhos seminais anteriores ao período da busca, como a proposta original do BKT \cite{corbett_knowledge_1994}. Por não seguir um protocolo sistemático completo, a revisão caracteriza-se como narrativa, apoiada por uma busca estruturada.
+
+\textbf{Atividade 2 (A2): Levantamento técnico do ecossistema.} O levantamento técnico foi realizado por meio da inspeção direta do código-fonte do repositório do CEDIS Deck Manager, no estado correspondente a um \textit{commit} fixado, em 12 de setembro de 2026. Como critério de verdade, adotou-se o código efetivamente implementado, tratando a documentação do repositório como evidência secundária. O Deck Manager foi escolhido como objeto do levantamento por concentrar o cadastro de usuários, o conteúdo publicado e a telemetria de acesso, além de manter vínculos explícitos com os demais componentes do ecossistema (Seção~\ref{sec:dados-coletados}).
+
+\textbf{Atividade 3 (A3): Identificação das entidades e atributos de entrada.} A partir do modelo de dados e dos contratos de API levantados na A2, foram selecionadas as entidades e os atributos necessários para compor a Matriz Q, a evidência de desempenho, a ordenação temporal e a identidade consentida dos estudantes, resultando na Tabela~\ref{tab:entidades-cognita}.
+
+\subsubsection{OE2: Elicitar, especificar e priorizar os requisitos}
+\label{subsubsec:oe2}
+
+As atividades A4 a A7 foram conduzidas por meio de uma versão adaptada da \textit{Lean Inception} \cite{caroli_lean_2018}. Originalmente, a \textit{Lean Inception} é realizada como um \textit{workshop} colaborativo, no qual todas as partes interessadas executam as dinâmicas em conjunto. Para atender à disponibilidade do cliente do projeto, as dinâmicas foram executadas pelos autores em sessões presenciais, por introspecção, intercaladas com sessões assíncronas de validação junto ao cliente. Ao todo, foram realizadas seis sessões, entre 5 e 16 de outubro de 2026, descritas na Tabela~\ref{tab:sessoes-lean-inception}. Os artefatos foram produzidos na ferramenta Miro, cujo quadro está disponível no Apêndice~\ref{ap:materiais}.
+
+\begin{table}[htb]
+\caption{Sessões da \textit{Lean Inception} adaptada}
+\label{tab:sessoes-lean-inception}
+\centering
+\small
+\begin{tabularx}{\textwidth}{c>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}p{2.8cm}>{\raggedright\arraybackslash}X}
+\hline
+\textbf{Sessão} & \textbf{Formato} & \textbf{Participantes} & \textbf{Atividades} \\
+\hline
+1 & Presencial & Autores & Visão do Produto; É/Não é/Faz/Não faz; Personas; Jornadas do Usuário \\
+\hline
+2 & Assíncrona (Microsoft Teams) & Autores e cliente & Validação dos artefatos da sessão 1 \\
+\hline
+3 & Presencial & Autores & \textit{Brainstorming} de funcionalidades; atribuição de dificuldade de aplicabilidade, esforço e contribuição para a UX \\
+\hline
+4 & Assíncrona (formulário) & Cliente & Atribuição do valor agregado de cada funcionalidade \\
+\hline
+5 & Presencial & Autores & Sequenciador \\
+\hline
+6 & Assíncrona (Microsoft Teams) & Autores e cliente & Validação dos artefatos produzidos até o momento, incluindo o Sequenciador \\
+\hline
+\end{tabularx}
+\legend{Fonte: Elaborado pelos autores.}
+\end{table}
+
+Em relação à proposta original, além do formato de execução, a dinâmica de Objetivos do Negócio não foi conduzida como uma atividade própria, uma vez que os objetivos esperados do módulo já haviam sido estabelecidos pela Declaração de Visão do Produto e pelos objetivos desta pesquisa (Seção~\ref{sec:objetivos}).
+
+\textbf{Atividade 4 (A4): Alinhamento da visão do produto.} Na primeira sessão, os autores elaboraram a Declaração de Visão do Produto, a matriz É/Não é/Faz/Não faz, as personas e as jornadas do usuário, que foram validadas pelo cliente na segunda sessão (Seção~\ref{sec:visao-produto}).
+
+\textbf{Atividade 5 (A5): Levantamento e priorização dos requisitos funcionais.} Na terceira sessão, as funcionalidades candidatas foram levantadas por meio do \textit{Brainstorming} de Funcionalidades, percorrendo as jornadas do usuário, e avaliadas pelos autores quanto à dificuldade de aplicabilidade, ao esforço de implementação e à contribuição para a experiência do usuário. O valor agregado de cada funcionalidade foi atribuído pelo cliente na quarta sessão, por meio de um formulário cujo resultado está disponível no Apêndice~\ref{ap:materiais} (Seção~\ref{sec:requisitos}).
+
+\textbf{Atividade 6 (A6): Especificação dos requisitos funcionais e não funcionais.} Os requisitos funcionais foram detalhados pelos autores em uma estrutura de temas, épicos e histórias de usuário \cite{cohn_user_2004}, e os requisitos não funcionais foram organizados segundo o modelo URPS+ \cite{pressman_engenharia_2021}, com uma métrica objetiva associada a cada requisito. Ambos foram validados pelo cliente quanto à completude e à ausência de ambiguidades (Seções~\ref{subsec:requisitos-funcionais} e~\ref{subsec:requisitos-nao-funcionais}).
+
+\textbf{Atividade 7 (A7): Definição do MVP e do cronograma de desenvolvimento.} Na quinta sessão, os requisitos foram distribuídos em ondas incrementais por meio do Sequenciador, respeitando as regras de composição das ondas e as dependências entre requisitos, e o resultado foi validado pelo cliente na sexta sessão. Após essa validação, os autores sintetizaram o MVP no \textit{Canvas} MVP. Em seguida, cada onda do MVP foi convertida em uma \textit{Sprint} do cronograma de desenvolvimento \cite{schwaber_scrum_2020} (Seções~\ref{subsec:mvp-incrementos} e~\ref{sec:cronograma}).
+
+\textbf{Atividade 8 (A8): Prototipação das telas.} A partir dos requisitos do MVP, foram elaborados protótipos de alta fidelidade das telas do Cognita na ferramenta Figma, de modo que cada requisito funcional do MVP estivesse representado em ao menos uma tela. Os protótipos foram validados pelo cliente do projeto e estão disponíveis no Apêndice~\ref{ap:materiais} (Seção~\ref{sec:prototipacao}).
+
+\subsubsection{OE3: Projetar a arquitetura e o modelo de dados}
+\label{subsubsec:oe3}
+
+\textbf{Atividade 9 (A9): Projeto da arquitetura de integração.} A arquitetura do Cognita foi projetada a partir da arquitetura atual do ecossistema (A2), dos requisitos funcionais e não funcionais (A6) e dos padrões de aplicações intensivas em dados, que separam o caminho de inferência de baixa latência do caminho de treinamento em lote \cite{kleppmann_designing_2017} (Seção~\ref{subsec:arquitetura-proposta}).
+
+\textbf{Atividade 10 (A10): Modelagem dos dados do Cognita.} O modelo lógico relacional do Cognita foi elaborado para atender aos requisitos de rastreabilidade das versões do modelo (RNF13) e de expurgo dos dados preditivos (RF24 e RNF16), concentrando a identidade pseudonimizada do estudante em uma entidade única, a partir da qual a exclusão é propagada em cascata (Seção~\ref{subsec:der-cognita}).
+
+\subsection{Fase 2: Desenvolvimento e Avaliação}
+\label{subsec:fase2}
+
+{\small
+\begin{longtable}{>{\raggedright\arraybackslash}p{2.3cm}>{\raggedright\arraybackslash}p{3.7cm}>{\raggedright\arraybackslash}p{3.8cm}>{\raggedright\arraybackslash}p{4.2cm}}
+\caption{Fase 2: Desenvolvimento e Avaliação}
+\label{tab:fase2} \\
+\hline
+\multicolumn{4}{c}{\textbf{Fase 2: Desenvolvimento e Avaliação (TCC~2)}} \\
+\hline
+\textbf{Objetivo específico} & \textbf{Atividade} & \textbf{Método de pesquisa} & \textbf{Resultados esperados} \\
+\hline
+\endfirsthead
+\caption[]{Fase 2: Desenvolvimento e Avaliação (continuação)} \\
+\hline
+\textbf{Objetivo específico} & \textbf{Atividade} & \textbf{Método de pesquisa} & \textbf{Resultados esperados} \\
+\hline
+\endhead
+\hline
+\multicolumn{4}{r}{\textit{Continua na próxima página}} \\
+\endfoot
+\hline
+\multicolumn{4}{l}{Fonte: Elaborado pelos autores.} \\
+\endlastfoot
+\textbf{OE4}: Implementar o \textit{pipeline} de dados e o treinamento do BKT
+& \textbf{A11:} Caracterização dos dados disponíveis
+& Análise exploratória dos dados em produção no ecossistema
+& Quantitativo de estudantes, respostas e conceitos aptos ao treino \\
+\cline{2-4}
+& \textbf{A12:} Implementação da ingestão, validação e reconciliação dos dados
+& Desenvolvimento iterativo e incremental em \textit{Sprints}
+& Registros reconciliados entre as fontes do ecossistema e registro em \textit{log} dos dados tratados e descartados (RF03) \\
+\cline{2-4}
+& \textbf{A13:} Construção da Matriz Q e das sequências de interação
+& Engenharia de dados sobre os vínculos questão-conceito e as respostas reconciliadas
+& Matriz Q e sequências cronológicas de respostas binárias por estudante e conceito \\
+\cline{2-4}
+& \textbf{A14:} Treinamento e retreinamento do modelo BKT
+& BKT com parâmetros estimados por conceito pelo algoritmo EM
+& Modelo treinado e versionado, com política de retreinamento configurável (RF01, RF02 e RF04) \\
+\hline
+\textbf{OE5}: Avaliar a qualidade preditiva do modelo e a concordância dos diagnósticos
+& \textbf{A15:} Avaliação preditiva do modelo
+& Validação cruzada em $k$ partições agrupadas por estudante; métricas AUC, ACC e RMSE
+& Métricas registradas a cada treinamento (RF05) \\
+\cline{2-4}
+& \textbf{A16:} Comparação com o modelo de referência
+& Modelo de referência (\textit{baseline}) baseado na taxa média de acerto por conceito
+& Diferença de desempenho entre o BKT e o modelo de referência e verificação do critério de promoção do RNF05 \\
+\cline{2-4}
+& \textbf{A17:} Validação dos diagnósticos coletivos junto ao docente
+& Formulário respondido pelo docente; correlação de postos de Spearman
+& Grau de concordância entre a absorção estimada pelo Cognita e a percebida pelo docente \\
+\hline
+\textbf{OE6}: Disponibilizar os diagnósticos e avaliar a usabilidade
+& \textbf{A18:} Implementação das visões de diagnóstico individual e coletivo
+& Desenvolvimento iterativo e incremental em \textit{Sprints}, orientado pelos protótipos
+& Requisitos funcionais do MVP integrados às aplicações do ecossistema \\
+\cline{2-4}
+& \textbf{A19:} Testes integrados e verificação dos requisitos não funcionais
+& Testes automatizados e testes integrados ao ecossistema
+& Verificação dos requisitos de desempenho, confiabilidade, suportabilidade e privacidade \\
+\cline{2-4}
+& \textbf{A20:} Avaliação de usabilidade
+& \textit{System Usability Scale} (SUS), aplicada ao cliente do projeto e a um pesquisador do CEDIS
+& Pontuação SUS das telas do Cognita, comparada ao mínimo de 68 pontos (RNF02) \\
+\end{longtable}
+}
+
+\subsubsection{OE4: Implementar o \textit{pipeline} de dados e o treinamento do BKT}
+\label{subsubsec:oe4}
+
+\textbf{Atividade 11 (A11): Caracterização dos dados disponíveis.} O Ecossistema CEDIS encontra-se em produção desde agosto de 2026 e, no momento da elaboração desta monografia, é utilizado por um único docente, em uma turma de aproximadamente 30 estudantes. Como esse cenário pode se alterar até o início da Fase 2, a primeira atividade consiste em uma análise exploratória dos dados efetivamente disponíveis, quantificando: (i) o número de estudantes com passaporte e consentimento ativo no Learning Passport; (ii) o número de respostas a atividades objetivas; (iii) o número de conceitos cadastrados e a proporção de atividades vinculadas a conceitos por meio de \textit{QuestionActivityMap}; e (iv) o número médio de respostas por estudante e por conceito. Serão considerados os dados registrados desde o início do uso do ecossistema até o início da Fase 2, complementados pelos dados que vierem a ser coletados durante o semestre 2027.1. O resultado dessa caracterização determina quais conceitos possuem dados suficientes para a estimação de parâmetros próprios (A14) e fundamenta o procedimento de validação adotado (A15).
+
+\textbf{Atividade 12 (A12): Implementação da ingestão, validação e reconciliação dos dados.} O conector de ingestão do Cognita (Seção~\ref{subsec:arquitetura-proposta}) consome as respostas registradas no CEDIS Slides e no Atlas do Conhecimento e as reconcilia com os eventos de \textit{Learning Analytics}, os vínculos questão-conceito e a identidade consentida. Uma resposta é considerada apta ao treinamento quando atende simultaneamente aos seguintes critérios de inclusão:
+
+\begin{enumerate}
+    \item pertence a uma atividade objetiva, isto é, que possui resposta correta definida (como múltipla escolha ou verdadeiro ou falso), sendo excluídas as escalas do tipo Likert e as respostas de texto aberto, que não admitem classificação em correta ou incorreta;
+    \item está vinculada, por meio de \textit{QuestionActivityMap}, a uma questão associada a um conceito cadastrado;
+    \item pertence a um estudante com consentimento ativo no Learning Passport (RNF14);
+    \item pertence a um \textit{deck} habilitado pelo docente para o treinamento (RF04).
+\end{enumerate}
+
+Atualmente, as atividades do ecossistema permitem que o estudante, ao errar uma questão, selecione outra alternativa até acertá-la ou optar por avançar. As tentativas posteriores ao primeiro erro, contudo, refletem a eliminação de alternativas já descartadas e o \textit{feedback} recebido, e não o conhecimento que o estudante possuía ao se deparar com a questão. Por esse motivo, considera-se apenas a \textbf{primeira tentativa} de cada estudante em cada atividade, e as tentativas subsequentes são registradas como dados tratados no \textit{log} de auditoria. Os registros que não atenderem aos critérios de inclusão também são registrados nesse \textit{log}, com o motivo do descarte (RNF07).
+
+\textbf{Atividade 13 (A13): Construção da Matriz Q e das sequências de interação.} A partir dos vínculos entre atividades, questões e conceitos, constrói-se a Matriz Q do curso. No estado atual do Concept Studio, cada questão está associada a um único conceito; adota-se, portanto, a premissa de que cada resposta fornece evidência sobre exatamente um conceito, de modo que a Matriz Q possui um único conceito por linha. Em seguida, a correção da primeira tentativa de cada resposta apta é convertida na observação binária $a_t \in \{0, 1\}$, e as respostas de cada estudante são agrupadas por conceito e ordenadas cronologicamente segundo o instante de registro normalizado em UTC, produzindo as sequências $X = \{(q_1, a_1), \ldots, (q_t, a_t)\}$ consumidas pelo BKT (Seção~\ref{subsec:knowledge-tracing}). Cada observação mantém ainda a sua origem, que pode ser de dois tipos: as \textbf{atividades em sala de aula}, respondidas no CEDIS Slides durante a apresentação, nas quais o passaporte não é obrigatório; e os \textbf{questionários individuais}, respondidos no Atlas do Conhecimento e no Concept Studio fora da sala de aula, exclusivamente por meio do passaporte.
+
+\textbf{Atividade 14 (A14): Treinamento e retreinamento do modelo BKT.} O modelo será implementado com a biblioteca pyBKT \cite{badrinath_pybkt_2021}, que implementa o BKT e estima os seus parâmetros pelo algoritmo de Maximização da Expectativa (EM). Para cada conceito, são estimados os quatro parâmetros do modelo ($P(L_0)$, $P(T)$, $P(G)$ e $P(S)$) e verifica-se, após o ajuste, se os parâmetros de chute e descuido respeitam as restrições de plausibilidade $P(G) < 0{,}5$ e $P(S) < 0{,}5$ \cite{pelanek_bayesian_2017}. As duas origens de resposta, contudo, não oferecem a mesma qualidade de evidência: as atividades em sala de aula são realizadas em formato de jogo entre os estudantes, e não como avaliação, o que favorece acertos por chute e erros por descuido, enquanto os questionários são respondidos individualmente. Como o BKT não admite pesos por observação, essa diferença é incorporada por meio de parâmetros de chute e descuido distintos para cada origem, de forma análoga ao KT-IDEM, que estima esses parâmetros por item \cite{pardos_kt-idem_2011}. Assim, o menor peso das atividades em sala decorre dos próprios dados: quanto maiores os parâmetros de chute e descuido estimados para essa origem, menor é a alteração que uma resposta provoca na estimativa de domínio (Equações~\ref{eq:bkt-correta} e~\ref{eq:bkt-incorreta}), sem a necessidade de pesos arbitrados. Os conceitos que não atingirem o número mínimo de respostas definido na política de treino, ou cujos parâmetros violarem essas restrições, recebem parâmetros globais, estimados sobre o conjunto de todas as respostas aptas. Essa estratégia é necessária em razão do volume ainda reduzido de dados por conceito. O retreinamento segue a política configurada no Deck Manager (RF02 e RF04), e cada versão do modelo é registrada com seus parâmetros, período de dados e métricas (RNF13).
+
+Os limiares de decisão utilizados pelo módulo para classificar e agregar as estimativas são apresentados na Tabela~\ref{tab:limiares}. Esses valores não decorrem da literatura: trata-se de valores iniciais definidos pelos autores, configuráveis na política de treino, que serão revisados junto ao cliente do projeto ao longo da Fase 2. Destaca-se que o limiar de domínio adotado (0,80) é inferior ao critério de 0,95 utilizado no trabalho original do BKT \cite{corbett_knowledge_1994}, em razão do menor número de oportunidades de prática por conceito disponíveis no ecossistema.
+
+\begin{table}[htb]
+\caption{Limiares de decisão iniciais do módulo Cognita}
+\label{tab:limiares}
+\centering
+\small
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{4.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{3.6cm}}
+\hline
+\textbf{Parâmetro} & \textbf{Valor inicial} & \textbf{Requisitos relacionados} \\
+\hline
+Domínio individual de um conceito & Dominado: $P(L_t) \ge 0{,}80$; em progresso: $0{,}50 \le P(L_t) < 0{,}80$; a revisar: $P(L_t) < 0{,}50$ & RF06, RF08, RF11 \\
+\hline
+Confiança da estimativa individual & Alta: 8 ou mais respostas; média: 3 a 7; baixa: até 2 & RF16 \\
+\hline
+Baixa absorção de um conceito na turma & Menos de 40\% da turma com domínio & RF12, RF13 \\
+\hline
+Confiança da estimativa coletiva & Alta: 60 ou mais estudantes e intervalo de até $\pm 8$ p.p.; média: 30 a 59 estudantes; baixa: menos de 30 estudantes ou intervalo maior & RF18 \\
+\hline
+Material que precisa de reforço & Taxa de erro igual ou superior a 50\%, com ao menos 20 respostas & RF20 \\
+\hline
+Supressão de indicadores agregados (\textit{k}-anonimato) & Grupos com menos de 5 estudantes & RNF15 \\
+\hline
+\end{tabularx}
+\legend{Fonte: Elaborado pelos autores.}
+\end{table}
+
+\subsubsection{OE5: Avaliar a qualidade preditiva do modelo e a concordância dos diagnósticos}
+\label{subsubsec:oe5}
+
+\textbf{Atividade 15 (A15): Avaliação preditiva do modelo.} Considerando o número reduzido de estudantes, uma única divisão em treino e teste deixaria poucos estudantes no conjunto de teste (cerca de seis, em uma divisão de 80\% e 20\% de uma turma de 30 estudantes), tornando as métricas instáveis. Adota-se, por isso, a validação cruzada em $k$ partições ($k = 5$) agrupadas por estudante: as respostas de um mesmo estudante pertencem sempre a uma única partição, o que impede que informações de um estudante apareçam simultaneamente no treino e no teste \cite{nagatani_augmenting_2019, cao_multi-granularity_2025}. Em cada rodada, o modelo é treinado com as partições de treino e, para cada estudante da partição de teste, percorre-se a sua sequência de respostas prevendo cada resposta antes de observá-la (Equação~\ref{eq:bkt-predicao}) e, em seguida, atualizando a estimativa de domínio com a resposta observada (Equações~\ref{eq:bkt-correta} a~\ref{eq:bkt-transicao}). As métricas AUC, ACC e RMSE (Seção~\ref{subsec:avaliacao-kt}) são calculadas sobre todas as previsões de cada rodada e reportadas pela média e pelo desvio padrão entre as partições. O mesmo procedimento é utilizado pelo \textit{Quality Gate} a cada retreinamento (RNF05).
+
+\textbf{Atividade 16 (A16): Comparação com o modelo de referência.} Como a proporção de respostas corretas tende a ser elevada em bases educacionais, métricas como a acurácia podem apresentar valores altos mesmo para modelos que não distinguem estudantes com diferentes níveis de domínio \cite{cui_rebalancing_2025}. Para verificar se o BKT agrega informação além da dificuldade média de cada conceito, ele é comparado a um modelo de referência (\textit{baseline}) que atribui a cada resposta a taxa média de acerto do respectivo conceito no conjunto de treino. Para a acurácia, esse modelo equivale a prever sempre a classe majoritária do conceito. Ambos os modelos são avaliados nas mesmas partições da A15, e a diferença entre eles nas métricas AUC, ACC e RMSE é analisada considerando a variação observada entre as partições. Essa comparação também define a promoção de novas versões do modelo: uma versão só entra em operação se superar o modelo de referência em AUC e RMSE (RNF05).
+
+\textbf{Atividade 17 (A17): Validação dos diagnósticos coletivos junto ao docente.} As métricas da A15 e da A16 avaliam a capacidade do modelo de prever a próxima resposta, mas não verificam se os conceitos apontados pelo Cognita como pouco absorvidos correspondem às dificuldades reais da turma. Para isso, o docente que utiliza o ecossistema responderá a um formulário no qual classifica, para cada conceito do curso, a absorção percebida da turma em uma escala ordinal de cinco pontos (de muito baixa a muito alta). O formulário é respondido antes de o docente ter acesso às estimativas do módulo, de modo que o seu julgamento não seja influenciado por elas. Em seguida, a classificação do docente é comparada à proporção de estudantes com domínio estimada pelo Cognita para cada conceito (RF11) por meio da correlação de postos de Spearman, adequada a dados ordinais, e verifica-se a concordância entre os conceitos que o docente considera de baixa absorção e os sinalizados pelo módulo (RF12).
+
+\subsubsection{OE6: Disponibilizar os diagnósticos e avaliar a usabilidade}
+\label{subsubsec:oe6}
+
+\textbf{Atividade 18 (A18): Implementação das visões de diagnóstico individual e coletivo.} As funcionalidades do MVP serão implementadas nas aplicações do ecossistema seguindo os protótipos apresentados na Seção~\ref{sec:prototipacao} e a ordem de entrega definida no cronograma de desenvolvimento (Seção~\ref{sec:cronograma}). Ao final de cada \textit{Sprint}, o incremento produzido é apresentado ao cliente do projeto para validação \cite{schwaber_scrum_2020}.
+
+\textbf{Atividade 19 (A19): Testes integrados e verificação dos requisitos não funcionais.} Os componentes de ingestão, validação e inferência serão cobertos por testes automatizados (RNF12), e as integrações com os demais produtos do ecossistema serão verificadas por testes integrados. Os requisitos de desempenho (RNF08 a RNF11) serão verificados por medições do tempo de resposta sob a carga especificada em cada requisito, e os requisitos de privacidade e segurança (RNF14 a RNF17) serão verificados por casos de teste específicos, como o processamento de respostas de estudantes sem consentimento, a consulta a grupos com menos de cinco estudantes e a solicitação de exclusão de dados preditivos.
+
+\textbf{Atividade 20 (A20): Avaliação de usabilidade.} A usabilidade das telas do Cognita será avaliada com dois participantes: o cliente do projeto e um pesquisador do CEDIS. Cada participante executará um conjunto de tarefas derivadas das jornadas de usuário (Seção~\ref{subsec:jornadas-usuario}), como identificar os conceitos a revisar e compreender a explicação de uma estimativa (perspectiva do estudante), identificar os conceitos com baixa absorção na turma e os materiais que precisam de reforço (perspectiva do docente) e solicitar a exclusão dos dados preditivos (perspectiva do titular dos dados). Ao final, cada participante responderá ao questionário da \textit{System Usability Scale} (SUS), composto por dez afirmações avaliadas em escala de cinco pontos e convertido em uma pontuação de 0 a 100 \cite{brooke_sus_1996}. As pontuações serão comparadas ao valor de 68 pontos, correspondente à média de referência da escala \cite{sauro_practical_2011} e adotado como mínimo no RNF02. As dificuldades observadas durante a execução das tarefas e os comentários dos participantes serão registrados e analisados qualitativamente.
+
+\section{Aspectos Éticos}
+\label{sec:aspectos-eticos}
+
+A Fase 2 envolve a análise de respostas de estudantes registradas no ecossistema em produção, a aplicação de um formulário ao docente (A17) e a avaliação de usabilidade com participantes (A20), caracterizando-se como pesquisa com seres humanos nos termos das Resoluções nº 466/2012 e nº 510/2016 do Conselho Nacional de Saúde \cite{brasil_resolucao_466_2012, brasil_resolucao_510_2016}. Conforme discutido na Seção~\ref{subsec:privacidade}, a base legal que ampara a operação da plataforma não se confunde com o consentimento para fins de pesquisa. Por esse motivo, o projeto será submetido à apreciação de um Comitê de Ética em Pesquisa (CEP), por meio da Plataforma Brasil, antes do acesso aos dados e da aplicação dos instrumentos. O protocolo submetido deverá prever:
+
+\begin{enumerate}
+    \item Termo de Consentimento Livre e Esclarecido (TCLE) para o docente e para os participantes da avaliação de usabilidade;
+    \item a forma de consentimento dos estudantes cujas respostas serão analisadas, por meio de TCLE ou de solicitação justificada de dispensa, a ser definida no protocolo;
+    \item a análise restrita a estudantes com consentimento ativo no Learning Passport e a identificadores pseudonimizados, sem acesso a dados civis como nome ou endereço de e-mail;
+    \item a divulgação dos resultados apenas de forma agregada, respeitando a supressão de grupos com menos de cinco estudantes.
+\end{enumerate}
+
+\section{Limitações e Ameaças à Validade}
+\label{sec:limitacoes}
+
+A condução deste trabalho está sujeita às seguintes limitações, que devem ser consideradas na interpretação dos resultados:
+
+\begin{itemize}
+    \item \textbf{Volume e representatividade dos dados:} o ecossistema é utilizado atualmente por um único docente, em uma turma de aproximadamente 30 estudantes, e apenas os estudantes com consentimento ativo podem ter suas respostas processadas. Além de reduzir a amostra, a adesão voluntária pode enviesá-la, uma vez que os estudantes que aderem tendem a ser os mais engajados. Os resultados, portanto, não poderão ser generalizados para outras turmas ou disciplinas. Para mitigar o efeito do volume reduzido, adotam-se a validação cruzada agrupada por estudante (A15) e parâmetros globais para os conceitos com poucas respostas (A14);
+    \item \textbf{Concentração da validação em poucos participantes:} as dinâmicas da \textit{Lean Inception} foram executadas pelos autores por introspecção, e o cliente do projeto, que também orienta este trabalho, participou apenas das sessões assíncronas de validação e foi o único a atribuir o valor agregado dos requisitos. Na Fase 2, a validação dos diagnósticos (A17) dependerá do julgamento de um único docente, e a avaliação de usabilidade (A20) contará com dois participantes que não são usuários finais estudantes. Esses resultados têm, portanto, caráter exploratório. Como mitigação, o formulário da A17 é respondido antes da visualização das estimativas, e a avaliação de usabilidade inclui um pesquisador do CEDIS além do cliente;
+    \item \textbf{Premissas do modelo:} o BKT adotado considera cada conceito de forma independente, não modela o esquecimento e, neste trabalho, pressupõe que cada questão avalie um único conceito (Seção~\ref{subsec:knowledge-tracing}). Assim, as explicações que relacionam a baixa absorção de um conceito à de seus pré-requisitos são descritivas, e não causais;
+    \item \textbf{Uso exclusivo da primeira tentativa:} ao desconsiderar as tentativas posteriores ao primeiro erro (A12), o modelo não aproveita a informação de aprendizagem que ocorre dentro de uma mesma atividade;
+    \item \textbf{Revisão de literatura não sistemática:} a busca não adotou critérios formais de inclusão e exclusão (A1), de modo que trabalhos relevantes podem não ter sido identificados;
+    \item \textbf{Limiares iniciais:} os limiares de decisão da Tabela~\ref{tab:limiares} foram definidos pelos autores e ainda não foram validados, podendo alterar a classificação dos conceitos e os alertas exibidos.
+\end{itemize}

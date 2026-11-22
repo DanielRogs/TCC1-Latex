@@ -3,44 +3,107 @@
 % \part{Aspectos Gerais}
 \chapter[Introdução]{Introdução}
 
-A proliferação de plataformas educacionais online tem gerado um volume massivo de dados provenientes das sequências de interações dos estudantes \cite{cao_multi-granularity_2025}. Nesse cenário contemporâneo, as áreas de \textit{Learning Analytics} (LA) passaram por uma evolução significativa. O foco, outrora restrito à geração de métricas descritivas de uso e engajamento, como contagem de visualizações e tempo de acesso, deslocou-se para a identificação de lacunas de aprendizagem, uma vez que o mero volume interativo não constitui evidência direta de proficiência. A pesquisa educacional demanda abordagens analíticas sofisticadas que ultrapassem a observação comportamental superficial, visando apoiar a tomada de decisão pedagógica e a personalização do ensino \cite{liao_naviedu_2026}.
+\section{Contexto}
+\label{sec:contexto}
 
-Apesar desses avanços, persiste o desafio prático de traduzir interações transacionais em indicadores confiáveis do estado cognitivo do aluno. A Inteligência Artificial, por meio de modelos de \textit{Knowledge Tracing} (Rastreamento de Conhecimento), consolida-se como a tecnologia capaz de transpor essa barreira analítica. Ao inferir o domínio latente do estudante a partir de seu histórico de interações, o \textit{Knowledge Tracing} permite estimar a evolução temporal da absorção de conceitos específicos, transformando dados retrospectivos em diagnósticos precisos para a recomendação de intervenções proativas \cite{cao_multi-granularity_2025}.
+O uso de plataformas digitais no ensino, tanto em ambientes virtuais quanto em sala de aula, por meio de apresentações interativas e questionários, faz com que as interações dos estudantes passem a ser registradas de forma contínua \cite{cao_multi-granularity_2025}. A área de \textit{Learning Analytics} (LA) dedica-se a medir, coletar, analisar e comunicar esses dados, com o propósito de compreender e aprimorar a aprendizagem e os ambientes em que ela ocorre \cite{siemens_learning_2012}. Na prática, porém, muitas plataformas permanecem no nível descritivo, oferecendo indicadores como o número de acessos, o tempo de uso e as taxas de participação. Esses indicadores descrevem o engajamento, mas não indicam se o estudante aprendeu: acessar um material ou responder a uma atividade não equivale a dominar o conceito que ela aborda \cite{gaevic_learning_2015}.
+
+Para estimar o que o estudante efetivamente domina, a literatura propõe os modelos de \textit{Knowledge Tracing} (Rastreamento de Conhecimento), que inferem o domínio de cada conceito a partir do histórico de respostas do estudante e acompanham a sua evolução ao longo da prática \cite{corbett_knowledge_1994}. Desde o \textit{Bayesian Knowledge Tracing} (BKT), proposto na década de 1990, até os modelos baseados em redes neurais profundas \cite{piech_deep_2015}, a área evoluiu em capacidade preditiva. Trabalhos recentes, contudo, têm destacado a importância de que as estimativas sejam interpretáveis e se convertam em ações pedagógicas concretas, tanto para o estudante quanto para o docente \cite{cao_multi-granularity_2025, liao_naviedu_2026}.
+
+É nesse cenário que se insere o Ecossistema CEDIS, mantido pelo Centro de Estudo, Desenvolvimento e Inovação em Software (CEDIS) da Universidade de Brasília (UnB). O ecossistema reúne produtos integrados de apoio ao ensino: o docente cria e publica materiais no CEDIS Deck Manager e os apresenta em aula pelo CEDIS Slides, com atividades interativas; os conceitos da disciplina e os questionários vinculados a eles são estruturados no Concept Studio e explorados pelos estudantes no Atlas do Conhecimento; o CEDIS Learning Passport mantém a identidade do estudante, que só é vinculada às suas interações mediante consentimento; e o CEDIS Learning Analytics consolida os indicadores do ecossistema. Em produção desde agosto de 2026 e utilizado em uma disciplina da UnB, o ecossistema já registra respostas associadas a conceitos e permite acompanhá-las, de forma consentida, ao longo do tempo, reunindo as condições necessárias para a aplicação do rastreamento de conhecimento (Capítulo~\ref{cap:ecossistema}).
 
 \section{Motivação}
 
-O ecossistema educacional CEDIS gera diariamente uma vasta base de dados a partir do engajamento dos estudantes em plataformas como o Concept Studio, Slides e o Atlas do Conhecimento. Atualmente, a arquitetura de eventos suporta a extração de indicadores puramente descritivos, tais como taxas de submissão e impressões de atividades. Embora abundantes, essas métricas falham em identificar proativamente quais conceitos um aluno não domina ou está na iminência de esquecer. Para o estudante, essa limitação se traduz na dificuldade de isolar a causa raiz de seus erros, que frequentemente reside em um pré-requisito conceitual mal absorvido, forçando-o a adotar estratégias de revisão genéricas, tardias e ineficientes.
+Apesar de registrar continuamente as interações dos estudantes no CEDIS Slides, no Concept Studio e no Atlas do Conhecimento, o Ecossistema CEDIS extrai desses registros apenas indicadores descritivos, como taxas de submissão, impressões de atividades e contagens de respostas corretas e incorretas. Essas métricas falham em identificar proativamente quais conceitos um aluno ainda não domina. Para o estudante, essa limitação se traduz na dificuldade de isolar a causa raiz de seus erros, que frequentemente reside em um pré-requisito conceitual mal absorvido, forçando-o a adotar estratégias de revisão genéricas, tardias e ineficientes.
 
 Do ponto de vista institucional e docente, a ausência de indicadores diagnósticos consolidados prejudica a identificação de falhas no material didático. A capacidade atual de análise no CEDIS limita-se a inferências agregadas, com altos níveis de ruído derivados do agrupamento simples de respostas. Sem evidências sistemáticas reconciliadas em um nível semântico, as decisões pedagógicas correm o risco de se basear em médias enganosas de turmas inteiras, mascarando a real dificuldade estrutural do currículo. Torna-se imperativo, portanto, evoluir o sistema analítico da plataforma por meio de identificadores longitudinais para gerar orientações acionáveis e individuais, justificando a relevância desta pesquisa na otimização direta do ciclo de ensino-aprendizagem.
 
-\section{Problema e Objetivo}
 
-No contexto do CEDIS, as restrições arquiteturais da atual infraestrutura de telemetria, que prioriza identificadores efêmeros e eventos de navegação desvinculados do domínio estrutural, bloqueiam o rastreamento longitudinal do aluno e impedem a identificação individual das lacunas de aprendizagem. Diante da lacuna técnica entre a massiva coleta de logs e a incapacidade sistêmica de gerar intervenções didáticas fundamentadas, formula-se o seguinte objetivo de trabalho: investigar e propor uma abordagem de identificação do domínio de conceitos por aluno, a partir dos dados gerados no ecossistema educacional do CEDIS, de forma a apontar individualmente aos alunos os conceitos que potencialmente ainda não dominam e sinalizar aos professores os conceitos com baixa absorção de conhecimento na turma.
+\section{Problema e Questão de Pesquisa}
+\label{sec:problema}
 
-Para concretizar esse objetivo, o presente estudo propõe estruturar e desenvolver o módulo Cognita, cujo \textit{pipeline} de dados é voltado à identificação contínua do domínio cognitivo no Ecossistema CEDIS. O intuito é transpor a telemetria transacional para uma engenharia de atributos (\textit{feature engineering}) semanticamente rica, garantindo um duplo ciclo de \textit{feedback}: o fornecimento autônomo de vulnerabilidades específicas ao aluno e o envio de evidências agregadas ao professor para adaptações didáticas tempestivas. Como modelo de estimativa de domínio, adota-se o \textit{Bayesian Knowledge Tracing} (BKT) \cite{corbett_knowledge_1994}, escolhido pela interpretabilidade de seus parâmetros, pelo baixo custo de treinamento e pela adequação a volumes moderados de dados.
+No contexto do CEDIS, a telemetria operacional prioriza identificadores efêmeros e eventos de navegação desvinculados dos conceitos do domínio, o que impede o acompanhamento longitudinal do aluno a partir desses dados. Embora o ecossistema já disponha de um caminho para esse acompanhamento, por meio da identidade consentida no Learning Passport, ele não é explorado analiticamente: as análises atuais limitam-se a métricas descritivas de uso e à contagem de respostas, sem estimar o domínio de conceitos de cada aluno. Diante da lacuna técnica entre a massiva coleta de registros e a incapacidade sistêmica de gerar intervenções didáticas fundamentadas, formula-se a seguinte questão de pesquisa:
+
+\begin{quote}
+\textbf{QP:} É possível estimar o domínio individual de conceitos dos estudantes do Ecossistema CEDIS por meio do \textit{Bayesian Knowledge Tracing}, a partir das respostas registradas em suas plataformas, com qualidade preditiva e interpretabilidade suficientes para orientar o estudo dos alunos e as decisões pedagógicas dos docentes?
+\end{quote}
+
+Para responder a essa questão, o presente estudo propõe o módulo Cognita, voltado à identificação contínua do domínio de conceitos no Ecossistema CEDIS. O módulo reconcilia as respostas registradas nas diferentes plataformas do ecossistema com os conceitos que elas avaliam, sustentando um duplo ciclo de \textit{feedback}: a indicação, ao aluno, dos conceitos que ele potencialmente ainda não domina e a sinalização, ao professor, dos conceitos com baixa absorção na turma. Como modelo de estimativa de domínio, adota-se o \textit{Bayesian Knowledge Tracing} (BKT) \cite{corbett_knowledge_1994}, escolhido pela interpretabilidade de seus parâmetros, pelo baixo custo de treinamento e pela adequação a volumes moderados de dados.
+
+\section{Objetivos}
+\label{sec:objetivos}
+
+\subsection{Objetivo Geral}
+\label{subsec:objetivo-geral}
+
+Desenvolver o Cognita, módulo integrado ao Ecossistema CEDIS que estima, por meio do \textit{Bayesian Knowledge Tracing}, o domínio de conceitos de cada estudante a partir de dados de múltiplas fontes do ecossistema, indicando aos alunos os conceitos que potencialmente ainda não dominam e sinalizando aos professores os conceitos com baixa absorção na turma.
+
+\subsection{Objetivos Específicos}
+\label{subsec:objetivos-especificos}
+
+\begin{itemize}
+    \item \textbf{OE1:} Caracterizar a arquitetura, o modelo de dados e os mecanismos de privacidade do Ecossistema CEDIS, identificando os dados utilizáveis para o rastreamento de conhecimento;
+    \item \textbf{OE2:} Elicitar, especificar e priorizar os requisitos do módulo por meio da \textit{Lean Inception}, definindo o Produto Mínimo Viável (MVP);
+    \item \textbf{OE3:} Projetar a arquitetura de integração e o modelo de dados do Cognita em conformidade com a LGPD;
+    \item \textbf{OE4:} Implementar o \textit{pipeline} de preparação dos dados (reconciliação, Matriz Q e extração das respostas binárias) e o treinamento do modelo BKT;
+    \item \textbf{OE5:} Avaliar a qualidade preditiva do modelo por meio das métricas AUC, ACC e RMSE, em comparação com um modelo de referência (\textit{baseline}), e a concordância dos diagnósticos coletivos com o julgamento do docente;
+    \item \textbf{OE6:} Disponibilizar os diagnósticos individual e coletivo nas aplicações do ecossistema e avaliar sua usabilidade junto ao cliente do projeto e a um pesquisador do CEDIS.
+\end{itemize}
 
 \section{Metodologia}
 \label{sec:metodologia}
 
-Do ponto de vista metodológico, este trabalho caracteriza-se como uma pesquisa de natureza aplicada, uma vez que busca solucionar um problema concreto de diagnóstico pedagógico em um ambiente educacional real \cite{gil_como_2022, wazlawick_metodologia_2020}. Quanto à abordagem, o estudo é quali-quantitativo: qualitativo na elicitação de requisitos, na análise arquitetural e na avaliação da experiência de uso; e quantitativo na modelagem estatística e na avaliação preditiva do rastreamento de conhecimento. Como procedimentos técnicos, combinam-se a revisão bibliográfica, a análise técnica direta do código-fonte do ecossistema, o estudo de caso no Ecossistema CEDIS e o desenvolvimento experimental de software \cite{wazlawick_metodologia_2020}.
+Este trabalho caracteriza-se como uma pesquisa aplicada, de abordagem quali-quantitativa, conforme detalhado no Capítulo~\ref{cap:metodologia}. Para viabilizar a sua execução ao longo de dois semestres letivos, a metodologia está dividida em duas fases, cada uma composta por objetivos específicos e pelas atividades necessárias para alcançá-los:
 
-Para viabilizar a execução do projeto ao longo de dois semestres letivos, o método de trabalho foi organizado em duas macroetapas complementares — concepção e planejamento (TCC~1) e desenvolvimento e validação experimental (TCC~2):
-
-\begin{enumerate}
-    \item \textbf{Etapa 1 -- Concepção, Levantamento Técnico e Planejamento (TCC 1):}
+\begin{itemize}
+    \item \textbf{Fase 1: Concepção e Planejamento (TCC~1)}
     \begin{itemize}
-        \item \textit{Revisão da literatura:} levantamento bibliográfico nas áreas de Engenharia de Software (requisitos, arquitetura orientada a dados e privacidade desde a concepção), \textit{Learning Analytics} e \textit{Knowledge Tracing}, fundamentando a adoção do BKT como modelo do módulo Cognita;
-        \item \textit{Levantamento técnico do ecossistema:} inspeção direta do código-fonte do repositório do CEDIS Deck Manager para mapear os componentes distribuídos, o modelo de dados, a taxonomia de eventos e as restrições de anonimização e conformidade com a LGPD;
-        \item \textit{Engenharia de requisitos e planejamento:} aplicação de uma versão adaptada da metodologia \textit{Lean Inception} \cite{caroli_lean_2018} — com validação assíncrona junto ao cliente do projeto — para definição da visão do produto, personas, jornadas, requisitos funcionais, sequenciamento do MVP e \textit{Canvas} MVP, complementada pelo modelo URPS+ \cite{pressman_engenharia_2021} para requisitos não funcionais;
-        \item \textit{Arquitetura, prototipação e cronograma:} especificação da arquitetura de integração, modelagem das entidades consumidas, elaboração dos protótipos de tela para validação de fluxos e estruturação do cronograma de desenvolvimento em \textit{Sprints}.
+        \item \textbf{OE1: Caracterizar o Ecossistema CEDIS}
+        \begin{itemize}
+            \item \textbf{Atividade 1 (A1):} Revisão da literatura;
+            \item \textbf{Atividade 2 (A2):} Levantamento técnico do ecossistema;
+            \item \textbf{Atividade 3 (A3):} Identificação das entidades e atributos de entrada.
+        \end{itemize}
+        \item \textbf{OE2: Elicitar, especificar e priorizar os requisitos}
+        \begin{itemize}
+            \item \textbf{Atividade 4 (A4):} Alinhamento da visão do produto;
+            \item \textbf{Atividade 5 (A5):} Levantamento e priorização dos requisitos funcionais;
+            \item \textbf{Atividade 6 (A6):} Especificação dos requisitos funcionais e não funcionais;
+            \item \textbf{Atividade 7 (A7):} Definição do MVP e do cronograma de desenvolvimento;
+            \item \textbf{Atividade 8 (A8):} Prototipação das telas.
+        \end{itemize}
+        \item \textbf{OE3: Projetar a arquitetura e o modelo de dados}
+        \begin{itemize}
+            \item \textbf{Atividade 9 (A9):} Projeto da arquitetura de integração;
+            \item \textbf{Atividade 10 (A10):} Modelagem dos dados do Cognita.
+        \end{itemize}
     \end{itemize}
 
-    \item \textbf{Etapa 2 -- Desenvolvimento e Validação Experimental (TCC 2):}
+    \item \textbf{Fase 2: Desenvolvimento e Avaliação (TCC~2)}
     \begin{itemize}
-        \item \textit{Desenvolvimento iterativo e incremental:} implementação do módulo Cognita e de suas integrações via APIs ao longo das \textit{Sprints} planejadas, utilizando práticas ágeis inspiradas no Scrum;
-        \item \textit{Avaliação quantitativa do modelo:} construção do \textit{pipeline} de ingestão e treinamento do modelo BKT a partir dos registros históricos de interação e respostas do ecossistema, com particionamento dos dados por estudante para evitar vazamento de informação e aferição contínua por meio das métricas AUC-ROC, Acurácia (ACC) e RMSE;
-        \item \textit{Validação integrada e usabilidade:} execução de testes integrados ao ecossistema, verificação dos requisitos de privacidade e avaliação da usabilidade das interfaces junto a estudantes e docentes por meio da escala \textit{System Usability Scale} (SUS).
+        \item \textbf{OE4: Implementar o \textit{pipeline} de dados e o treinamento do BKT}
+        \begin{itemize}
+            \item \textbf{Atividade 11 (A11):} Caracterização dos dados disponíveis;
+            \item \textbf{Atividade 12 (A12):} Implementação da ingestão, validação e reconciliação dos dados;
+            \item \textbf{Atividade 13 (A13):} Construção da Matriz Q e das sequências de interação;
+            \item \textbf{Atividade 14 (A14):} Treinamento e retreinamento do modelo BKT.
+        \end{itemize}
+        \item \textbf{OE5: Avaliar a qualidade preditiva do modelo e a concordância dos diagnósticos}
+        \begin{itemize}
+            \item \textbf{Atividade 15 (A15):} Avaliação preditiva do modelo;
+            \item \textbf{Atividade 16 (A16):} Comparação com o modelo de referência;
+            \item \textbf{Atividade 17 (A17):} Validação dos diagnósticos coletivos junto ao docente.
+        \end{itemize}
+        \item \textbf{OE6: Disponibilizar os diagnósticos e avaliar a usabilidade}
+        \begin{itemize}
+            \item \textbf{Atividade 18 (A18):} Implementação das visões de diagnóstico individual e coletivo;
+            \item \textbf{Atividade 19 (A19):} Testes integrados e verificação dos requisitos não funcionais;
+            \item \textbf{Atividade 20 (A20):} Avaliação de usabilidade.
+        \end{itemize}
     \end{itemize}
-\end{enumerate}
+\end{itemize}
 
-Além desta introdução, a monografia está organizada em outros três capítulos. O Capítulo~2 apresenta o referencial teórico que fundamenta o trabalho, abrangendo Engenharia de Software, \textit{Learning Analytics} e Aprendizagem de Máquina aplicada ao \textit{Knowledge Tracing}. O Capítulo~3 caracteriza os produtos do Ecossistema CEDIS e detalha o levantamento técnico da arquitetura, do modelo de dados, da taxonomia de eventos e dos mecanismos de privacidade em operação. Por fim, o Capítulo~4 descreve a proposta e o planejamento do módulo Cognita, contemplando os artefatos da \textit{Lean Inception}, os requisitos funcionais e não funcionais, a arquitetura de integração, a modelagem de dados, os protótipos de interface e o cronograma de desenvolvimento.
+\section{Organização do Trabalho}
+\label{sec:organizacao}
+
+Além desta introdução, a monografia está organizada em outros quatro capítulos. O Capítulo~\ref{cap:referencial} apresenta o referencial teórico que fundamenta o trabalho, abrangendo Engenharia de Software, \textit{Learning Analytics} e Aprendizagem de Máquina aplicada ao \textit{Knowledge Tracing}. O Capítulo~\ref{cap:metodologia} descreve a classificação da pesquisa e as fases de trabalho, relacionando cada objetivo específico às suas atividades, aos métodos de pesquisa e aos resultados esperados. O Capítulo~\ref{cap:ecossistema} apresenta os resultados do OE1, caracterizando os produtos do Ecossistema CEDIS e detalhando o levantamento técnico da arquitetura, do modelo de dados, da taxonomia de eventos e dos mecanismos de privacidade em operação. Por fim, o Capítulo~\ref{cap:proposta} apresenta os resultados do OE2 e do OE3, descrevendo a proposta do módulo Cognita: os artefatos da \textit{Lean Inception}, os requisitos funcionais e não funcionais, a arquitetura de integração, a modelagem de dados, os protótipos de interface e o cronograma de desenvolvimento.

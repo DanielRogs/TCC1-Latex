@@ -1,6 +1,7 @@
 % !TEX root = ../../tcc.tex
 
 \chapter[Ecossistema CEDIS]{Ecossistema CEDIS}
+\label{cap:ecossistema}
 
 O Centro de Estudo, Desenvolvimento e Inovação em Software (CEDIS) da
 Universidade de Brasília (UnB) mantém um conjunto de produtos de
@@ -121,6 +122,9 @@ O CEDIS Learning Analytics\footnote{Disponível em \url{https://analytics.cedis.
 produto responsável por consolidar os sinais gerados pelos demais
 componentes do ecossistema em estatísticas, \textit{dashboards},
 indicadores, correlações e \textit{insights} acionáveis para docentes.
+Atualmente, suas análises são descritivas: no nível dos conceitos, por
+exemplo, o produto contabiliza as questões respondidas correta e
+incorretamente, sem inferir o domínio dos estudantes.
 Ele tem caráter transversal ao ecossistema e é construído sobre os mesmos
 princípios de privacidade por desenho e conformidade com a LGPD adotados
 pelos demais produtos. É neste produto que os dados operacionais do Deck
@@ -132,21 +136,21 @@ de conceitos com \textit{Knowledge Tracing}.
 
 \bigskip
 
-A jornada prática ilustrada na Figura~\ref{fig:fluxo-interacao-cedis} resume a
-integração entre os seis produtos: o docente cria e organiza o conteúdo no
-Deck Manager; apresenta a aula com o Slides; o aluno explora conceitos no
-Concept Studio; o aluno avança em sua jornada no Atlas do Conhecimento; a
-aprendizagem é registrada com segurança e sob controle do próprio aluno no
-Learning Passport; os sinais de todo o ecossistema são agregados no
-Learning Analytics; e, por fim, o docente toma decisões pedagógicas
-melhores com base nesses \textit{insights}.
+A Figura~\ref{fig:fluxo-interacao-cedis} resume a integração entre os seis
+produtos. O docente organiza o conteúdo no Deck Manager, estrutura os
+conceitos e os questionários no Concept Studio e apresenta a aula pelo
+CEDIS Slides. O aluno responde às atividades em sala, responde aos
+questionários e explora os conceitos no Atlas do Conhecimento, e a sua
+aprendizagem é registrada, sob o seu controle, no Learning Passport. Por
+fim, os registros do ecossistema são consolidados no Learning Analytics,
+que apoia as decisões pedagógicas do docente.
 
 \begin{figure}[htb]
 \caption{Fluxo de interação entre os produtos do Ecossistema CEDIS}
 \label{fig:fluxo-interacao-cedis}
 \centering
 \includegraphics[width=\textwidth]{figuras/fluxo.png}
-\legend{Fonte: Dos autores.}
+\legend{Fonte: Elaborado pelos autores.}
 \end{figure}
 
 \section{Dados Coletados do Sistema}
@@ -173,13 +177,13 @@ Analytics}, banco de questões e identidade opcional).
 O sistema deixou de ser uma simples dupla composta por um gerenciador de
 conteúdo e uma API de respostas, evoluindo para uma plataforma distribuída
 com responsabilidades bem definidas por componente. O Deck Manager atua
-como plano operacional e administrativo, concentrando decks, usuários,
+como plano operacional e administrativo, concentrando \textit{decks}, usuários,
 pastas, versões, eventos, acessos, avaliações (\textit{ratings}),
 retroalimentação (\textit{feedback}) e vínculos com a camada de
 \textit{Learning Analytics}. A camada pública de respostas às atividades
 (\textit{cedis-slides-api}) mantém as respostas dos alunos, a sessão e o
-identificador do participante -- anônimo ou identificado, conforme o modo
-configurado. A camada de ingestão de \textit{Learning Analytics}
+identificador do participante, que pode ser anônimo ou identificado, conforme
+o modo configurado. A camada de ingestão de \textit{Learning Analytics}
 (\textit{cedis-la-ingest}) recebe eventos padronizados de aprendizagem e
 seus vínculos com respostas e identidade. O serviço de identidade
 (\textit{cedis-identity-suite}) mantém dados de pessoa, grupo e contexto
@@ -200,7 +204,7 @@ principais dados e a forma de persistência e consumo de cada componente.
 \hline
 Navegador / apresentação & Produtor primário de eventos & Eventos de navegação, atividade, respostas e contexto de sessão \\
 \hline
-Deck Manager & Plano operacional e analítico & Decks, usuários, pastas, versões, eventos, acessos, avaliações, \textit{feedback}, vínculos com \textit{Learning Analytics} \\
+Deck Manager & Plano operacional e analítico & \textit{Decks}, usuários, pastas, versões, eventos, acessos, avaliações, \textit{feedback}, vínculos com \textit{Learning Analytics} \\
 \hline
 CEDIS Slides (\textit{slides-api}) & Plano público de resposta & Respostas de atividades, sessão, participante anônimo ou identificado, conteúdo da resposta \\
 \hline
@@ -220,8 +224,8 @@ Dentro dessa arquitetura, coexistem trilhas de dados com finalidades
 distintas: telemetria operacional de acesso e navegação, respostas
 educacionais às atividades, eventos padronizados de \textit{Learning
 Analytics} e, opcionalmente, dados de identidade. Essas trilhas não devem
-ser tratadas como equivalentes entre si -- cada uma possui semântica,
-política de retenção e nível de sensibilidade próprios --, o que tem
+ser tratadas como equivalentes entre si, pois cada uma possui semântica,
+política de retenção e nível de sensibilidade próprios. Essa distinção tem
 implicações diretas para a forma como dados de múltiplas fontes podem ser
 combinados de maneira íntegra e reprodutível em uma abordagem de
 \textit{Knowledge Tracing}.
@@ -274,10 +278,10 @@ Do ponto de vista do objetivo deste trabalho, duas entidades merecem
 destaque. A primeira é \textit{QuestionActivityMap}, que estabelece o
 vínculo entre uma atividade de um \textit{deck} e uma questão do banco de
 conhecimento do Atlas, permitindo associar respostas a conceitos
-específicos -- pré-requisito para qualquer modelagem de \textit{Knowledge
+específicos, o que é pré-requisito para qualquer modelagem de \textit{Knowledge
 Tracing}. A segunda é \textit{LearningAnalyticsIngestLink}, que formaliza
 a reconciliação entre um evento padronizado de aprendizagem, uma resposta
-persistida e, opcionalmente, uma identidade -- ou seja, o ponto de
+persistida e, opcionalmente, uma identidade, constituindo o ponto de
 integração de dados de múltiplas fontes do ecossistema em um único
 registro analítico. Cabe ressaltar que essas referências entre serviços
 são lógicas, e não chaves estrangeiras físicas de um mesmo banco de
@@ -323,33 +327,28 @@ Esses cinco eventos formam o funil operacional \textit{deck\_open}
 $\rightarrow$ \textit{activity\_impression} $\rightarrow$
 \textit{activity\_started} $\rightarrow$ \textit{activity\_submitted}
 $\rightarrow$ \textit{summary\_view}, que descreve a jornada de um aluno
-dentro de uma única atividade. É importante destacar duas limitações
-metodológicas relevantes para a análise desses dados: primeiro, o evento
-\textit{activity\_submitted} é registrado de forma independente da
-resposta efetivamente persistida em \textit{activity\_responses}, podendo
-haver divergência entre os dois caminhos caso ocorra falha parcial de
-envio; segundo, como o identificador anônimo de visitante é recalculado
-diariamente, não é válido reconstruir trajetórias individuais de um mesmo
-aluno ao longo de dias distintos a partir apenas da telemetria anônima.
+dentro de uma única atividade. Duas limitações desses dados devem
+ser destacadas. Primeiro, o evento \textit{activity\_submitted} é
+registrado independentemente da resposta persistida em
+\textit{activity\_responses}, e os dois registros podem divergir em caso
+de falha parcial de envio. Segundo, como o identificador anônimo de
+visitante é recalculado diariamente, a telemetria anônima não permite
+reconstruir a trajetória de um mesmo aluno ao longo de dias distintos.
 
 \subsection{Privacidade, Anonimização e Conformidade com a LGPD}
 \label{subsec:privacidade}
 
-O Deck Manager implementa diversos mecanismos de privacidade desde a
-concepção, em particular na camada de telemetria de interação. A
-identificação anônima de visitante é construída por meio de um código de
-autenticação de mensagem (\textit{HMAC-SHA256}), com rotação diária,
-calculado a partir de uma chave de aplicação e de um conjunto de atributos
-minimizados: o dia corrente, o prefixo de rede do endereço IP (reduzido a
-/24 para IPv4 e /48 para IPv6), a classe do idioma e a classe do agente de
-usuário. O agente de usuário bruto é classificado em categorias de
-dispositivo (por exemplo, \textit{mobile}, \textit{tablet},
-\textit{desktop}, \textit{bot}) em vez de armazenado integralmente, e a
-origem da requisição (\textit{referrer}) é convertida em uma classe
-agregada (direta, interna, busca, social ou externa). Além disso, o
-sistema respeita o sinalizador \textit{Do Not Track} (DNT), filtra tráfego
-identificado como automatizado (\textit{bots}) e aplica \textit{k}-anonimato
-na exibição de células com poucos registros em relatórios agregados. A
+O Deck Manager implementa mecanismos de privacidade desde a concepção,
+principalmente na telemetria de interação. O visitante é identificado por
+um código pseudonimizado (\textit{anon\_visitor\_hash}), gerado por
+HMAC-SHA256 com rotação diária a partir de atributos minimizados, como o
+prefixo de rede do endereço IP e as classes de idioma e de dispositivo, sem
+armazenar o endereço IP completo ou o agente de usuário bruto. Além disso, o
+sistema respeita o sinalizador \textit{Do Not Track} (DNT), filtra o
+tráfego automatizado (\textit{bots}) e aplica \textit{k}-anonimato aos
+relatórios agregados. Como o identificador muda a cada dia, essa telemetria
+não permite acompanhar um mesmo estudante ao longo do tempo, o que só é
+possível por meio da identidade consentida no Learning Passport. A
 Tabela~\ref{tab:privacidade-deck-manager} resume esses mecanismos e seu
 efeito sobre a análise dos dados.
 
@@ -379,18 +378,13 @@ Identidade opcional (\textit{opt-in}) & Habilita contexto individual apenas quan
 \legend{Fonte: Elaborado pelos autores a partir de levantamento técnico do repositório CEDIS Deck Manager (\textit{commit} \texttt{3bb454a}, 2026).}
 \end{table}
 
-Esses mecanismos estabelecem distinções conceituais importantes para a
-condução deste trabalho. Segurança protege confidencialidade, integridade
-e disponibilidade, mas não torna, por si só, um dado anônimo.
-Pseudonimização substitui identificadores diretos por chaves, mas o dado
-pode continuar sendo pessoal a depender do contexto de uso. Anonimização
-exige impossibilidade prática de reidentificação no contexto aplicável --
-razão pela qual o identificador \textit{anon\_visitor\_hash}, ainda que
-rotativo, deve ser tratado como um pseudônimo efêmero de telemetria, e não
-como um dado anônimo em sentido estrito. Por fim, base legal operacional e
-consentimento para finalidades específicas de pesquisa não são
-sinônimos: o uso de dados do ecossistema em uma pesquisa científica --
-como a proposta de \textit{Knowledge Tracing} deste trabalho -- deve
+Esses mecanismos estabelecem duas distinções importantes para este
+trabalho. A primeira é que pseudonimizar não equivale a anonimizar: o
+\textit{anon\_visitor\_hash}, ainda que rotativo, é um pseudônimo, e
+não um dado anônimo em sentido estrito. A segunda é que a base legal que
+ampara a operação da plataforma e o consentimento para fins de pesquisa
+não são sinônimos: o uso de dados do ecossistema em uma pesquisa científica,
+como a proposta de \textit{Knowledge Tracing} deste trabalho, deve
 considerar a governança ética aplicável a pesquisas com seres humanos,
 independentemente da base legal que ampara a operação da plataforma.
 
@@ -405,15 +399,13 @@ dia (\textit{visitor-days}), número de impressões de atividade, taxa de
 início (\textit{starts / impressions}), taxa de submissão
 (\textit{submissions / starts}), número de respostas persistidas, média de
 respostas em escala Likert e média das avaliações (\textit{ratings}) de
-um \textit{deck}. Essas métricas são adequadas para descrição agregada de
-uso e engajamento, mas não devem ser interpretadas como evidência direta
-de aprendizagem: correlação entre exposição a um conteúdo e resposta a uma
-atividade não estabelece, isoladamente, causalidade pedagógica, e os
-próprios mecanismos de privacidade adotados (DNT, filtragem de \textit{bots} e
-\textit{k}-anonimato) introduzem ausência de dados de forma intencional.
-Essa ressalva é especialmente relevante para este trabalho, cujo objetivo
-não é reutilizar diretamente essas métricas agregadas, mas sim combinar os
-dados de resposta a atividades, o mapeamento atividade--conceito do
-Concept Studio e do Atlas do Conhecimento, e os eventos padronizados de
-\textit{Learning Analytics}, de modo a estimar o domínio de conceitos de
-cada aluno por meio de uma abordagem de \textit{Knowledge Tracing}.
+um \textit{deck}. Essas métricas descrevem o uso e o engajamento, mas não
+são evidência direta de aprendizagem. A relação entre a exposição a um
+conteúdo e a resposta a uma atividade não estabelece, por si só,
+causalidade pedagógica, e os próprios mecanismos de privacidade (DNT,
+filtragem de \textit{bots} e \textit{k}-anonimato) introduzem ausência
+intencional de dados. Por isso, este trabalho não reutiliza diretamente
+essas métricas: combina as respostas às atividades e aos questionários com
+o mapeamento atividade-conceito do Concept Studio e do Atlas do
+Conhecimento, de modo a estimar o domínio de conceitos de cada aluno por
+meio do \textit{Knowledge Tracing}.

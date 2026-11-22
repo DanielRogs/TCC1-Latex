@@ -6,7 +6,7 @@
 % Evita o espaçamento vertical esticado quando tabelas fixas [H] vão para a página seguinte.
 \raggedbottom
 
-O planejamento do Cognita, módulo de estimativa do domínio de conceitos a ser incorporado ao Ecossistema CEDIS, compreende o alinhamento da visão do produto por meio da \textit{Lean Inception}, a especificação dos requisitos funcionais e não funcionais, a definição da arquitetura de integração, a modelagem das entidades e atributos de entrada, a prototipação das interfaces e o cronograma de desenvolvimento em ondas.
+O planejamento do Cognita, módulo de estimativa do domínio de conceitos a ser incorporado ao Ecossistema CEDIS, compreende o alinhamento da visão do produto por meio da \textit{Lean Inception}, a especificação dos requisitos funcionais e não funcionais, a definição da arquitetura de integração, a modelagem das entidades e atributos de entrada, a prototipação das interfaces, o cronograma de desenvolvimento em ondas e o cronograma das demais atividades do TCC~2.
 
 
 \section{Visão do Produto}
@@ -1255,3 +1255,114 @@ de execução.
 \hline
 \end{longtable}
 }
+
+
+\section{Cronograma do TCC 2}
+\label{sec:cronograma-tcc2}
+
+Enquanto a Seção~\ref{sec:cronograma} (Tabela~\ref{tab:cronograma-ondas}) organiza exclusivamente as onze \textit{Sprints} de implementação e estabilização técnica do MVP, esta seção planeja as demais atividades acadêmicas, éticas, experimentais e redacionais necessárias à execução da Fase~2 (Tabela~\ref{tab:fase2}) e à defesa do trabalho no semestre letivo 2027.1.
+
+\subsection{Organização das Atividades do TCC 2}
+\label{subsec:etapas-tcc2}
+
+As frentes de trabalho do TCC~2 externas à codificação foram estruturadas em quatro eixos complementares, alinhados aos marcos das \textit{Sprints} sem duplicar o cronograma de desenvolvimento:
+
+\begin{enumerate}
+    \item \textbf{Governança Ética (CEP e Plataforma Brasil):} elaboração do protocolo de pesquisa e dos Termos de Consentimento Livre e Esclarecido (TCLE), com submissão antecipada ao Comitê de Ética em Pesquisa (CEP) via Plataforma Brasil e acompanhamento até o parecer favorável (Seção~\ref{sec:aspectos-eticos}), como condição prévia ao acesso aos dados reais de estudantes e à aplicação dos instrumentos com participantes;
+
+    \item \textbf{Análise Exploratória, Instrumentos e Orientação Contínua:} após a aprovação ética, realização da caracterização exploratória dos registros em produção acumulados desde agosto de 2026 (A11), revisão dos limiares iniciais de decisão da Tabela~\ref{tab:limiares} junto ao orientador, preparação do formulário ordinal docente (A17) e do roteiro de tarefas para avaliação de usabilidade (A20), além de reuniões periódicas de acompanhamento acadêmico com o orientador;
+
+    \item \textbf{Avaliação Experimental e Validação com Participantes (OE5 e OE6):} condução da avaliação preditiva por validação cruzada em $k = 5$ partições agrupadas por estudante com as métricas AUC, ACC e RMSE (A15) e comparação frente ao modelo de referência (\textit{baseline}) baseado na taxa média de acerto por conceito (A16 e RNF05); aplicação do formulário ao docente antes da exibição das estimativas e cálculo da correlação de postos de Spearman (A17); e execução da avaliação de usabilidade baseada em tarefas com o cliente do projeto e um pesquisador do CEDIS, aplicando o questionário \textit{System Usability Scale} (SUS) \cite{brooke_sus_1996} (meta mínima de 68 pontos do RNF02) e análise qualitativa das observações (A20);
+
+    \item \textbf{Redação, Revisão e Defesa da Monografia Final:} revisão dos capítulos herdados do TCC~1, redação incremental do capítulo de Desenvolvimento acompanhando as entregas do projeto, escrita dos capítulos de Resultados e Discussão (respondendo à questão de pesquisa QP da Seção~\ref{sec:problema} e examinando as limitações da Seção~\ref{sec:limitacoes}) e de Conclusões e Trabalhos Futuros, revisões críticas com o orientador, adequação formal às normas da ABNT, submissão à banca examinadora, preparação da apresentação e ensaio, defesa pública do TCC~2 e incorporação das considerações da banca para depósito da versão definitiva.
+\end{enumerate}
+
+\subsection{Detalhamento do Cronograma}
+\label{subsec:detalhamento-cronograma-tcc2}
+
+O planejamento abrange o período de dezembro de 2026 --- de modo a antecipar a submissão ética ao CEP logo após o encerramento do TCC~1 --- até julho de 2027, acompanhando o semestre letivo 2027.1 na UnB e sincronizando as janelas de avaliação experimental e consolidação textual ao período de \textit{code freeze} definido na Seção~\ref{sec:cronograma}. Ressalva-se que os marcos finais de entrega à banca e defesa pública poderão ser ajustados conforme o calendário oficial de TCC~2 da Faculdade de Ciências e Tecnologias em Engenharia (FCTE/UnB) para 2027.1.
+
+A Tabela~\ref{tab:cronograma-tcc2} detalha cada etapa prevista no âmbito acadêmico e científico do TCC~2, e a Tabela~\ref{tab:cronograma-tcc2-mensal} sintetiza a sua distribuição mensal ao longo do período.
+
+{\small
+\begin{longtable}{>{\raggedright\arraybackslash}p{2.65cm}>{\raggedright\arraybackslash}p{2.4cm}>{\raggedright\arraybackslash}p{4.65cm}cc}
+\caption{Cronograma de atividades do TCC 2 (exceto desenvolvimento de \textit{software})}
+\label{tab:cronograma-tcc2} \\
+\hline
+\textbf{Etapa} & \textbf{Vínculo} & \textbf{Atividades e entregáveis} & \textbf{Início} & \textbf{Término} \\
+\hline
+\endfirsthead
+\caption[]{Cronograma de atividades do TCC 2 (continuação)} \\
+\hline
+\textbf{Etapa} & \textbf{Vínculo} & \textbf{Atividades e entregáveis} & \textbf{Início} & \textbf{Término} \\
+\hline
+\endhead
+\hline
+\multicolumn{5}{r}{\textit{Continua na próxima página}} \\
+\endfoot
+\hline
+\multicolumn{5}{l}{Fonte: Elaborado pelos autores.} \\
+\endlastfoot
+Submissão e tramitação ética no CEP & Aspectos Éticos (Seção~\ref{sec:aspectos-eticos}) & Elaboração do protocolo de pesquisa e dos TCLEs; submissão na Plataforma Brasil e acompanhamento de eventuais diligências até a emissão do parecer favorável. & 14/12/2026 & 14/02/2027 \\
+\hline
+Caracterização exploratória dos dados e revisão de limiares & OE4 (A11); Tabela~\ref{tab:limiares} & Análise exploratória dos registros em produção acumulados desde agosto de 2026 após aprovação ética; consolidação das estatísticas descritivas da amostra e revisão inicial dos limiares de decisão com o orientador. & 15/02/2027 & 09/03/2027 \\
+\hline
+Reuniões de orientação e preparação dos instrumentos & Orientação; A17 e A20 & Encontros periódicos de orientação; revisão dos capítulos herdados do TCC~1; elaboração do formulário ordinal de percepção docente (A17) e do roteiro de tarefas e questionário SUS para avaliação de usabilidade (A20). & 10/03/2027 & 30/04/2027 \\
+\hline
+Redação incremental do capítulo de Desenvolvimento & Monografia do TCC~2 & Documentação contínua das decisões arquiteturais concretizadas, da engenharia de dados, da integração das interfaces e das evidências de verificação técnica à medida que o MVP avança. & 22/03/2027 & 18/05/2027 \\
+\hline
+Avaliação preditiva e validação junto ao docente & OE5 (A15--A17); RNF05 & Execução da validação cruzada ($k = 5$) agrupada por estudante (AUC, ACC e RMSE) e comparação estatística com o \textit{baseline} (A15--A16); aplicação do formulário ao docente antes da exibição das estimativas e cálculo da correlação de postos de Spearman (A17). & 19/05/2027 & 05/06/2027 \\
+\hline
+Avaliação de usabilidade com participantes & OE6 (A20); RNF02 & Condução das sessões baseadas em tarefas com o cliente do projeto e um pesquisador do CEDIS durante o \textit{code freeze}; aplicação do questionário SUS, cálculo das pontuações e análise qualitativa das observações. & 01/06/2027 & 10/06/2027 \\
+\hline
+Consolidação dos resultados, conclusão e revisão final & Monografia do TCC~2; QP e Seção~\ref{sec:limitacoes} & Redação dos capítulos de Resultados e Discussão e de Conclusões e Trabalhos Futuros; atualização de resumo, \textit{abstract}, listas e referências; revisão crítica com o orientador e adequação final às normas da ABNT. & 07/06/2027 & 22/06/2027 \\
+\hline
+Submissão à banca, defesa e versão definitiva & Encerramento acadêmico (TCC~2) & Entrega da versão preliminar à banca examinadora; preparação dos slides e ensaio da apresentação; defesa pública do TCC~2; incorporação das correções da banca e depósito da versão final. & 23/06/2027 & 15/07/2027 \\
+\hline
+\end{longtable}
+}
+
+\begin{table}[htb]
+\caption{Visão sintética mensal do cronograma do TCC 2}
+\label{tab:cronograma-tcc2-mensal}
+\centering
+{\small
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}Xcccccccc}
+\hline
+ & \multicolumn{1}{c}{\textbf{2026}} & \multicolumn{7}{c}{\textbf{2027}} \\
+\cline{2-9}
+\textbf{Etapa} & \textbf{Dez} & \textbf{Jan} & \textbf{Fev} & \textbf{Mar} & \textbf{Abr} & \textbf{Mai} & \textbf{Jun} & \textbf{Jul} \\
+\hline
+Submissão e tramitação ética no CEP & \textbullet & \textbullet & \textbullet & & & & & \\
+\hline
+Caracterização exploratória dos dados e revisão de limiares & & & \textbullet & \textbullet & & & & \\
+\hline
+Reuniões de orientação e preparação dos instrumentos & & & & \textbullet & \textbullet & & & \\
+\hline
+Redação incremental do capítulo de Desenvolvimento & & & & \textbullet & \textbullet & \textbullet & & \\
+\hline
+Avaliação preditiva e validação junto ao docente & & & & & & \textbullet & \textbullet & \\
+\hline
+Avaliação de usabilidade com participantes & & & & & & & \textbullet & \\
+\hline
+Consolidação dos resultados, conclusão e revisão final & & & & & & & \textbullet & \\
+\hline
+Submissão à banca, defesa e versão definitiva & & & & & & & \textbullet & \textbullet \\
+\hline
+\end{tabularx}
+}
+\legend{Fonte: Elaborado pelos autores.}
+\end{table}
+
+\subsection{Gestão de Riscos do Cronograma}
+\label{subsec:riscos-cronograma-tcc2}
+
+Em alinhamento com as limitações e ameaças à validade discutidas na Seção~\ref{sec:limitacoes}, foram mapeados três riscos capazes de afetar o cumprimento das atividades do TCC~2 e as respectivas medidas de mitigação:
+
+\begin{itemize}
+    \item \textbf{Prazo de tramitação ética no CEP (Plataforma Brasil):} eventuais diligências ou demora na emissão do parecer podem atrasar a caracterização dos dados reais (A11) e a aplicação dos instrumentos com participantes (A17 e A20). Como mitigação, o protocolo completo e os TCLEs serão submetidos imediatamente após o encerramento do TCC~1, em dezembro de 2026, mantendo-se o cumprimento estrito da vedação ao uso de dados reais ou aplicação de questionários antes da aprovação formal;
+
+    \item \textbf{Disponibilidade de participantes e restrições amostrais:} a validação dos diagnósticos coletivos (A17) depende da agenda do docente usuário do ecossistema, e a avaliação de usabilidade (A20) exige sessões síncronas com o cliente e um pesquisador do CEDIS, além da limitação potencial de amostra sob \textit{opt-in}. Para mitigar esse risco, o agendamento das sessões será realizado com antecedência dentro da janela do \textit{code freeze}, e a análise quantitativa apoiar-se-á no histórico acumulado desde agosto de 2026 e em validação cruzada agrupada por estudante com $k = 5$ (A15);
+
+    \item \textbf{Acúmulo da redação e revisão da monografia ao final do semestre:} concentrar a escrita dos capítulos finais e a formatação ABNT apenas após o término das avaliações experimentais comprometeria os prazos de revisão com o orientador e entrega à banca. Como mitigação, adota-se redação contínua do capítulo de Desenvolvimento a partir de março de 2027, com revisões parciais nas reuniões de orientação e dedicação exclusiva nas semanas de junho à consolidação dos resultados e à revisão normativa.
+\end{itemize}

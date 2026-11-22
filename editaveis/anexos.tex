@@ -4,13 +4,398 @@
 
 \partanexos
 
-\chapter{Primeiro Anexo}
+\chapter{Dicionário de Dados do Módulo Cognita}
+\label{an:dicionario-dados}
 
-Texto do primeiro anexo.
+\raggedbottom
 
-\chapter{Segundo Anexo}
+Este anexo apresenta o dicionário de dados completo do modelo lógico relacional proposto para o módulo Cognita. Cada ficha descreve o nome da tabela, sua finalidade funcional, observações estruturais relevantes e a especificação integral de seus atributos --- com descrição, tipo de dado, tamanho (quando aplicável ao tipo) e restrições de domínio (\texttt{PK}, \texttt{FK}, \texttt{IDENTITY}, \texttt{UNIQUE}, \texttt{NOT NULL}/\texttt{NULL}, \texttt{DEFAULT}, \texttt{CHECK}, \texttt{ON DELETE CASCADE} e referências lógicas \textit{cross-service}).
 
-Texto do segundo anexo.
+Por se tratar de uma base PostgreSQL dedicada e isolada dos demais bancos transacionais do Ecossistema CEDIS, adotam-se as seguintes convenções: (i) chaves substitutas sequenciais (\texttt{IDENTITY}) para entidades internas; (ii) carimbos de tempo normalizados em UTC (\texttt{TIMESTAMP}); (iii) chaves estrangeiras físicas (\texttt{FK}) exclusivamente entre tabelas do próprio módulo; (iv) identificadores externos tratados como referências lógicas \textit{cross-service}; e (v) propagação atômica de exclusão (\texttt{ON DELETE CASCADE}) a partir de \textit{ConsentSubject}, assegurando a exclusão integral de dados preditivos em conformidade com a LGPD.
+
+{\footnotesize
+\setlength{\tabcolsep}{4pt}
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{4.9cm}>{\raggedright\arraybackslash}p{1.75cm}>{\centering\arraybackslash}p{0.95cm}>{\raggedright\arraybackslash}p{3.7cm}}
+\caption{Dicionário de dados da tabela \textit{TrainingPolicy}}
+\label{tab:dd-training-policy} \\
+\hline
+\multicolumn{5}{>{\raggedright\arraybackslash}p{15.3cm}}{\textbf{Tabela:} \texttt{TrainingPolicy}} \\
+\multicolumn{5}{>{\raggedright\arraybackslash}p{15.3cm}}{\textbf{Descrição:} Armazena as regras de agendamento, seleção de \textit{decks} elegíveis, limiares amostrais e critérios do \textit{Quality Gate} aplicados aos ciclos de treinamento e retreinamento do modelo BKT.} \\
+\multicolumn{5}{>{\raggedright\arraybackslash}p{15.3cm}}{\textbf{Observações:} Relaciona-se $1:N$ com \textit{KTModelVersion}. O atributo \texttt{updated\_\allowbreak by\_\allowbreak user\_\allowbreak id} constitui referência lógica \textit{cross-service} a \texttt{User.id} no \textit{manager}. Recomenda-se manter apenas uma política com \texttt{is\_\allowbreak active = TRUE} vigente por ambiente.} \\
+\hline
+\textbf{Atributo} & \textbf{Descrição} & \textbf{Tipo} & \textbf{Tam.} & \textbf{Restrições de domínio} \\
+\hline
+\endfirsthead
+\caption[]{Dicionário de dados da tabela \textit{TrainingPolicy} (continuação)} \\
+\hline
+\textbf{Atributo} & \textbf{Descrição} & \textbf{Tipo} & \textbf{Tam.} & \textbf{Restrições de domínio} \\
+\hline
+\endhead
+\hline
+\multicolumn{5}{r}{\textit{Continua na próxima página}} \\
+\endfoot
+\hline
+\multicolumn{5}{l}{Fonte: Elaborado pelos autores.} \\
+\endlastfoot
+\texttt{id} & Identificador único da política de treino. & \texttt{INT} & --- & \texttt{PK}, \texttt{IDENTITY}, \texttt{NOT NULL} \\
+\hline
+\texttt{cron\_\allowbreak schedule} & Expressão \textit{cron} opcional para disparo agendado do retreinamento. & \texttt{VARCHAR} & 100 & \texttt{NULL} \\
+\hline
+\texttt{volume\_\allowbreak trigger} & Quantidade mínima de novas respostas para disparar retreinamento por volume. & \texttt{INT} & --- & \texttt{NULL}, \texttt{CHECK (volume\_\allowbreak trigger > 0)} \\
+\hline
+\texttt{window\_\allowbreak days} & Tamanho da janela temporal histórica de dados considerada no treino, em dias. & \texttt{INT} & --- & \texttt{NOT NULL}, \texttt{CHECK (window\_\allowbreak days > 0)} \\
+\hline
+\texttt{max\_\allowbreak duration\_\allowbreak h} & Tempo máximo permitido para execução do retreinamento, em horas. & \texttt{INT} & --- & \texttt{NOT NULL}, \texttt{DEFAULT 6}, \texttt{CHECK (max\_\allowbreak duration\_\allowbreak h > 0 AND max\_\allowbreak duration\_\allowbreak h <= 6)} \\
+\hline
+\texttt{eligible\_\allowbreak deck\_\allowbreak ids} & Lista serializada dos identificadores de \textit{decks} habilitados pelo docente para treino. & \texttt{VARCHAR} & 4000 & \texttt{NULL} \\
+\hline
+\texttt{auto\_\allowbreak include\_\allowbreak new\_\allowbreak decks} & Indica se novos \textit{decks} com mapeamento completo entram automaticamente no treino. & \texttt{BOOLEAN} & --- & \texttt{NOT NULL}, \texttt{DEFAULT FALSE} \\
+\hline
+\texttt{min\_\allowbreak interactions\_\allowbreak concept} & Número mínimo de respostas para estimar parâmetros próprios do conceito. & \texttt{INT} & --- & \texttt{NOT NULL}, \texttt{CHECK (min\_\allowbreak interactions\_\allowbreak concept > 0)} \\
+\hline
+\texttt{cv\_\allowbreak folds} & Número de partições na validação cruzada agrupada por estudante. & \texttt{INT} & --- & \texttt{NOT NULL}, \texttt{DEFAULT 5}, \texttt{CHECK (cv\_\allowbreak folds >= 2)} \\
+\hline
+\texttt{require\_\allowbreak beat\_\allowbreak baseline} & Exige que o modelo candidato supere o \textit{baseline} em AUC e RMSE. & \texttt{BOOLEAN} & --- & \texttt{NOT NULL}, \texttt{DEFAULT TRUE} \\
+\hline
+\texttt{max\_\allowbreak auc\_\allowbreak drop} & Queda máxima tolerada de AUC em relação ao modelo vigente. & \texttt{DECIMAL} & 5,4 & \texttt{NOT NULL}, \texttt{DEFAULT 0.0100}, \texttt{CHECK (max\_\allowbreak auc\_\allowbreak drop >= 0 AND max\_\allowbreak auc\_\allowbreak drop <= 1)} \\
+\hline
+\texttt{is\_\allowbreak active} & Indica se a política está ativa no momento. & \texttt{BOOLEAN} & --- & \texttt{NOT NULL}, \texttt{DEFAULT TRUE} \\
+\hline
+\texttt{updated\_\allowbreak by\_\allowbreak user\_\allowbreak id} & Identificador do docente ou administrador autor da última alteração. & \texttt{VARCHAR} & 64 & \texttt{NOT NULL}; ref. lógica a \texttt{User.id} (\textit{manager}) \\
+\hline
+\texttt{updated\_\allowbreak at} & Instante UTC da última atualização da política de treino. & \texttt{TIMESTAMP} & --- & \texttt{NOT NULL}, \texttt{DEFAULT CURRENT\_\allowbreak TIMESTAMP} \\
+\hline
+\end{longtable}
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{4.9cm}>{\raggedright\arraybackslash}p{1.75cm}>{\centering\arraybackslash}p{0.95cm}>{\raggedright\arraybackslash}p{3.7cm}}
+\caption{Dicionário de dados da tabela \textit{KTModelVersion}}
+\label{tab:dd-kt-model-version} \\
+\hline
+\multicolumn{5}{>{\raggedright\arraybackslash}p{15.3cm}}{\textbf{Tabela:} \texttt{KTModelVersion}} \\
+\multicolumn{5}{>{\raggedright\arraybackslash}p{15.3cm}}{\textbf{Descrição:} Registra cada execução de treinamento e versionamento do modelo de \textit{Knowledge Tracing}, armazenando proveniência dos dados, métricas médias da validação cruzada, comparação com o \textit{baseline} e estado operacional.} \\
+\multicolumn{5}{>{\raggedright\arraybackslash}p{15.3cm}}{\textbf{Observações:} Relaciona-se $N:1$ com \textit{TrainingPolicy} e $1:N$ com \textit{ConceptBKTParameter}, \textit{StudentConceptMastery} e \textit{StudentMasteryHistory}. Os campos de métricas e duração são anuláveis para acomodar execuções em curso (\texttt{CANDIDATE}) ou falhas (\texttt{FAILED}), preservando a operação da versão \texttt{ACTIVE} vigente.} \\
+\hline
+\textbf{Atributo} & \textbf{Descrição} & \textbf{Tipo} & \textbf{Tam.} & \textbf{Restrições de domínio} \\
+\hline
+\endfirsthead
+\caption[]{Dicionário de dados da tabela \textit{KTModelVersion} (continuação)} \\
+\hline
+\textbf{Atributo} & \textbf{Descrição} & \textbf{Tipo} & \textbf{Tam.} & \textbf{Restrições de domínio} \\
+\hline
+\endhead
+\hline
+\multicolumn{5}{r}{\textit{Continua na próxima página}} \\
+\endfoot
+\hline
+\multicolumn{5}{l}{Fonte: Elaborado pelos autores.} \\
+\endlastfoot
+\texttt{id} & Identificador único da versão do modelo. & \texttt{INT} & --- & \texttt{PK}, \texttt{IDENTITY}, \texttt{NOT NULL} \\
+\hline
+\texttt{policy\_\allowbreak id} & Identificador da política de treino utilizada nesta execução. & \texttt{INT} & --- & \texttt{FK} (\texttt{TrainingPolicy.\allowbreak id}), \texttt{NOT NULL} \\
+\hline
+\texttt{version\_\allowbreak tag} & Rótulo único e legível da versão do modelo (ex.: \texttt{v12}). & \texttt{VARCHAR} & 50 & \texttt{UNIQUE}, \texttt{NOT NULL} \\
+\hline
+\texttt{model\_\allowbreak type} & Família do modelo preditivo treinado nesta versão. & \texttt{VARCHAR} & 50 & \texttt{NOT NULL}, \texttt{DEFAULT 'BKT'}, \texttt{CHECK (model\_\allowbreak type IN ('BKT'))} \\
+\hline
+\texttt{trigger\_\allowbreak type} & Tipo de gatilho que iniciou o treinamento. & \texttt{VARCHAR} & 50 & \texttt{NOT NULL}, \texttt{CHECK (trigger\_\allowbreak type IN ('SCHEDULED', 'VOLUME'))} \\
+\hline
+\texttt{status} & Estado operacional da versão do modelo em ciclo de promoção. & \texttt{VARCHAR} & 50 & \texttt{NOT NULL}, \texttt{CHECK (status IN ('ACTIVE', 'CANDIDATE', 'FAILED'))} \\
+\hline
+\texttt{train\_\allowbreak window\_\allowbreak start} & Início da janela temporal dos dados consumidos no treino (UTC). & \texttt{TIMESTAMP} & --- & \texttt{NOT NULL} \\
+\hline
+\texttt{train\_\allowbreak window\_\allowbreak end} & Término da janela temporal dos dados consumidos no treino (UTC). & \texttt{TIMESTAMP} & --- & \texttt{NOT NULL}, \texttt{CHECK (train\_\allowbreak window\_\allowbreak end >= train\_\allowbreak window\_\allowbreak start)} \\
+\hline
+\texttt{cedis\_\allowbreak core\_\allowbreak commit} & \textit{Hash} do \textit{commit} do pacote \texttt{cedis-core} utilizado na extração para reprodutibilidade. & \texttt{VARCHAR} & 128 & \texttt{NOT NULL} \\
+\hline
+\texttt{auc\_\allowbreak roc} & Área média sob a curva ROC obtida na validação cruzada. & \texttt{DECIMAL} & 5,4 & \texttt{NULL}, \texttt{CHECK (auc\_\allowbreak roc >= 0 AND auc\_\allowbreak roc <= 1)} \\
+\hline
+\texttt{accuracy} & Acurácia média obtida na validação cruzada. & \texttt{DECIMAL} & 5,4 & \texttt{NULL}, \texttt{CHECK (accuracy >= 0 AND accuracy <= 1)} \\
+\hline
+\texttt{rmse} & Raiz do erro quadrático médio obtida na validação cruzada. & \texttt{DECIMAL} & 5,4 & \texttt{NULL}, \texttt{CHECK (rmse >= 0)} \\
+\hline
+\texttt{baseline\_\allowbreak auc} & AUC média do modelo de referência nas mesmas partições. & \texttt{DECIMAL} & 5,4 & \texttt{NULL}, \texttt{CHECK (baseline\_\allowbreak auc >= 0 AND baseline\_\allowbreak auc <= 1)} \\
+\hline
+\texttt{baseline\_\allowbreak accuracy} & Acurácia média do modelo de referência nas mesmas partições. & \texttt{DECIMAL} & 5,4 & \texttt{NULL}, \texttt{CHECK (baseline\_\allowbreak accuracy >= 0 AND baseline\_\allowbreak accuracy <= 1)} \\
+\hline
+\texttt{baseline\_\allowbreak rmse} & RMSE médio do modelo de referência nas mesmas partições. & \texttt{DECIMAL} & 5,4 & \texttt{NULL}, \texttt{CHECK (baseline\_\allowbreak rmse >= 0)} \\
+\hline
+\texttt{student\_\allowbreak count} & Quantidade de passaportes distintos incluídos no treinamento. & \texttt{INT} & --- & \texttt{NOT NULL}, \texttt{CHECK (student\_\allowbreak count >= 0)} \\
+\hline
+\texttt{interaction\_\allowbreak count} & Total de interações válidas utilizadas no treinamento. & \texttt{INT} & --- & \texttt{NOT NULL}, \texttt{CHECK (interaction\_\allowbreak count >= 0)} \\
+\hline
+\texttt{duration\_\allowbreak seconds} & Tempo total de execução do ciclo de treinamento, em segundos. & \texttt{INT} & --- & \texttt{NULL}, \texttt{CHECK (duration\_\allowbreak seconds >= 0)} \\
+\hline
+\texttt{trained\_\allowbreak at} & Instante UTC de registro/conclusão do treinamento. & \texttt{TIMESTAMP} & --- & \texttt{NOT NULL}, \texttt{DEFAULT CURRENT\_\allowbreak TIMESTAMP} \\
+\hline
+\end{longtable}
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{4.9cm}>{\raggedright\arraybackslash}p{1.75cm}>{\centering\arraybackslash}p{0.95cm}>{\raggedright\arraybackslash}p{3.7cm}}
+\caption{Dicionário de dados da tabela \textit{ConceptBKTParameter}}
+\label{tab:dd-concept-bkt-parameter} \\
+\hline
+\multicolumn{5}{>{\raggedright\arraybackslash}p{15.3cm}}{\textbf{Tabela:} \texttt{ConceptBKTParameter}} \\
+\multicolumn{5}{>{\raggedright\arraybackslash}p{15.3cm}}{\textbf{Descrição:} Armazena os parâmetros probabilísticos do modelo BKT estimados por conceito para cada versão treinada, diferenciando chute e descuido para questionários individuais e atividades em sala de aula.} \\
+\multicolumn{5}{>{\raggedright\arraybackslash}p{15.3cm}}{\textbf{Observações:} Relaciona-se $N:1$ com \textit{KTModelVersion}. Possui unicidade composta \texttt{UNIQUE (model\_\allowbreak version\_\allowbreak id, concept\_\allowbreak id)}. Conceitos abaixo de \texttt{min\_\allowbreak interactions\_\allowbreak concept} ou fora das restrições de plausibilidade ($P(G) < 0{,}5$ e $P(S) < 0{,}5$) recebem parâmetros globais.} \\
+\hline
+\textbf{Atributo} & \textbf{Descrição} & \textbf{Tipo} & \textbf{Tam.} & \textbf{Restrições de domínio} \\
+\hline
+\endfirsthead
+\caption[]{Dicionário de dados da tabela \textit{ConceptBKTParameter} (continuação)} \\
+\hline
+\textbf{Atributo} & \textbf{Descrição} & \textbf{Tipo} & \textbf{Tam.} & \textbf{Restrições de domínio} \\
+\hline
+\endhead
+\hline
+\multicolumn{5}{r}{\textit{Continua na próxima página}} \\
+\endfoot
+\hline
+\multicolumn{5}{l}{Fonte: Elaborado pelos autores.} \\
+\endlastfoot
+\texttt{id} & Identificador único do registro de parâmetros do conceito. & \texttt{INT} & --- & \texttt{PK}, \texttt{IDENTITY}, \texttt{NOT NULL} \\
+\hline
+\texttt{model\_\allowbreak version\_\allowbreak id} & Identificador da versão do modelo à qual os parâmetros pertencem. & \texttt{INT} & --- & \texttt{FK} (\texttt{KTModelVersion.\allowbreak id}), \texttt{UNIQUE} composto, \texttt{NOT NULL} \\
+\hline
+\texttt{concept\_\allowbreak id} & Identificador do conceito no domínio semântico. & \texttt{VARCHAR} & 128 & \texttt{UNIQUE} composto com \texttt{model\_\allowbreak version\_\allowbreak id}, \texttt{NOT NULL}; ref. lógica ao \textit{cedis-atlas} \\
+\hline
+\texttt{p\_\allowbreak init} & Probabilidade inicial de domínio $P(L_0)$ estimada para o conceito. & \texttt{DECIMAL} & 5,4 & \texttt{NOT NULL}, \texttt{CHECK (p\_\allowbreak init >= 0 AND p\_\allowbreak init <= 1)} \\
+\hline
+\texttt{p\_\allowbreak transit} & Probabilidade de transição para o domínio após prática $P(T)$. & \texttt{DECIMAL} & 5,4 & \texttt{NOT NULL}, \texttt{CHECK (p\_\allowbreak transit >= 0 AND p\_\allowbreak transit <= 1)} \\
+\hline
+\texttt{p\_\allowbreak guess\_\allowbreak individual} & Probabilidade de acerto por chute $P(G)$ em questionários individuais. & \texttt{DECIMAL} & 5,4 & \texttt{NOT NULL}, \texttt{CHECK (p\_\allowbreak guess\_\allowbreak individual >= 0 AND p\_\allowbreak guess\_\allowbreak individual < 0.5)} \\
+\hline
+\texttt{p\_\allowbreak slip\_\allowbreak individual} & Probabilidade de erro por descuido $P(S)$ em questionários individuais. & \texttt{DECIMAL} & 5,4 & \texttt{NOT NULL}, \texttt{CHECK (p\_\allowbreak slip\_\allowbreak individual >= 0 AND p\_\allowbreak slip\_\allowbreak individual < 0.5)} \\
+\hline
+\texttt{p\_\allowbreak guess\_\allowbreak classroom} & Probabilidade de acerto por chute $P(G)$ em atividades em sala no CEDIS Slides. & \texttt{DECIMAL} & 5,4 & \texttt{NOT NULL}, \texttt{CHECK (p\_\allowbreak guess\_\allowbreak classroom >= 0 AND p\_\allowbreak guess\_\allowbreak classroom < 0.5)} \\
+\hline
+\texttt{p\_\allowbreak slip\_\allowbreak classroom} & Probabilidade de erro por descuido $P(S)$ em atividades em sala no CEDIS Slides. & \texttt{DECIMAL} & 5,4 & \texttt{NOT NULL}, \texttt{CHECK (p\_\allowbreak slip\_\allowbreak classroom >= 0 AND p\_\allowbreak slip\_\allowbreak classroom < 0.5)} \\
+\hline
+\texttt{mastery\_\allowbreak threshold} & Limiar de probabilidade utilizado para classificar o conceito como dominado. & \texttt{DECIMAL} & 5,4 & \texttt{NOT NULL}, \texttt{DEFAULT 0.8000}, \texttt{CHECK (mastery\_\allowbreak threshold > 0 AND mastery\_\allowbreak threshold <= 1)} \\
+\hline
+\texttt{sample\_\allowbreak interactions} & Quantidade de interações válidas utilizadas no ajuste deste conceito. & \texttt{INT} & --- & \texttt{NOT NULL}, \texttt{CHECK (sample\_\allowbreak interactions >= 0)} \\
+\hline
+\texttt{fitted\_\allowbreak at} & Instante UTC da estimação dos parâmetros pelo algoritmo EM. & \texttt{TIMESTAMP} & --- & \texttt{NOT NULL}, \texttt{DEFAULT CURRENT\_\allowbreak TIMESTAMP} \\
+\hline
+\end{longtable}
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{4.9cm}>{\raggedright\arraybackslash}p{1.75cm}>{\centering\arraybackslash}p{0.95cm}>{\raggedright\arraybackslash}p{3.7cm}}
+\caption{Dicionário de dados da tabela \textit{ValidationAuditLog}}
+\label{tab:dd-validation-audit-log} \\
+\hline
+\multicolumn{5}{>{\raggedright\arraybackslash}p{15.3cm}}{\textbf{Tabela:} \texttt{ValidationAuditLog}} \\
+\multicolumn{5}{>{\raggedright\arraybackslash}p{15.3cm}}{\textbf{Descrição:} Registra as ocorrências de saneamento (\texttt{TREATED}) e descarte (\texttt{DISCARDED}) identificadas pelo conector de ingestão e validação de dados.} \\
+\multicolumn{5}{>{\raggedright\arraybackslash}p{15.3cm}}{\textbf{Observações:} Entidade isolada, sem chave estrangeira para \textit{ConsentSubject}, preservando trilhas técnicas de auditoria e exportação em CSV após eventual exclusão LGPD. Indexada por \texttt{batch\_\allowbreak date}, \texttt{source\_\allowbreak service} e \texttt{raw\_\allowbreak reference\_\allowbreak id}.} \\
+\hline
+\textbf{Atributo} & \textbf{Descrição} & \textbf{Tipo} & \textbf{Tam.} & \textbf{Restrições de domínio} \\
+\hline
+\endfirsthead
+\caption[]{Dicionário de dados da tabela \textit{ValidationAuditLog} (continuação)} \\
+\hline
+\textbf{Atributo} & \textbf{Descrição} & \textbf{Tipo} & \textbf{Tam.} & \textbf{Restrições de domínio} \\
+\hline
+\endhead
+\hline
+\multicolumn{5}{r}{\textit{Continua na próxima página}} \\
+\endfoot
+\hline
+\multicolumn{5}{l}{Fonte: Elaborado pelos autores.} \\
+\endlastfoot
+\texttt{id} & Identificador único do registro de auditoria. & \texttt{INT} & --- & \texttt{PK}, \texttt{IDENTITY}, \texttt{NOT NULL} \\
+\hline
+\texttt{batch\_\allowbreak date} & Data/hora UTC de referência do lote processado na ingestão. & \texttt{TIMESTAMP} & --- & \texttt{NOT NULL} \\
+\hline
+\texttt{source\_\allowbreak service} & Nome do serviço de origem do registro validado (ex.: \texttt{cedis-slides-api}). & \texttt{VARCHAR} & 100 & \texttt{NOT NULL} \\
+\hline
+\texttt{raw\_\allowbreak reference\_\allowbreak id} & Identificador bruto do evento ou resposta analisado no lote. & \texttt{VARCHAR} & 128 & \texttt{NOT NULL} \\
+\hline
+\texttt{status} & Desfecho da validação aplicada ao registro. & \texttt{VARCHAR} & 50 & \texttt{NOT NULL}, \texttt{CHECK (status IN ('TREATED', 'DISCARDED'))} \\
+\hline
+\texttt{reason\_\allowbreak code} & Código padronizado do motivo do tratamento ou descarte. & \texttt{VARCHAR} & 100 & \texttt{NOT NULL} \\
+\hline
+\texttt{details\_\allowbreak json} & Detalhes técnicos complementares em formato JSON para depuração. & \texttt{VARCHAR} & 4000 & \texttt{NULL} \\
+\hline
+\texttt{logged\_\allowbreak at} & Instante UTC em que a ocorrência foi registrada na auditoria. & \texttt{TIMESTAMP} & --- & \texttt{NOT NULL}, \texttt{DEFAULT CURRENT\_\allowbreak TIMESTAMP} \\
+\hline
+\end{longtable}
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{4.9cm}>{\raggedright\arraybackslash}p{1.75cm}>{\centering\arraybackslash}p{0.95cm}>{\raggedright\arraybackslash}p{3.7cm}}
+\caption{Dicionário de dados da tabela \textit{ConsentSubject}}
+\label{tab:dd-consent-subject} \\
+\hline
+\multicolumn{5}{>{\raggedright\arraybackslash}p{15.3cm}}{\textbf{Tabela:} \texttt{ConsentSubject}} \\
+\multicolumn{5}{>{\raggedright\arraybackslash}p{15.3cm}}{\textbf{Descrição:} Entidade âncora de governança LGPD que representa cada passaporte pseudonimizado com autorização ativa (\textit{opt-in}) no CEDIS Learning Passport para processamento no Cognita.} \\
+\multicolumn{5}{>{\raggedright\arraybackslash}p{15.3cm}}{\textbf{Observações:} Relaciona-se $1:N$ com \textit{ReconciledInteraction} e \textit{StudentConceptMastery} com \texttt{ON DELETE CASCADE}. A exclusão de um registro nesta tabela remove atomicamente todos os dados preditivos e históricos do titular no Cognita dentro do prazo de atendimento, preservando seus dados nos demais serviços do ecossistema.} \\
+\hline
+\textbf{Atributo} & \textbf{Descrição} & \textbf{Tipo} & \textbf{Tam.} & \textbf{Restrições de domínio} \\
+\hline
+\endfirsthead
+\caption[]{Dicionário de dados da tabela \textit{ConsentSubject} (continuação)} \\
+\hline
+\textbf{Atributo} & \textbf{Descrição} & \textbf{Tipo} & \textbf{Tam.} & \textbf{Restrições de domínio} \\
+\hline
+\endhead
+\hline
+\multicolumn{5}{r}{\textit{Continua na próxima página}} \\
+\endfoot
+\hline
+\multicolumn{5}{l}{Fonte: Elaborado pelos autores.} \\
+\endlastfoot
+\texttt{identity\_\allowbreak person\_\allowbreak id} & Pseudônimo longitudinal único oriundo do CEDIS Learning Passport (sem dado civil). & \texttt{VARCHAR} & 128 & \texttt{PK}, \texttt{NOT NULL}; ref. lógica ao \textit{cedis-identity-suite} \\
+\hline
+\texttt{consent\_\allowbreak active} & Indica se o consentimento (\textit{opt-in}) do titular para o Cognita está ativo. & \texttt{BOOLEAN} & --- & \texttt{NOT NULL}, \texttt{DEFAULT TRUE} \\
+\hline
+\texttt{last\_\allowbreak synced\_\allowbreak at} & Instante UTC da última sincronização do estado de consentimento com o passaporte. & \texttt{TIMESTAMP} & --- & \texttt{NOT NULL}, \texttt{DEFAULT CURRENT\_\allowbreak TIMESTAMP} \\
+\hline
+\texttt{erasure\_\allowbreak requested\_\allowbreak at} & Instante UTC da solicitação de exclusão dos dados preditivos pelo titular. & \texttt{TIMESTAMP} & --- & \texttt{NULL} \\
+\hline
+\end{longtable}
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{4.9cm}>{\raggedright\arraybackslash}p{1.75cm}>{\centering\arraybackslash}p{0.95cm}>{\raggedright\arraybackslash}p{3.7cm}}
+\caption{Dicionário de dados da tabela \textit{ReconciledInteraction}}
+\label{tab:dd-reconciled-interaction} \\
+\hline
+\multicolumn{5}{>{\raggedright\arraybackslash}p{15.3cm}}{\textbf{Tabela:} \texttt{ReconciledInteraction}} \\
+\multicolumn{5}{>{\raggedright\arraybackslash}p{15.3cm}}{\textbf{Descrição:} Materializa cada primeira tentativa válida de resposta objetiva reconciliada entre CEDIS Slides, Atlas do Conhecimento, \textit{cedis-la-ingest} e Matriz~Q, compondo as sequências cronológicas de entrada do BKT.} \\
+\multicolumn{5}{>{\raggedright\arraybackslash}p{15.3cm}}{\textbf{Observações:} Relaciona-se $N:1$ com \textit{ConsentSubject} (\texttt{ON DELETE CASCADE}) e $1:N$ com \textit{StudentMasteryHistory}. Os atributos \texttt{response\_\allowbreak id} e \texttt{ingest\_\allowbreak event\_\allowbreak id} são únicos (\texttt{UNIQUE}) para assegurar ingestão idempotente. Campos de \textit{deck}, atividade, evento e contexto são anuláveis para contemplar práticas autônomas no Atlas e eventual assimetria entre evento e resposta.} \\
+\hline
+\textbf{Atributo} & \textbf{Descrição} & \textbf{Tipo} & \textbf{Tam.} & \textbf{Restrições de domínio} \\
+\hline
+\endfirsthead
+\caption[]{Dicionário de dados da tabela \textit{ReconciledInteraction} (continuação)} \\
+\hline
+\textbf{Atributo} & \textbf{Descrição} & \textbf{Tipo} & \textbf{Tam.} & \textbf{Restrições de domínio} \\
+\hline
+\endhead
+\hline
+\multicolumn{5}{r}{\textit{Continua na próxima página}} \\
+\endfoot
+\hline
+\multicolumn{5}{l}{Fonte: Elaborado pelos autores.} \\
+\endlastfoot
+\texttt{id} & Identificador único da interação reconciliada no Cognita. & \texttt{INT} & --- & \texttt{PK}, \texttt{IDENTITY}, \texttt{NOT NULL} \\
+\hline
+\texttt{identity\_\allowbreak person\_\allowbreak id} & Identificador pseudonimizado do estudante com consentimento ativo. & \texttt{VARCHAR} & 128 & \texttt{FK} (\texttt{ConsentSubject.\allowbreak identity\_\allowbreak person\_\allowbreak id}), \texttt{ON DELETE CASCADE}, \texttt{NOT NULL} \\
+\hline
+\texttt{concept\_\allowbreak id} & Identificador do conceito avaliado pela questão via Matriz~Q. & \texttt{VARCHAR} & 128 & \texttt{NOT NULL}; ref. lógica ao \textit{cedis-atlas} \\
+\hline
+\texttt{question\_\allowbreak id} & Identificador da questão respondida pelo estudante. & \texttt{INT} & --- & \texttt{NOT NULL}; ref. lógica ao \textit{cedis-atlas} e \textit{QuestionActivityMap} \\
+\hline
+\texttt{deck\_\allowbreak id} & Identificador do \textit{deck} de origem, quando a interação ocorrer em aula. & \texttt{INT} & --- & \texttt{NULL}; ref. lógica a \texttt{Deck.id} (\textit{manager}) \\
+\hline
+\texttt{activity\_\allowbreak id} & Identificador da atividade interativa vinculada ao \textit{deck}. & \texttt{VARCHAR} & 128 & \texttt{NULL}; ref. lógica ao \textit{manager} / \textit{cedis-slides-api} \\
+\hline
+\texttt{interaction\_\allowbreak origin} & Origem da resposta, usada para selecionar os parâmetros de chute e descuido no BKT. & \texttt{VARCHAR} & 50 & \texttt{NOT NULL}, \texttt{CHECK (interaction\_\allowbreak origin IN ('CLASSROOM\_\allowbreak SLIDES', 'ATLAS\_\allowbreak PRACTICE', 'ATLAS\_\allowbreak EXPEDITION'))} \\
+\hline
+\texttt{response\_\allowbreak id} & Identificador original da resposta persistida (garante idempotência). & \texttt{VARCHAR} & 128 & \texttt{UNIQUE}, \texttt{NOT NULL}; ref. lógica a \textit{activity\_\allowbreak responses} \\
+\hline
+\texttt{ingest\_\allowbreak event\_\allowbreak id} & Identificador do evento xAPI reconciliado pelo \textit{cedis-la-ingest}. & \texttt{VARCHAR} & 128 & \texttt{UNIQUE}, \texttt{NULL}; ref. lógica a \textit{LearningAnalyticsIngestLink} \\
+\hline
+\texttt{identity\_\allowbreak group\_\allowbreak id} & Identificador lógico da turma ou grupo do estudante (opcional para externos). & \texttt{VARCHAR} & 128 & \texttt{NULL}; ref. lógica ao \textit{cedis-identity-suite} \\
+\hline
+\texttt{identity\_\allowbreak context\_\allowbreak id} & Identificador lógico do curso ou contexto acadêmico. & \texttt{VARCHAR} & 128 & \texttt{NULL}; ref. lógica ao \textit{cedis-identity-suite} \\
+\hline
+\texttt{is\_\allowbreak correct} & Resultado binário ($a_t \in \{0, 1\}$) da primeira tentativa válida. & \texttt{BOOLEAN} & --- & \texttt{NOT NULL} \\
+\hline
+\texttt{occurred\_\allowbreak at} & Instante UTC original em que o estudante submeteu a resposta. & \texttt{TIMESTAMP} & --- & \texttt{NOT NULL} \\
+\hline
+\texttt{processed\_\allowbreak at} & Instante UTC em que a resposta foi ingerida e reconciliada pelo Cognita. & \texttt{TIMESTAMP} & --- & \texttt{NOT NULL}, \texttt{DEFAULT CURRENT\_\allowbreak TIMESTAMP} \\
+\hline
+\end{longtable}
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{4.9cm}>{\raggedright\arraybackslash}p{1.75cm}>{\centering\arraybackslash}p{0.95cm}>{\raggedright\arraybackslash}p{3.7cm}}
+\caption{Dicionário de dados da tabela \textit{StudentConceptMastery}}
+\label{tab:dd-student-concept-mastery} \\
+\hline
+\multicolumn{5}{>{\raggedright\arraybackslash}p{15.3cm}}{\textbf{Tabela:} \texttt{StudentConceptMastery}} \\
+\multicolumn{5}{>{\raggedright\arraybackslash}p{15.3cm}}{\textbf{Descrição:} Mantém o estado cognitivo atual materializado de cada estudante em cada conceito e contexto, incluindo probabilidade $P(L_t)$, situação, faixa provável, prioridade de revisão, confiança e explicação estruturada.} \\
+\multicolumn{5}{>{\raggedright\arraybackslash}p{15.3cm}}{\textbf{Observações:} Relaciona-se $N:1$ com \textit{ConsentSubject} (\texttt{ON DELETE CASCADE}) e \textit{KTModelVersion}, e $1:N$ com \textit{StudentMasteryHistory} (\texttt{ON DELETE CASCADE}). Possui unicidade lógica pela combinação \texttt{(identity\_\allowbreak person\_\allowbreak id, concept\_\allowbreak id, identity\_\allowbreak context\_\allowbreak id)}, separando leituras de baixa latência do estado atual em relação à série histórica.} \\
+\hline
+\textbf{Atributo} & \textbf{Descrição} & \textbf{Tipo} & \textbf{Tam.} & \textbf{Restrições de domínio} \\
+\hline
+\endfirsthead
+\caption[]{Dicionário de dados da tabela \textit{StudentConceptMastery} (continuação)} \\
+\hline
+\textbf{Atributo} & \textbf{Descrição} & \textbf{Tipo} & \textbf{Tam.} & \textbf{Restrições de domínio} \\
+\hline
+\endhead
+\hline
+\multicolumn{5}{r}{\textit{Continua na próxima página}} \\
+\endfoot
+\hline
+\multicolumn{5}{l}{Fonte: Elaborado pelos autores.} \\
+\endlastfoot
+\texttt{id} & Identificador único do estado de domínio do estudante no conceito. & \texttt{INT} & --- & \texttt{PK}, \texttt{IDENTITY}, \texttt{NOT NULL} \\
+\hline
+\texttt{identity\_\allowbreak person\_\allowbreak id} & Identificador pseudonimizado do estudante com consentimento ativo. & \texttt{VARCHAR} & 128 & \texttt{FK} (\texttt{ConsentSubject.\allowbreak identity\_\allowbreak person\_\allowbreak id}), \texttt{ON DELETE CASCADE}, \texttt{NOT NULL} \\
+\hline
+\texttt{concept\_\allowbreak id} & Identificador do conceito avaliado. & \texttt{VARCHAR} & 128 & \texttt{NOT NULL}; ref. lógica ao \textit{cedis-atlas} \\
+\hline
+\texttt{identity\_\allowbreak context\_\allowbreak id} & Identificador lógico do curso ou contexto da estimativa. & \texttt{VARCHAR} & 128 & \texttt{NULL}; ref. lógica ao \textit{cedis-identity-suite} \\
+\hline
+\texttt{model\_\allowbreak version\_\allowbreak id} & Versão do modelo BKT vigente utilizada no cálculo atual para rastreabilidade. & \texttt{INT} & --- & \texttt{FK} (\texttt{KTModelVersion.\allowbreak id}), \texttt{NOT NULL} \\
+\hline
+\texttt{p\_\allowbreak mastery} & Probabilidade atual estimada de domínio $P(L_t)$ do estudante no conceito. & \texttt{DECIMAL} & 5,4 & \texttt{NOT NULL}, \texttt{CHECK (p\_\allowbreak mastery >= 0 AND p\_\allowbreak mastery <= 1)} \\
+\hline
+\texttt{mastery\_\allowbreak status} & Classificação categórica do domínio (dominado, em progresso, a revisar ou sem evidências). & \texttt{VARCHAR} & 50 & \texttt{NOT NULL}, \texttt{CHECK (mastery\_\allowbreak status IN ('MASTERED', 'IN\_\allowbreak PROGRESS', 'TO\_\allowbreak REVIEW', 'NO\_\allowbreak EVIDENCE'))} \\
+\hline
+\texttt{prob\_\allowbreak interval\_\allowbreak low} & Limite inferior da faixa provável da estimativa de domínio. & \texttt{DECIMAL} & 5,4 & \texttt{NOT NULL}, \texttt{CHECK (prob\_\allowbreak interval\_\allowbreak low >= 0 AND prob\_\allowbreak interval\_\allowbreak low <= p\_\allowbreak mastery)} \\
+\hline
+\texttt{prob\_\allowbreak interval\_\allowbreak high} & Limite superior da faixa provável da estimativa de domínio. & \texttt{DECIMAL} & 5,4 & \texttt{NOT NULL}, \texttt{CHECK (prob\_\allowbreak interval\_\allowbreak high >= p\_\allowbreak mastery AND prob\_\allowbreak interval\_\allowbreak high <= 1)} \\
+\hline
+\texttt{review\_\allowbreak priority\_\allowbreak score} & Pontuação usada na ordenação da lista \textit{Revise primeiro}, ponderando domínio e pré-requisitos. & \texttt{DECIMAL} & 6,4 & \texttt{NOT NULL}, \texttt{CHECK (review\_\allowbreak priority\_\allowbreak score >= 0)} \\
+\hline
+\texttt{confidence\_\allowbreak level} & Grau de confiança da estimativa individual (alto, médio ou baixo) conforme o volume de evidências. & \texttt{VARCHAR} & 50 & \texttt{NOT NULL}, \texttt{CHECK (confidence\_\allowbreak level IN ('HIGH', 'MEDIUM', 'LOW'))} \\
+\hline
+\texttt{attempts\_\allowbreak count} & Total acumulado de primeiras tentativas válidas consideradas neste conceito. & \texttt{INT} & --- & \texttt{NOT NULL}, \texttt{DEFAULT 0}, \texttt{CHECK (attempts\_\allowbreak count >= 0)} \\
+\hline
+\texttt{correct\_\allowbreak count} & Total acumulado de acertos válidos neste conceito. & \texttt{INT} & --- & \texttt{NOT NULL}, \texttt{DEFAULT 0}, \texttt{CHECK (correct\_\allowbreak count >= 0 AND correct\_\allowbreak count <= attempts\_\allowbreak count)} \\
+\hline
+\texttt{explanation\_\allowbreak json} & Estrutura JSON com os motivos legíveis que sustentam a estimativa atual. & \texttt{VARCHAR} & 4000 & \texttt{NULL} \\
+\hline
+\texttt{updated\_\allowbreak at} & Instante UTC da última atualização da estimativa de domínio. & \texttt{TIMESTAMP} & --- & \texttt{NOT NULL}, \texttt{DEFAULT CURRENT\_\allowbreak TIMESTAMP} \\
+\hline
+\end{longtable}
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{4.9cm}>{\raggedright\arraybackslash}p{1.75cm}>{\centering\arraybackslash}p{0.95cm}>{\raggedright\arraybackslash}p{3.7cm}}
+\caption{Dicionário de dados da tabela \textit{StudentMasteryHistory}}
+\label{tab:dd-student-mastery-history} \\
+\hline
+\multicolumn{5}{>{\raggedright\arraybackslash}p{15.3cm}}{\textbf{Tabela:} \texttt{StudentMasteryHistory}} \\
+\multicolumn{5}{>{\raggedright\arraybackslash}p{15.3cm}}{\textbf{Descrição:} Armazena a série temporal longitudinal das atualizações de domínio a cada interação reconciliada, mantendo a probabilidade anterior $P(L_t)$, a atualizada $P(L_{t+1})$, a confiança e o instante em UTC.} \\
+\multicolumn{5}{>{\raggedright\arraybackslash}p{15.3cm}}{\textbf{Observações:} Relaciona-se $N:1$ com \textit{StudentConceptMastery} (\texttt{ON DELETE CASCADE}), \textit{ReconciledInteraction} (\texttt{ON DELETE CASCADE}) e \textit{KTModelVersion}. Alimenta o gráfico de evolução no Atlas, o retorno pós-prática no CEDIS Slides e a curva de absorção semanal no Learning Analytics.} \\
+\hline
+\textbf{Atributo} & \textbf{Descrição} & \textbf{Tipo} & \textbf{Tam.} & \textbf{Restrições de domínio} \\
+\hline
+\endfirsthead
+\caption[]{Dicionário de dados da tabela \textit{StudentMasteryHistory} (continuação)} \\
+\hline
+\textbf{Atributo} & \textbf{Descrição} & \textbf{Tipo} & \textbf{Tam.} & \textbf{Restrições de domínio} \\
+\hline
+\endhead
+\hline
+\multicolumn{5}{r}{\textit{Continua na próxima página}} \\
+\endfoot
+\hline
+\multicolumn{5}{l}{Fonte: Elaborado pelos autores.} \\
+\endlastfoot
+\texttt{id} & Identificador único do registro histórico da estimativa. & \texttt{INT} & --- & \texttt{PK}, \texttt{IDENTITY}, \texttt{NOT NULL} \\
+\hline
+\texttt{mastery\_\allowbreak id} & Referência ao registro atual de domínio do estudante no conceito. & \texttt{INT} & --- & \texttt{FK} (\texttt{StudentConcept\allowbreak Mastery.\allowbreak id}), \texttt{ON DELETE CASCADE}, \texttt{NOT NULL} \\
+\hline
+\texttt{reconciled\_\allowbreak interaction\_\allowbreak id} & Identificador da interação que desencadeou esta atualização na estimativa. & \texttt{INT} & --- & \texttt{FK} (\texttt{Reconciled\allowbreak Interaction.\allowbreak id}), \texttt{ON DELETE CASCADE}, \texttt{NOT NULL} \\
+\hline
+\texttt{model\_\allowbreak version\_\allowbreak id} & Versão do modelo BKT aplicada nesta atualização para rastreabilidade. & \texttt{INT} & --- & \texttt{FK} (\texttt{KTModelVersion.\allowbreak id}), \texttt{NOT NULL} \\
+\hline
+\texttt{p\_\allowbreak mastery\_\allowbreak before} & Probabilidade estimada de domínio $P(L_t)$ antes do processamento da interação. & \texttt{DECIMAL} & 5,4 & \texttt{NOT NULL}, \texttt{CHECK (p\_\allowbreak mastery\_\allowbreak before >= 0 AND p\_\allowbreak mastery\_\allowbreak before <= 1)} \\
+\hline
+\texttt{p\_\allowbreak mastery\_\allowbreak after} & Probabilidade atualizada de domínio $P(L_{t+1})$ após a interação. & \texttt{DECIMAL} & 5,4 & \texttt{NOT NULL}, \texttt{CHECK (p\_\allowbreak mastery\_\allowbreak after >= 0 AND p\_\allowbreak mastery\_\allowbreak after <= 1)} \\
+\hline
+\texttt{confidence\_\allowbreak level} & Grau de confiança da estimativa naquele instante histórico. & \texttt{VARCHAR} & 50 & \texttt{NOT NULL}, \texttt{CHECK (confidence\_\allowbreak level IN ('HIGH', 'MEDIUM', 'LOW'))} \\
+\hline
+\texttt{recorded\_\allowbreak at} & Instante UTC em que o ponto histórico foi gravado. & \texttt{TIMESTAMP} & --- & \texttt{NOT NULL}, \texttt{DEFAULT CURRENT\_\allowbreak TIMESTAMP} \\
+\hline
+\end{longtable}
+
+}
 
 \end{anexosenv}
-

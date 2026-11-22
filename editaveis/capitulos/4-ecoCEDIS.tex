@@ -140,7 +140,8 @@ A Figura~\ref{fig:fluxo-interacao-cedis} resume a integração entre os seis
 produtos. O docente organiza o conteúdo no Deck Manager, estrutura os
 conceitos e os questionários no Concept Studio e apresenta a aula pelo
 CEDIS Slides. O aluno responde às atividades em sala, responde aos
-questionários e explora os conceitos no Atlas do Conhecimento, e a sua
+questionários no Concept Studio + Questionários e explora os conceitos no
+Atlas do Conhecimento, e a sua
 aprendizagem é registrada, sob o seu controle, no Learning Passport. Por
 fim, os registros do ecossistema são consolidados no Learning Analytics,
 que apoia as decisões pedagógicas do docente.
@@ -187,8 +188,9 @@ o modo configurado. A camada de ingestão de \textit{Learning Analytics}
 (\textit{cedis-la-ingest}) recebe eventos padronizados de aprendizagem e
 seus vínculos com respostas e identidade. O serviço de identidade
 (\textit{cedis-identity-suite}) mantém dados de pessoa, grupo e contexto
-apenas quando o aluno opta por habilitá-los. O Atlas do Conhecimento
-(\textit{cedis-atlas}) mantém as questões relacionadas às atividades. Por
+apenas quando o aluno opta por habilitá-los. O serviço \textit{cedis-atlas}, que atende
+ao Atlas do Conhecimento e ao Concept Studio + Questionários, mantém os
+conceitos e as questões criadas no Concept Studio + Questionários. Por
 fim, o pacote \textit{cedis-core}, externo ao repositório do Deck Manager,
 fornece contratos e modelos de conteúdo compartilhados entre os
 componentes. A Tabela~\ref{tab:componentes-cedis} resume o papel, os
@@ -212,7 +214,7 @@ CEDIS Slides (\textit{slides-api}) & Plano público de resposta & Respostas de a
 \hline
 \textit{Identity Suite} (Learning Passport) & Identidade e contexto opcional & Pessoa, grupo e contexto, apenas quando habilitados pelo aluno \\
 \hline
-Atlas do Conhecimento & Questões e conteúdo & Questões relacionadas às atividades \\
+\textit{cedis-atlas} (Atlas do Conhecimento e Concept Studio + Questionários) & Conceitos e questões & Mapas conceituais, conceitos e questões vinculadas às atividades \\
 \hline
 \textit{cedis-core} & Modelos compartilhados & Contratos e modelos de conteúdo de versão/\textit{commit} compartilhados (dependência externa) \\
 \hline
@@ -262,7 +264,7 @@ privacidade.
 \hline
 \textit{DeckEvent} & Associado a um \textit{deck}; usuário opcional & Tipo do evento, atividade, código de sessão, identificador anônimo de visitante, classe de dispositivo e de origem, metadados \\
 \hline
-\textit{QuestionActivityMap} & Vincula um \textit{deck}/atividade a uma questão externa (Atlas) & Identificador da atividade, identificador da questão, data de criação \\
+\textit{QuestionActivityMap} & Vincula um \textit{deck}/atividade a uma questão externa (\textit{cedis-atlas}) & Identificador da atividade, identificador da questão, data de criação \\
 \hline
 \textit{LearningAnalyticsIngestLink} & Vincula um evento de \textit{Learning Analytics} a uma resposta e, opcionalmente, a uma identidade & Identificador do evento de ingestão, identificadores de pessoa/grupo/contexto, metadados \\
 \hline
@@ -277,7 +279,7 @@ privacidade.
 Do ponto de vista do objetivo deste trabalho, duas entidades merecem
 destaque. A primeira é \textit{QuestionActivityMap}, que estabelece o
 vínculo entre uma atividade de um \textit{deck} e uma questão do banco de
-conhecimento do Atlas, permitindo associar respostas a conceitos
+questões do \textit{cedis-atlas}, permitindo associar respostas a conceitos
 específicos, o que é pré-requisito para qualquer modelagem de \textit{Knowledge
 Tracing}. A segunda é \textit{LearningAnalyticsIngestLink}, que formaliza
 a reconciliação entre um evento padronizado de aprendizagem, uma resposta
@@ -406,6 +408,5 @@ causalidade pedagógica, e os próprios mecanismos de privacidade (DNT,
 filtragem de \textit{bots} e \textit{k}-anonimato) introduzem ausência
 intencional de dados. Por isso, este trabalho não reutiliza diretamente
 essas métricas: combina as respostas às atividades e aos questionários com
-o mapeamento atividade-conceito do Concept Studio e do Atlas do
-Conhecimento, de modo a estimar o domínio de conceitos de cada aluno por
+o mapeamento atividade-conceito do Concept Studio + Questionários, de modo a estimar o domínio de conceitos de cada aluno por
 meio do \textit{Knowledge Tracing}.

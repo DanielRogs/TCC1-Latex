@@ -14,21 +14,21 @@ Para estimar o que o estudante efetivamente domina, a literatura propõe os mode
 
 \section{Motivação}
 
-Apesar de registrar continuamente as interações dos estudantes no CEDIS Slides, no Concept Studio e no Atlas do Conhecimento, o Ecossistema CEDIS extrai desses registros apenas indicadores descritivos, como taxas de submissão, impressões de atividades e contagens de respostas corretas e incorretas. Essas métricas falham em identificar proativamente quais conceitos um aluno ainda não domina. Para o estudante, essa limitação se traduz na dificuldade de isolar a causa raiz de seus erros, que frequentemente reside em um pré-requisito conceitual mal absorvido, forçando-o a adotar estratégias de revisão genéricas, tardias e ineficientes.
+Apesar de registrar continuamente as interações dos estudantes no CEDIS Slides, no Concept Studio + Questionários e no Atlas do Conhecimento, o Ecossistema CEDIS extrai desses registros apenas indicadores descritivos, como taxas de submissão, impressões de atividades e contagens de respostas corretas e incorretas. Essas métricas falham em identificar proativamente quais conceitos um estudante ainda não domina. Para o estudante, essa limitação se traduz na dificuldade de isolar a causa raiz de seus erros, que frequentemente reside em um pré-requisito conceitual mal absorvido, forçando-o a adotar estratégias de revisão genéricas, tardias e ineficientes.
 
-Do ponto de vista institucional e docente, a ausência de indicadores diagnósticos consolidados prejudica a identificação de falhas no material didático. A capacidade atual de análise no CEDIS limita-se a inferências agregadas, com altos níveis de ruído derivados do agrupamento simples de respostas. Sem evidências sistemáticas reconciliadas em um nível semântico, as decisões pedagógicas correm o risco de se basear em médias enganosas de turmas inteiras, mascarando a real dificuldade estrutural do currículo. Torna-se imperativo, portanto, evoluir o sistema analítico da plataforma por meio de identificadores longitudinais para gerar orientações acionáveis e individuais, justificando a relevância desta pesquisa na otimização direta do ciclo de ensino-aprendizagem.
+Do ponto de vista institucional e docente, a ausência de indicadores diagnósticos consolidados prejudica a identificação de falhas no material didático. A análise atual no CEDIS limita-se a agregações simples de respostas, como as taxas de acerto por atividade. Sem relacionar as respostas aos conceitos que elas avaliam e acompanhar cada estudante ao longo do tempo, as decisões pedagógicas tendem a se basear em médias de turmas inteiras, que podem ocultar dificuldades em conceitos específicos. Evoluir a capacidade analítica do ecossistema nessa direção, de modo a gerar orientações individuais e coletivas, justifica a relevância desta pesquisa.
 
 
 \section{Problema e Questão de Pesquisa}
 \label{sec:problema}
 
-No contexto do CEDIS, a telemetria operacional prioriza identificadores efêmeros e eventos de navegação desvinculados dos conceitos do domínio, o que impede o acompanhamento longitudinal do aluno a partir desses dados. Embora o ecossistema já disponha de um caminho para esse acompanhamento, por meio da identidade consentida no Learning Passport, ele não é explorado analiticamente: as análises atuais limitam-se a métricas descritivas de uso e à contagem de respostas, sem estimar o domínio de conceitos de cada aluno. Diante da lacuna técnica entre a massiva coleta de registros e a incapacidade sistêmica de gerar intervenções didáticas fundamentadas, formula-se a seguinte questão de pesquisa:
+No contexto do CEDIS, a telemetria operacional prioriza identificadores efêmeros e eventos de navegação desvinculados dos conceitos do domínio, o que impede o acompanhamento longitudinal do estudante a partir desses dados. Embora o ecossistema já disponha de um caminho para esse acompanhamento, por meio da identidade consentida no Learning Passport, ele não é explorado analiticamente: as análises atuais limitam-se a métricas descritivas de uso e à contagem de respostas, sem estimar o domínio de conceitos de cada estudante. Diante da distância entre a coleta contínua de registros e a ausência de diagnósticos que fundamentem intervenções didáticas, formula-se a seguinte questão de pesquisa:
 
 \begin{quote}
-\textbf{QP:} É possível estimar o domínio individual de conceitos dos estudantes do Ecossistema CEDIS por meio do \textit{Bayesian Knowledge Tracing}, a partir das respostas registradas em suas plataformas, com qualidade preditiva e interpretabilidade suficientes para orientar o estudo dos alunos e as decisões pedagógicas dos docentes?
+\textbf{QP:} É possível estimar o domínio individual de conceitos dos estudantes do Ecossistema CEDIS por meio do \textit{Bayesian Knowledge Tracing}, a partir das respostas registradas em suas plataformas, com qualidade preditiva e interpretabilidade suficientes para orientar o estudo dos estudantes e as decisões pedagógicas dos docentes?
 \end{quote}
 
-Para responder a essa questão, o presente estudo propõe o módulo Cognita, voltado à identificação contínua do domínio de conceitos no Ecossistema CEDIS. O módulo reconcilia as respostas registradas nas diferentes plataformas do ecossistema com os conceitos que elas avaliam, sustentando um duplo ciclo de \textit{feedback}: a indicação, ao aluno, dos conceitos que ele potencialmente ainda não domina e a sinalização, ao professor, dos conceitos com baixa absorção na turma. Como modelo de estimativa de domínio, adota-se o \textit{Bayesian Knowledge Tracing} (BKT) \cite{corbett_knowledge_1994}, escolhido pela interpretabilidade de seus parâmetros, pelo baixo custo de treinamento e pela adequação a volumes moderados de dados.
+Para responder a essa questão, o presente estudo propõe o módulo Cognita, voltado à estimativa contínua do domínio de conceitos no Ecossistema CEDIS. O módulo reconcilia as respostas registradas nas diferentes plataformas do ecossistema com os conceitos que elas avaliam, sustentando um ciclo duplo de \textit{feedback}: a indicação, ao estudante, dos conceitos que ele potencialmente ainda não domina e a sinalização, ao professor, dos conceitos com baixa absorção na turma. Como modelo de estimativa de domínio, adota-se o \textit{Bayesian Knowledge Tracing} (BKT) \cite{corbett_knowledge_1994}, escolhido pela interpretabilidade de seus parâmetros, pelo baixo custo de treinamento e pela adequação a volumes moderados de dados.
 
 \section{Objetivos}
 \label{sec:objetivos}
@@ -36,7 +36,7 @@ Para responder a essa questão, o presente estudo propõe o módulo Cognita, vol
 \subsection{Objetivo Geral}
 \label{subsec:objetivo-geral}
 
-Desenvolver o Cognita, módulo integrado ao Ecossistema CEDIS que estima, por meio do \textit{Bayesian Knowledge Tracing}, o domínio de conceitos de cada estudante a partir de dados de múltiplas fontes do ecossistema, indicando aos alunos os conceitos que potencialmente ainda não dominam e sinalizando aos professores os conceitos com baixa absorção na turma.
+Desenvolver o Cognita, módulo integrado ao Ecossistema CEDIS que estima, por meio do \textit{Bayesian Knowledge Tracing}, o domínio de conceitos de cada estudante a partir de dados de múltiplas fontes do ecossistema, indicando aos estudantes os conceitos que potencialmente ainda não dominam e sinalizando aos professores os conceitos com baixa absorção na turma.
 
 \subsection{Objetivos Específicos}
 \label{subsec:objetivos-especificos}
@@ -53,7 +53,7 @@ Desenvolver o Cognita, módulo integrado ao Ecossistema CEDIS que estima, por me
 \section{Metodologia}
 \label{sec:metodologia}
 
-Este trabalho caracteriza-se como uma pesquisa aplicada, de abordagem quali-quantitativa, conforme detalhado no Capítulo~\ref{cap:metodologia}. Para viabilizar a sua execução ao longo de dois semestres letivos, a metodologia está dividida em duas fases, cada uma composta por objetivos específicos e pelas atividades necessárias para alcançá-los:
+Este trabalho caracteriza-se como uma pesquisa aplicada, exploratória e de abordagem quali-quantitativa, conforme detalhado no Capítulo~\ref{cap:metodologia}. Para viabilizar a sua execução ao longo de dois semestres letivos, a metodologia está dividida em duas fases, cada uma composta por objetivos específicos e pelas atividades necessárias para alcançá-los:
 
 \begin{itemize}
     \item \textbf{Fase 1: Concepção e Planejamento (TCC~1)}

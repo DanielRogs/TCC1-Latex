@@ -25,7 +25,7 @@ O Ecossistema CEDIS é composto por seis produtos integrados: CEDIS Deck
 Manager, CEDIS Slides, Concept Studio + Questionários, Atlas do Conhecimento, CEDIS Learning Passport e CEDIS
 Learning Analytics. Esses produtos são projetados para operar em conjunto ao longo de um
 mesmo fluxo pedagógico: do planejamento do conteúdo pelo docente até a
-geração de indicadores acionáveis sobre a aprendizagem dos alunos. A
+geração de indicadores acionáveis sobre a aprendizagem dos estudantes. A
 Figura~\ref{fig:ecossistema-cedis} ilustra esse panorama, evidenciando os
 seis produtos e suas respectivas funcionalidades.
 
@@ -68,11 +68,11 @@ demais produtos do ecossistema obtêm contexto (por exemplo, a qual
 
 O CEDIS Slides\footnote{Disponível em \url{https://slides.cedis.tec.br}} é o produto voltado à
 apresentação dos \textit{decks} publicados pelo Deck Manager, sendo o
-ponto de contato direto entre o conteúdo produzido pelo docente e o aluno
+ponto de contato direto entre o conteúdo produzido pelo docente e o estudante
 durante a aula. Ele permite apresentar e compartilhar \textit{decks} em
 formato HTML acessível em qualquer dispositivo, incorporar atividades
 interativas embutidas ao longo da apresentação, coletar respostas dos
-alunos em tempo real, exibir um resumo ao vivo da participação nas atividades,
+estudantes em tempo real, exibir um resumo ao vivo da participação nas atividades,
 exportar os dados coletados (por exemplo, em formato CSV). É neste
 produto que se origina grande parte dos dados de resposta a atividades
 que alimentam, posteriormente, o CEDIS Learning Analytics.
@@ -89,30 +89,30 @@ a esses conceitos, a geração de análises e relatórios, e a importação de
 \textit{decks} já publicados no Deck Manager para vinculação a conceitos.
 Esse vínculo entre atividade e conceito é um dos elementos centrais para a
 abordagem de \textit{Knowledge Tracing} proposta neste trabalho, pois é o
-que permite associar uma resposta de aluno a um conceito específico do domínio
+que permite associar uma resposta de estudante a um conceito específico do domínio
 de conhecimento.
 
 \subsection{Atlas do Conhecimento}
 \label{subsec:atlas}
 
 O Atlas do Conhecimento\footnote{Disponível em \url{https://atlas.cedis.tec.br}} é o produto
-voltado à experiência do aluno na exploração do conhecimento estruturado
+voltado à experiência do estudante na exploração do conhecimento estruturado
 pelo Concept Studio. Ele oferece mapas conceituais interativos, rotas de
 aprendizado curadas por conceito, um sistema de emblemas e desafios e a visualização do
-progresso do aluno ao longo de sua jornada.
+progresso do estudante ao longo de sua jornada.
 
 \subsection{CEDIS Learning Passport}
 \label{subsec:learning-passport}
 
 O CEDIS Learning Passport\footnote{Disponível em \url{https://passport.cedis.tec.br}} é o
-produto responsável pela identidade e pelo contexto do aluno dentro do
+produto responsável pela identidade e pelo contexto do estudante dentro do
 ecossistema. Ele oferece login sem necessidade de e-mail ou senha, um
 passaporte anônimo (gerando automaticamente uma credencial única) e persistente
-ao longo do percurso do aluno, um histórico consolidado de aprendizagem, e controle do aluno sobre
+ao longo do percurso do estudante, um histórico consolidado de aprendizagem, e controle do estudante sobre
 seus próprios dados em conformidade com a LGPD. No modelo de dados
 do Deck Manager, a integração com o Learning Passport é representada pela
 entidade \textit{LearningAnalyticsIngestLink}, que permite associar,
-apenas quando o aluno opta explicitamente por isso, um evento de
+apenas quando o estudante opta explicitamente por isso, um evento de
 aprendizagem a uma pessoa, grupo ou contexto identificável.
 
 \subsection{CEDIS Learning Analytics}
@@ -128,18 +128,19 @@ incorretamente, sem inferir o domínio dos estudantes.
 Ele tem caráter transversal ao ecossistema e é construído sobre os mesmos
 princípios de privacidade por desenho e conformidade com a LGPD adotados
 pelos demais produtos. É neste produto que os dados operacionais do Deck
-Manager, as respostas do Slides, os conceitos do Atlas e o contexto do
-Learning Passport convergem para análises agregadas, e é também o produto
-mais diretamente relacionado ao objetivo deste trabalho: agregar dados de
-múltiplas fontes do ecossistema para fundamentar a identificação do domínio
-de conceitos com \textit{Knowledge Tracing}.
+Manager, as respostas do Slides, os conceitos e os questionários do Concept
+Studio + Questionários e o contexto do Learning Passport convergem para
+análises agregadas, e é também o produto mais diretamente relacionado ao
+objetivo deste trabalho: agregar dados de múltiplas fontes do ecossistema
+para fundamentar a estimativa do domínio de conceitos com \textit{Knowledge
+Tracing}.
 
 \bigskip
 
 A Figura~\ref{fig:fluxo-interacao-cedis} resume a integração entre os seis
 produtos. O docente organiza o conteúdo no Deck Manager, estrutura os
 conceitos e os questionários no Concept Studio e apresenta a aula pelo
-CEDIS Slides. O aluno responde às atividades em sala, responde aos
+CEDIS Slides. O estudante responde às atividades em sala, responde aos
 questionários no Concept Studio + Questionários e explora os conceitos no
 Atlas do Conhecimento, e a sua
 aprendizagem é registrada, sob o seu controle, no Learning Passport. Por
@@ -182,13 +183,13 @@ como plano operacional e administrativo, concentrando \textit{decks}, usuários,
 pastas, versões, eventos, acessos, avaliações (\textit{ratings}),
 retroalimentação (\textit{feedback}) e vínculos com a camada de
 \textit{Learning Analytics}. A camada pública de respostas às atividades
-(\textit{cedis-slides-api}) mantém as respostas dos alunos, a sessão e o
+(\textit{cedis-slides-api}) mantém as respostas dos estudantes, a sessão e o
 identificador do participante, que pode ser anônimo ou identificado, conforme
 o modo configurado. A camada de ingestão de \textit{Learning Analytics}
 (\textit{cedis-la-ingest}) recebe eventos padronizados de aprendizagem e
 seus vínculos com respostas e identidade. O serviço de identidade
 (\textit{cedis-identity-suite}) mantém dados de pessoa, grupo e contexto
-apenas quando o aluno opta por habilitá-los. O serviço \textit{cedis-atlas}, que atende
+apenas quando o estudante opta por habilitá-los. O serviço \textit{cedis-atlas}, que atende
 ao Atlas do Conhecimento e ao Concept Studio + Questionários, mantém os
 conceitos e as questões criadas no Concept Studio + Questionários. Por
 fim, o pacote \textit{cedis-core}, externo ao repositório do Deck Manager,
@@ -212,9 +213,9 @@ CEDIS Slides (\textit{slides-api}) & Plano público de resposta & Respostas de a
 \hline
 \textit{LA Ingest} & Ingestão de \textit{Learning Analytics} & Eventos de aprendizagem padronizados e seus vínculos \\
 \hline
-\textit{Identity Suite} (Learning Passport) & Identidade e contexto opcional & Pessoa, grupo e contexto, apenas quando habilitados pelo aluno \\
+\textit{Identity Suite} (Learning Passport) & Identidade e contexto opcional & Pessoa, grupo e contexto, apenas quando habilitados pelo estudante \\
 \hline
-\textit{cedis-atlas} (Atlas do Conhecimento e Concept Studio + Questionários) & Conceitos e questões & Mapas conceituais, conceitos e questões vinculadas às atividades \\
+\textit{cedis-atlas} & Conceitos e questões (Atlas do Conhecimento e Concept Studio + Questionários) & Mapas conceituais, conceitos e questões vinculadas às atividades \\
 \hline
 \textit{cedis-core} & Modelos compartilhados & Contratos e modelos de conteúdo de versão/\textit{commit} compartilhados (dependência externa) \\
 \hline
@@ -313,9 +314,9 @@ derivadas a partir dele.
 \hline
 \textit{deck\_open} & \textit{Deck} acessado/aberto & Número de aberturas, visitantes por dia, origem e dispositivo \\
 \hline
-\textit{activity\_impression} & Atividade apresentada/visível ao aluno & Número de impressões, alcance da atividade \\
+\textit{activity\_impression} & Atividade apresentada/visível ao estudante & Número de impressões, alcance da atividade \\
 \hline
-\textit{activity\_started} & Início explícito da atividade pelo aluno & Taxa de início, abandono anterior à submissão \\
+\textit{activity\_started} & Início explícito da atividade pelo estudante & Taxa de início, abandono anterior à submissão \\
 \hline
 \textit{activity\_submitted} & Submissão da atividade registrada como evento & Taxa de submissão, funil de participação \\
 \hline
@@ -328,14 +329,14 @@ derivadas a partir dele.
 Esses cinco eventos formam o funil operacional \textit{deck\_open}
 $\rightarrow$ \textit{activity\_impression} $\rightarrow$
 \textit{activity\_started} $\rightarrow$ \textit{activity\_submitted}
-$\rightarrow$ \textit{summary\_view}, que descreve a jornada de um aluno
+$\rightarrow$ \textit{summary\_view}, que descreve a jornada de um estudante
 dentro de uma única atividade. Duas limitações desses dados devem
 ser destacadas. Primeiro, o evento \textit{activity\_submitted} é
 registrado independentemente da resposta persistida em
 \textit{activity\_responses}, e os dois registros podem divergir em caso
 de falha parcial de envio. Segundo, como o identificador anônimo de
 visitante é recalculado diariamente, a telemetria anônima não permite
-reconstruir a trajetória de um mesmo aluno ao longo de dias distintos.
+reconstruir a trajetória de um mesmo estudante ao longo de dias distintos.
 
 \subsection{Privacidade, Anonimização e Conformidade com a LGPD}
 \label{subsec:privacidade}
@@ -408,5 +409,5 @@ causalidade pedagógica, e os próprios mecanismos de privacidade (DNT,
 filtragem de \textit{bots} e \textit{k}-anonimato) introduzem ausência
 intencional de dados. Por isso, este trabalho não reutiliza diretamente
 essas métricas: combina as respostas às atividades e aos questionários com
-o mapeamento atividade-conceito do Concept Studio + Questionários, de modo a estimar o domínio de conceitos de cada aluno por
+o mapeamento atividade-conceito do Concept Studio + Questionários, de modo a estimar o domínio de conceitos de cada estudante por
 meio do \textit{Knowledge Tracing}.

@@ -280,7 +280,7 @@ O desdobramento sequencial da Figura~\ref{fig:jornada-persona-1} compreende as s
     \item \textbf{Apresentação da plataforma:} No início do período letivo, o docente apresenta aos alunos o funcionamento integrado dos produtos do ecossistema para acompanhamento das aulas e realização de exercícios;
     \item \textbf{Interação síncrona em sala de aula:} Durante a exposição teórica, o estudante acompanha os slides pelo próprio celular ou computador no \textbf{CEDIS Slides} e submete respostas às atividades interativas propostas pelo professor (gerando eventos de telemetria e registros de resposta vinculados aos conceitos via \textit{QuestionActivityMap});
     \item \textbf{Emergência do ponto de dor silencioso:} O aluno erra determinadas questões das atividades, mas, por seu perfil reservado em sala de aula, não interrompe o professor para tirar dúvidas e encerra a aula sem saber exatamente qual conceito fundamental deixou de compreender;
-    \item \textbf{Habilitação de identidade persistente e prática individual:} Para acompanhar seu histórico longitudinal de aprendizagem sob controle próprio e em conformidade com a LGPD, o estudante cria seu passaporte no \textbf{CEDIS Learning Passport} e, a partir dele, responde aos questionários individuais do \textbf{Atlas do Conhecimento} sobre os conceitos da aula (estabelecendo a reconciliação via \textit{LearningAnalyticsIngestLink});
+    \item \textbf{Habilitação de identidade persistente e prática individual:} Para acompanhar seu histórico longitudinal de aprendizagem sob controle próprio e em conformidade com a LGPD, o estudante cria seu passaporte no \textbf{CEDIS Learning Passport} e, a partir dele, responde aos questionários individuais sobre os conceitos da aula (estabelecendo a reconciliação via \textit{LearningAnalyticsIngestLink});
     \item \textbf{Diagnóstico individual no Módulo Cognita (Ponto de contato central):} Ao iniciar sua sessão de estudos, o aluno acessa o diagnóstico processado pelo \textbf{Módulo Cognita} e visualiza com clareza a separação entre os conceitos que já domina e aqueles nos quais ainda apresenta baixa estimativa de domínio, calculada a partir das respostas registradas desde a criação do passaporte;
     \item \textbf{Estudo direcionado no ecossistema:} Guiado pela recomendação prioritária do Cognita, que reduz a indecisão sobre o que estudar em sua rotina corrida, o estudante navega diretamente para os conceitos vulneráveis no \textbf{Atlas do Conhecimento} e revisa os materiais didáticos correspondentes;
     \item \textbf{Validação de progresso e reforço motivacional:} Após a revisão, o estudante resolve novas questões associadas aos conceitos estudados e observa a elevação de seu indicador de domínio no Cognita, consolidando sua confiança no aprendizado.
@@ -789,7 +789,7 @@ Após a validação do Sequenciador pelo cliente, os autores construíram o \tex
 \caption{Artefato do Canvas MVP do módulo Cognita na \textit{Lean Inception}}
 \label{fig:mvp-canvas}
 \centering
-\includegraphics[width=\textwidth]{figuras/CanvasMVP.png}
+\includegraphics[width=\textwidth]{figuras/canvasMVP.png}
 \legend{Fonte: Elaborado pelos autores.}
 \end{figure}
 
@@ -1126,7 +1126,7 @@ A atualização das estimativas também é percebida fora do Atlas. A Figura~\re
 \subsection{Telas do Professor}
 \label{subsec:prototipo-professor}
 
-No Learning Analytics, o Cognita é apresentado na aba \textit{Domínio da turma por conceito}, ilustrada na Figura~\ref{fig:prototipo-analytics-turma}. A tela exibe a proporção estimada de estudantes que dominam cada conceito do curso (RF11), com os conceitos ordenados do menor ao maior nível de absorção (RF13) e sinalizados quando a absorção é baixa (RF12). Os filtros por curso, turma, período e conceito permitem concentrar a análise nos grupos de interesse (RF15), e cada linha apresenta o intervalo provável, a quantidade de estudantes envolvidos e o grau de confiança da estimativa (RF18). Conceitos com menos de cinco estudantes têm o indicador suprimido, conforme o RNF15. Na parte inferior, o quadro \textit{Qualidade do modelo} resume as métricas AUC, acurácia e RMSE do modelo em uso (RF05), comparando-as com os limites definidos no RNF05.
+No Learning Analytics, o Cognita é apresentado na aba \textit{Domínio da turma por conceito}, ilustrada na Figura~\ref{fig:prototipo-analytics-turma}. A tela exibe a proporção estimada de estudantes que dominam cada conceito do curso (RF11), com os conceitos ordenados do menor ao maior nível de absorção (RF13) e sinalizados quando a absorção é baixa (RF12). Os filtros por curso, turma, período e conceito permitem concentrar a análise nos grupos de interesse (RF15), e cada linha apresenta o intervalo provável, a quantidade de estudantes envolvidos e o grau de confiança da estimativa (RF18). Conceitos com menos de cinco estudantes têm o indicador suprimido, conforme o RNF15. Na parte inferior, o quadro \textit{Qualidade do modelo} resume as métricas AUC, acurácia e RMSE do modelo em uso (RF05), comparando-as às do modelo de referência, conforme o critério de promoção do RNF05.
 
 \begin{figure}[H]
 \caption{Protótipo do domínio da turma por conceito no Learning Analytics (RF05, RF11, RF12, RF13, RF15 e RF18)}
